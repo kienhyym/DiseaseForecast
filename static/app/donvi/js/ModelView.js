@@ -24,22 +24,13 @@ define(function (require) {
 						type: "button",
 						buttonClass: "btn-default btn-sm",
 						label: "TRANSLATE:BACK",
-						command: function () {
-							var self = this;
-							// if(self.getApp().currentUser.hasRole("CucTruong")){
-							// 	self.getApp().getRouter().navigate(self.collectionName + "/collection");
-							// }
-						},
-						// visible:function(){
-						// 	return this.getApp().currentUser.hasRole("CucTruong");
-						// }
 					},
 					{
 						name: "save",
 						type: "button",
 						buttonClass: "btn-success btn-sm",
 						label: "TRANSLATE:SAVE",
-						visible:function(){
+						visible: function () {
 							return this.getApp().currentUser.hasRole("CucTruong");
 						},
 						command: function () {
@@ -50,15 +41,15 @@ define(function (require) {
 								},
 								error: function (xhr, status, error) {
 									try {
-										if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED"){
+										if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED") {
 											self.getApp().notify("Hết phiên làm việc, vui lòng đăng nhập lại!");
 											self.getApp().getRouter().navigate("login");
 										} else {
-										  self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
+											self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
 										}
 									}
 									catch (err) {
-									  self.getApp().notify({ message: "Lưu thông tin không thành công"}, { type: "danger", delay: 1000 });
+										self.getApp().notify({ message: "Lưu thông tin không thành công" }, { type: "danger", delay: 1000 });
 									}
 								}
 							});
@@ -81,15 +72,15 @@ define(function (require) {
 								},
 								error: function (xhr, status, error) {
 									try {
-										if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED"){
+										if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED") {
 											self.getApp().notify("Hết phiên làm việc, vui lòng đăng nhập lại!");
 											self.getApp().getRouter().navigate("login");
 										} else {
-										  self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
+											self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
 										}
 									}
 									catch (err) {
-									  self.getApp().notify({ message: "Xóa dữ liệu không thành công"}, { type: "danger", delay: 1000 });
+										self.getApp().notify({ message: "Xóa dữ liệu không thành công" }, { type: "danger", delay: 1000 });
 									}
 								}
 							});
@@ -123,33 +114,33 @@ define(function (require) {
 					foreignField: "tinhthanh_id",
 					dataSource: TinhThanhSelectView
 				},
-				{
-					field: "type",
-					uicontrol: "combobox",
-					textField: "text",
-					valueField: "value",
-					dataSource: [
-						{ "value": "loai1", "text": "Doanh nghiệp nhà nước" },
-						{ "value": "loai2", "text": "Doanh nghiệp tư nhân" },
-						{ "value": "loai3", "text": "Doanh nghiệp cổ phần" },
-					],
-				},
+				// {
+				// 	field: "type",
+				// 	uicontrol: "combobox",
+				// 	textField: "text",
+				// 	valueField: "value",
+				// 	dataSource: [
+				// 		{ "value": "loai1", "text": "Doanh nghiệp nhà nước" },
+				// 		{ "value": "loai2", "text": "Doanh nghiệp tư nhân" },
+				// 		{ "value": "loai3", "text": "Doanh nghiệp cổ phần" },
+				// 	],
+				// },
 			]
 		},
 		render: function () {
 			var self = this;
 			var id = this.getApp().getRouter().getParam("id");
-			
+
 			$.fn.selectpicker.Constructor.DEFAULTS.multipleSeparator = ' | ';
 			self.$el.find("#multiselect_required").selectpicker();
-			
-			self.$el.find("#btn_save_info").unbind('click').bind('click',function(){
-				
+
+			self.$el.find("#btn_save_info").unbind('click').bind('click', function () {
+
 				//validate
 				var check_validate = true;
 				var forms = document.getElementsByClassName('needs-validation');
 				// Loop over them and prevent submission
-				var validation = Array.prototype.filter.call(forms, function(form) {
+				var validation = Array.prototype.filter.call(forms, function (form) {
 					if (form.checkValidity() === false) {
 						event.preventDefault();
 						event.stopPropagation();
@@ -157,27 +148,28 @@ define(function (require) {
 					}
 					form.classList.add('was-validated');
 				});
-				if(check_validate === false){
+				if (check_validate === false) {
 					return false;
 				}
 				//end validate
-				
+
 				self.model.save(null, {
 					success: function (model, respose, options) {
 						self.getApp().notify("Lưu thông tin thành công");
-//						self.getApp().getRouter().navigate(self.collectionName + "/collection");
+						//						self.getApp().getRouter().navigate(self.collectionName + "/collection");
 					},
 					error: function (xhr, status, error) {
 						try {
-							if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED"){
+							if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED") {
 								self.getApp().notify("Hết phiên làm việc, vui lòng đăng nhập lại!");
 								self.getApp().getRouter().navigate("login");
-							} else {
-							  self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
+							}
+							else {
+								self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
 							}
 						}
 						catch (err) {
-						  self.getApp().notify({ message: "Lưu thông tin không thành công"}, { type: "danger", delay: 1000 });
+							self.getApp().notify({ message: "Lưu thông tin không thành công" }, { type: "danger", delay: 1000 });
 						}
 					}
 				});
@@ -187,45 +179,45 @@ define(function (require) {
 				this.model.fetch({
 					success: function (data) {
 						self.applyBindings();
-						self.model.on("change:tinhthanh_id", function(){
-							self.getFieldElement("quanhuyen").data("gonrin").setFilters({"tinhthanh_id": { "$eq": self.model.get("tinhthanh_id")}});
+						self.model.on("change:tinhthanh_id", function () {
+							self.getFieldElement("quanhuyen").data("gonrin").setFilters({ "tinhthanh_id": { "$eq": self.model.get("tinhthanh_id") } });
 						});
-						self.model.on("change:quanhuyen_id", function(){
-							self.getFieldElement("xaphuong").data("gonrin").setFilters({"quanhuyen_id": { "$eq": self.model.get("quanhuyen_id")}});
+						self.model.on("change:quanhuyen_id", function () {
+							self.getFieldElement("xaphuong").data("gonrin").setFilters({ "quanhuyen_id": { "$eq": self.model.get("quanhuyen_id") } });
 						});
-						
+
 					},
 					error: function (xhr, status, error) {
 						try {
-							if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED"){
+							if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED") {
 								self.getApp().notify("Hết phiên làm việc, vui lòng đăng nhập lại!");
 								self.getApp().getRouter().navigate("login");
 							} else {
 								self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
 							}
-						}catch (err) {
-							self.getApp().notify({ message: "Lỗi không lấy được dữ liệu"}, { type: "danger", delay: 1000 });
+						} catch (err) {
+							self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
 						}
 					}
 				});
 			} else {
 				self.applyBindings();
-				self.model.on("change:tinhthanh_id", function(){
+				self.model.on("change:tinhthanh_id", function () {
 					console.log("change tinh thanh", self.model.get("tinhthanh_id"));
-					self.getFieldElement("quanhuyen").data("gonrin").setFilters({"tinhthanh_id": { "$eq": self.model.get("tinhthanh_id")}});
+					self.getFieldElement("quanhuyen").data("gonrin").setFilters({ "tinhthanh_id": { "$eq": self.model.get("tinhthanh_id") } });
 				});
-				self.model.on("change:quanhuyen_id", function(){
-					self.getFieldElement("xaphuong").data("gonrin").setFilters({"quanhuyen_id": { "$eq": self.model.get("quanhuyen_id")}});
+				self.model.on("change:quanhuyen_id", function () {
+					self.getFieldElement("xaphuong").data("gonrin").setFilters({ "quanhuyen_id": { "$eq": self.model.get("quanhuyen_id") } });
 					console.log("change quanhuyen", self.model.get("quanhuyen_id"));
 				});
 			}
-			
+
 		},
 		validateEmail: function (email) {
 			var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 			return re.test(String(email).toLowerCase());
 		},
-		validatePhone: function(inputPhone) {
+		validatePhone: function (inputPhone) {
 			if (inputPhone == null || inputPhone == undefined) {
 				return false;
 			}
