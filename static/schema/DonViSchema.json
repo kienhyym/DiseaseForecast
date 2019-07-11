@@ -1,0 +1,109 @@
+{
+    "created_at": {
+        "type": "number"
+    },
+    "created_by": {
+        "type": "string"
+    },
+    "updated_at": {
+        "type": "number"
+    },
+    "updated_by": {
+        "type": "string"
+    },
+    "deleted": {
+        "type": "boolean",
+        "default": false
+    },
+    "deleted_by": {
+        "type": "string"
+    },
+    "deleted_at": {
+        "type": "number"
+    },
+    "id": {
+        "type": "string",
+        "primary": true
+    },
+    "ma": {
+        "type": "string",
+        "length": 255
+    },
+    "ten": {
+        "type": "string",
+        "required": true,
+        "length": 255
+    },
+    "sodienthoai": {
+        "type": "string",
+        "length": 63
+    },
+    "diachi": {
+        "type": "string",
+        "length": 255
+    },
+    "email": {
+        "type": "string",
+        "length": 255
+    },
+    "ghichu": {
+        "type": "string",
+        "length": 255
+    },
+    "vungmien": {
+        "type": "number"
+    },
+    "quocgia_id": {
+        "type": "string"
+    },
+    "tinhthanh_id": {
+        "type": "string"
+    },
+    "quanhuyen_id": {
+        "type": "string"
+    },
+    "xaphuong_id": {
+        "type": "string"
+    },
+    "tuyendonvi": {
+        "type": "number",
+        "required": true
+    },
+    "coquanchuquan": {
+        "type": "string",
+        "length": 255
+    },
+    "parent_id": {
+        "type": "number"
+    },
+    "giamdoc": {
+        "type": "string"
+    },
+    "sdtgiamdoc": {
+        "type": "string"
+    },
+    "emailgiamdoc": {
+        "type": "string"
+    },
+    "phogiamdoc": {
+        "type": "string"
+    },
+    "sdtphogiamdoc": {
+        "type": "string"
+    },
+    "emailphogiamdoc": {
+        "type": "string"
+    },
+    "quocgia": {
+        "type": "dict"
+    },
+    "tinhthanh": {
+        "type": "dict"
+    },
+    "quanhuyen": {
+        "type": "dict"
+    },
+    "xaphuong": {
+        "type": "dict"
+    }
+}

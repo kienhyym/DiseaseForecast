@@ -3,7 +3,7 @@ class Config(object):
     DEBUG = True
     SYSTEM_MAINTAINANCE = False
     STATIC_URL = "static"
-    SQLALCHEMY_DATABASE_URI = 'postgresql://dubaosotxuathuyetuser:1as2df3qw4ef5gh6@localhost:5432/dubaosotxuathuyet'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://dubaosotxuathuyetuser:123456abcA@localhost:5432/dubaosotxuathuyet'
     
 
     AUTH_LOGIN_ENDPOINT = 'login'
@@ -37,5 +37,5 @@ class Config(object):
 
 #     FS_ROOT= "/Users/namdv/workspace/thanhtra_moitruong/repo/static/uploads/"
     FS_ROOT= "/opt/deploy/thanhtra-moitruong/repo/static/uploads/"
-    FILE_SERVICE_URL = 'http://103.74.120.65:9080/static/uploads'
+    FILE_SERVICE_URL = 'http://103.74.120.65:9081/static/uploads'
 

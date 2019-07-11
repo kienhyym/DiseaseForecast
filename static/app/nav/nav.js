@@ -51,7 +51,7 @@ define(function (require) {
 			
 			{
         		"text":"Danh mục",
-        		"icon":static_url + "/images/icons/task_120.png",
+        		"icon":"fa fa-home",
 				"type":"category",
 				
         		// "visible": function(){
@@ -129,7 +129,29 @@ define(function (require) {
         			    "visible": false
         			},
         		]
-            },
+			},
+			{
+        		"text":"Đơn vị",
+        		"icon":"fa fa-home",
+        		"type":"view",
+        		"collectionName":"donvi",
+			    "route":"donvi/collection",
+			    "$ref": "app/donvi/js/CollectionView",
+			    "visible": function(){
+			     	return  true;
+			     }
+			},
+			{
+        		"text":"Đơn vị",
+        		"icon":"fa fa-home",
+        		"type":"view",
+        		"collectionName":"donvi",
+			    "route":"donvi/model",
+			    "$ref": "app/donvi/js/ModelView",
+			    "visible": function(){
+			     	return  false;
+			     }
+			},
         ];
 
 });

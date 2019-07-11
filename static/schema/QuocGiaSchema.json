@@ -32,5 +32,8 @@
     "ten": {
         "type": "string",
         "length": 255
+    },
+    "tinhthanh": {
+        "type": "list"
     }
 }

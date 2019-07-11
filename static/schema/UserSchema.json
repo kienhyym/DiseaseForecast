@@ -49,10 +49,7 @@
     "type": {
         "type": "string"
     },
-    "captren_id": {
-        "type": "string"
-    },
-    "captren_name": {
+    "donvi_id": {
         "type": "string"
     },
     "description": {
@@ -61,6 +58,9 @@
     "active": {
         "type": "boolean",
         "default": true
+    },
+    "donvi": {
+        "type": "dict"
     },
     "roles": {
         "type": "list"

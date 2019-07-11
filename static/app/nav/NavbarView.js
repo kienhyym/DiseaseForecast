@@ -54,7 +54,7 @@ define(function (require) {
 					var entry_viewData = _.result(entry, 'viewData');
 					var _html = '';
 					if(entry_type === "category"  && entry_text !== undefined){
-						_html = _html + '<a href="javascript:void(0);">';
+						_html = _html + '<a  class="nav-link" href=" javascript:void(0);">';
 						if(entry_icon){
 							_html = _html + '<i class="' + entry_icon + '" aria-hidden="true"></i>';
 						}

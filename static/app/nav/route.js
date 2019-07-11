@@ -75,6 +75,17 @@ define(function (require) {
 			"route": "xaphuong/model(/:id)",
 			"$ref": "app/DanhMuc/XaPhuong/view/ModelView",
 		},
+
+		{
+			"collectionName": "donvi",
+			"route": "donvi/collection",
+			"$ref": "app/donvi/js/CollectionView",
+		},
+		{
+			"collectionName": "donvi",
+			"route": "donvi/model(/:id)",
+			"$ref": "app/donvi/js/ModelView",
+		},
 	];
 
 });
