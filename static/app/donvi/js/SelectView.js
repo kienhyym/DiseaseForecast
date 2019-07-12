@@ -4,7 +4,7 @@ define(function (require) {
 		_ = require('underscore'),
 		Gonrin = require('gonrin');
 
-	var template = require('text!app/donvi/tpl/collection.html'),
+	var template = require('text!app/donvi/tpl/select.html'),
 		schema = require('json!schema/DonViSchema.json');
 	var CustomFilterView = require('app/base/view/CustomFilterView');
 
@@ -45,6 +45,11 @@ define(function (require) {
 				this.uiControl.selectedItems = event.selectedItems;
 			},
 		},
+
+		// render: function () {
+		// 	var self = this;
+		// 	self.applyBindings();
+		// },
 		render: function () {
 			var self = this;
 			self.uiControl.orderBy = [{ "field": "ten", "direction": "desc" }];
@@ -58,7 +63,7 @@ define(function (require) {
 				var text = !!filter.model.get("text") ? filter.model.get("text").trim() : "";
 				var query = {
 					"$or": [
-						{ "ten": { "$likeI": text } },
+						{ "ten": { "$like": text } },
 					]
 				};
 
@@ -82,7 +87,7 @@ define(function (require) {
 					if (text !== null) {
 						var query = {
 							"$or": [
-								{ "ten": { "$likeI": text } },
+								{ "ten": { "$like": text } },
 							]
 						};
 						var filters = query;

@@ -24,15 +24,17 @@ define(function (require) {
 						type: "button",
 						buttonClass: "btn-default btn-sm",
 						label: "TRANSLATE:BACK",
+						command: function () {
+							var self = this;
+
+							Backbone.history.history.back();
+						}
 					},
 					{
 						name: "save",
 						type: "button",
 						buttonClass: "btn-success btn-sm",
 						label: "TRANSLATE:SAVE",
-						visible: function () {
-							return this.getApp().currentUser.hasRole("CucTruong");
-						},
 						command: function () {
 							var self = this;
 							self.model.save(null, {
@@ -60,9 +62,6 @@ define(function (require) {
 						type: "button",
 						buttonClass: "btn-danger btn-sm",
 						label: "TRANSLATE:DELETE",
-						// visible: function () {
-						// 	return (this.getApp().currentUser.hasRole("CucTruong") && this.getApp().getRouter().getParam("id") !== null);
-						// },
 						command: function () {
 							var self = this;
 							self.model.destroy({
@@ -134,46 +133,6 @@ define(function (require) {
 			$.fn.selectpicker.Constructor.DEFAULTS.multipleSeparator = ' | ';
 			self.$el.find("#multiselect_required").selectpicker();
 
-			self.$el.find("#btn_save_info").unbind('click').bind('click', function () {
-
-				//validate
-				var check_validate = true;
-				var forms = document.getElementsByClassName('needs-validation');
-				// Loop over them and prevent submission
-				var validation = Array.prototype.filter.call(forms, function (form) {
-					if (form.checkValidity() === false) {
-						event.preventDefault();
-						event.stopPropagation();
-						check_validate = false;
-					}
-					form.classList.add('was-validated');
-				});
-				if (check_validate === false) {
-					return false;
-				}
-				//end validate
-
-				self.model.save(null, {
-					success: function (model, respose, options) {
-						self.getApp().notify("Lưu thông tin thành công");
-						//						self.getApp().getRouter().navigate(self.collectionName + "/collection");
-					},
-					error: function (xhr, status, error) {
-						try {
-							if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED") {
-								self.getApp().notify("Hết phiên làm việc, vui lòng đăng nhập lại!");
-								self.getApp().getRouter().navigate("login");
-							}
-							else {
-								self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
-							}
-						}
-						catch (err) {
-							self.getApp().notify({ message: "Lưu thông tin không thành công" }, { type: "danger", delay: 1000 });
-						}
-					}
-				});
-			});
 			if (id) {
 				this.model.set('id', id);
 				this.model.fetch({

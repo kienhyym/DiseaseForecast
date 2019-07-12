@@ -41,12 +41,10 @@ define(function (require) {
 						command: function () {
 							var self = this;
 							// self.getApp().showloading();
-							var ten = self.model.get("name");
-							
+							var ten = self.model.get("name");							
 							var donvi = self.model.get("donvi");
-							console.log('self',self)
-							console.log('ten',name)
-							console.log('donvi',donvi)
+							var pass = self.model.get('password');
+							console.log(pass)
 							if (ten == null || ten == "") {
 								self.getApp().notify({ message: "Tên đơn vị không được để trống!" }, { type: "danger" });
 							} else if (donvi == null || donvi == undefined) {
@@ -57,7 +55,6 @@ define(function (require) {
 										// self.getApp().hideloading();
 										self.getApp().notify("Lưu thông tin thành công");
 										self.getApp().getRouter().navigate(self.collectionName + "/collection");
-
 									},
 									error: function (xhr, status, error) {
 										try {
