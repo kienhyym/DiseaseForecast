@@ -25,41 +25,18 @@
         "type": "string",
         "primary": true
     },
-    "phone_number": {
+    "user_id": {
+        "type": "string"
+    },
+    "channelname": {
         "type": "string",
-        "length": 50
+        "length": 255
     },
-    "email": {
+    "value": {
         "type": "string",
-        "length": 50
+        "length": 255
     },
-    "name": {
-        "type": "string",
-        "length": 50
-    },
-    "password": {
-        "type": "string"
-    },
-    "salt": {
-        "type": "string"
-    },
-    "type": {
-        "type": "string"
-    },
-    "donvi_id": {
-        "type": "string"
-    },
-    "description": {
-        "type": "string"
-    },
-    "active": {
-        "type": "boolean",
-        "default": true
-    },
-    "donvi": {
+    "user": {
         "type": "dict"
-    },
-    "roles": {
-        "type": "list"
     }
 }

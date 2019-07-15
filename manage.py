@@ -106,7 +106,7 @@ def generate_schema(path = None, exclude = None, prettyprint = True):
 
 @manager.command
 def run():        
-    run_app(host="0.0.0.0", port=9080)
+    run_app(host="0.0.0.0", port=9081)
 
 if __name__ == '__main__':
     manager.main()

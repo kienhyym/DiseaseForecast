@@ -30,7 +30,6 @@ class User(CommonModel):
     email =  db.Column(String(50), index=True, nullable=True)
     name = db.Column(String(50))
     password = db.Column(String, nullable=True)
-    zalo_id = db.Column(db.Integer)
     salt = db.Column(db.String())
     type = db.Column(db.String())
     donvi_id = db.Column(UUID(as_uuid=True),db.ForeignKey('donvi.id'), nullable=True)
@@ -110,4 +109,10 @@ class DonVi(CommonModel):
     sdtphogiamdoc = db.Column(db.String)
     emailphogiamdoc = db.Column(db.String)
     
-    
+class UserConnectionChannel(CommonModel):
+    __tablename__ = 'userconnectionchannel'
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=default_uuid)
+    user_id = db.Column(UUID(as_uuid=True), ForeignKey('user.id'), nullable=True)
+    user = db.relationship('User', viewonly=True)
+    channelname = db.Column(String(255))
+    value = db.Column(String(255))
