@@ -17,6 +17,11 @@ define(function(require) {
                 self.processLogin();
                 return false;
             });
+            this.$el.find("#register-btn").unbind("submit").bind("click", function() {
+                self.processRegister();
+                return false;
+            });
+
             return this;
         },
         processLogin: function() {
