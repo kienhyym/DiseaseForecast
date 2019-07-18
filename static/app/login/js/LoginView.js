@@ -17,6 +17,12 @@ define(function(require) {
                 self.processLogin();
                 return false;
             });
+            $("#register-btn").unbind('click').bind('click', function(){
+                self.getApp().getRouter().navigate("register");
+            });
+            $("#forgot-btn").unbind('click').bind('click', function(){
+                self.getApp().getRouter().navigate("forgot");
+        	});
          
 
             return this;
