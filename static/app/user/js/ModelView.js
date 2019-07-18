@@ -150,7 +150,7 @@ define(function (require) {
 		},
 		changepasswordEvent: function (id) {
 			var self = this;
-			self.$el.find("#btn-changepassword").unbind("click").bind("click", function () {
+			self.$el.find("input[name*='save']").unbind("click").bind("click", function () {
 				$.ajax({
 					type: 'POST',
 					url: self.getApp().serviceURL + "/api/v1/changepassword",
