@@ -132,11 +132,12 @@ async def prepost_user(request=None, data=None, Model=None, **kw):
                 return json({"error_code":"USER_EXISTED","error_message":'Số điện thoại đã được sử dụng, vui lòng chọn lại'},status=520)
             else:
                 return json({"error_code":"USER_EXISTED","error_message":'Email đã được sử dụng trong tài khoản khác'},status=520)
+
     
-    # salt = generator_salt()
-    # data['salt'] = salt
-    # password = data['password']
-    user.password= auth.encrypt_password(password)
+    salt = generator_salt()
+    data['salt'] = salt
+    password = data['password']
+    data['password'] = auth.encrypt_password(password, salt)
     data['active']= True
     
 async def preput_user(request=None, data=None, Model=None, **kw):
@@ -159,8 +160,8 @@ async def preput_user(request=None, data=None, Model=None, **kw):
         return json({"error_code":"NOT_FOUND","error_message":"Không tìm thấy tài khoản người dùng"}, status=520)
 
     if currentUser.has_role("Giám Đốc") or str(currentUser.id) == data['id']:
-        # password = data['password']
-        user.password= auth.encrypt_password(password)
+        password = data['password']
+        data['password'] = auth.encrypt_password(password, user.salt)
     else:
         return json({"error_code":"PERMISSION_DENY","error_message":"Không có quyền thực hiện hành động này"}, status=520)
 

@@ -133,6 +133,8 @@ define(function (require) {
 			if (id) {
 				//progresbar quay quay
 				this.model.set('id', id);
+				self.changepasswordEvent(id);
+
 				this.model.fetch({
 					success: function (data) {
 						self.applyBindings();
@@ -144,6 +146,26 @@ define(function (require) {
 			} else {
 				self.applyBindings();
 			}
+			self.changepasswordEvent(id);
 		},
+		changepasswordEvent: function (id) {
+			var self = this;
+			self.$el.find("#btn-changepassword").unbind("click").bind("click", function () {
+				$.ajax({
+					type: 'POST',
+					url: self.getApp().serviceURL + "/api/v1/changepassword",
+					dataType: 'json',
+					data: JSON.stringify({
+						user_id: id,
+						password: self.$el.find("#txtpass2").val()
+					}),
+					success: function (response) {
+
+					}, error: function (xhr) {
+						console.log('xhr', xhr);
+					}
+				})
+			});
+		}
 	});
 });
