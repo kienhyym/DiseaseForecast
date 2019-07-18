@@ -40,7 +40,7 @@ require(['jquery', 'gonrin', 'app/router', 'app/nav/NavbarView', 'text!app/base/
 	});
 
 	var app = new Gonrin.Application({
-		serviceURL: "http://103.74.120.54:9081/",
+		serviceURL: "http://103.74.120.54:9081",
 		router: new Router(),
 		lang: lang,
 		layout: layout,
