@@ -62,13 +62,15 @@ async def login(request):
     print("==================USER NAME", username)
     print("==================PASSWORD", password)
     user = db.session.query(User).filter(or_(User.email == username, User.phone_number == username)).first()
+    print("----------------------- auth.verify_password(password)", password, user.password)
+
     print("==================", user)
     if (user is not None) and auth.verify_password(password, user.password):
         
         auth.login_user(request, user)
         result = user_to_dict(user)
-        print("-----------------------", result)
         return json(result)
+        
     return json({"error_code":"LOGIN_FAILED","error_message":"Tài khoản hoặc mật khẩu không đúng"}, status=520)
 
 
@@ -176,8 +178,8 @@ async def predelete_user(request=None, data=None, Model=None, **kw):
 sqlapimanager.create_api(User, max_results_per_page=1000000,
     methods=['GET', 'POST', 'DELETE', 'PUT'],
     url_prefix='/api/v1',
-    preprocess=dict(GET_SINGLE=[auth_func], GET_MANY=[auth_func], POST=[auth_func, prepost_user], PUT_SINGLE=[auth_func, preput_user], DELETE=[predelete_user]),
-    postprocess=dict(POST=[], PUT_SINGLE=[], DELETE_SINGLE=[], GET_MANY =[]),
+    # preprocess=dict(GET_SINGLE=[auth_func], GET_MANY=[auth_func], POST=[auth_func], PUT_SINGLE=[auth_func], DELETE=[]),
+    # postprocess=dict(POST=[], PUT_SINGLE=[], DELETE_SINGLE=[], GET_MANY =[]),
     # exclude_columns= ["password","salt","active"],
     collection_name='user')
 

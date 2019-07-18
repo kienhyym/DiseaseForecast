@@ -5,8 +5,10 @@ define(function (require) {
 		Gonrin = require('gonrin');
 	var template = require('text!app/user/tpl/model.html'),
 		schema = require('json!schema/UserSchema.json');
+
 	var RoleSelectView = require('app/role/js/SelectView');
 	var DonViSelectView = require('app/donvi/js/SelectView');
+
 	return Gonrin.ModelView.extend({
 		template: template,
 		modelSchema: schema,
@@ -37,13 +39,12 @@ define(function (require) {
 						label: "TRANSLATE:SAVE",
 						command: function () {
 							var self = this;
-							// self.getApp().showloading();
+							console.log(self.model.get("password"));
+
+							self.hasPassword();
+
 							var ten = self.model.get("name");
-							
 							var donvi = self.model.get("donvi");
-							console.log('self',self)
-							console.log('ten',name)
-							console.log('donvi',donvi)
 							if (ten == null || ten == "") {
 								self.getApp().notify({ message: "Tên đơn vị không được để trống!" }, { type: "danger" });
 							} else if (donvi == null || donvi == undefined) {
@@ -105,8 +106,8 @@ define(function (require) {
 					},
 				],
 			}],
-		uiControl:{
-			fields:[
+		uiControl: {
+			fields: [
 				{
 					field: "roles",
 					uicontrol: "ref",
@@ -126,18 +127,15 @@ define(function (require) {
 				},
 			]
 		},
-		
+
 		render: function () {
 			var self = this;
 			var id = this.getApp().getRouter().getParam("id");
 			if (id) {
-				//progresbar quay quay
 				this.model.set('id', id);
-
 				this.model.fetch({
 					success: function (data) {
 						self.applyBindings();
-						self.changepasswordEvent(id);
 					},
 					error: function () {
 						self.getApp().notify("Get data Eror");
@@ -145,29 +143,14 @@ define(function (require) {
 				});
 			} else {
 				self.applyBindings();
-				self.changepasswordEvent(id);
 			}
-			
 		},
-		changepasswordEvent: function (id) {
+
+		hasPassword: function () {
 			var self = this;
-			var id = id;
-			self.$el.find("input[name*='save']").unbind("click").bind("click", function () {
-				$.ajax({
-					type: 'POST',
-					url: self.getApp().serviceURL + "/api/v1/changepassword",
-					dataType: 'json',
-					data: JSON.stringify({
-						user_id: id,
-						password: self.$el.find("#txtpass2").val()
-					}),
-					success: function (response) {
-						console.log('xxx',txtpass2)
-					}, error: function (xhr) {
-						console.log('xhr', xhr);
-					}
-				})
-			});
+			var hasPassword = self.model.get("password");
+			console.log(hasPassword);
+			self.model.set("password", hasPassword);
 		}
 	});
 });
