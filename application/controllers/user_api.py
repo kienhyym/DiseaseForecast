@@ -137,7 +137,7 @@ async def prepost_user(request=None, data=None, Model=None, **kw):
     salt = generator_salt()
     data['salt'] = salt
     password = data['password']
-    data['password'] = auth.encrypt_password(password, salt)
+    data['password'] = auth.encrypt_password(password)
     data['active']= True
     
 async def preput_user(request=None, data=None, Model=None, **kw):
@@ -161,7 +161,7 @@ async def preput_user(request=None, data=None, Model=None, **kw):
 
     if currentUser.has_role("Giám Đốc") or str(currentUser.id) == data['id']:
         password = data['password']
-        data['password'] = auth.encrypt_password(password, user.salt)
+        data['password'] = auth.encrypt_password(password)
     else:
         return json({"error_code":"PERMISSION_DENY","error_message":"Không có quyền thực hiện hành động này"}, status=520)
 
