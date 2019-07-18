@@ -34,9 +34,6 @@ define(function (require) {
                 url: self.getApp().serviceURL + '/api/v1/logout',
                 dataType: "json",
                 success: function (data) {
-                    // this.$el.find("#register-btn").unbind("submit").bind("click", function() {
-                    //     $("register-btn").attr("href",self.getApp().serviceURL + register)
-                    // });
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     //       		    	self.getApp().notify(self.getApp().translate("LOGOUT_ERROR"));

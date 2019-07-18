@@ -98,6 +98,7 @@ def register(request):
 @app.route('/api/v1/changepassword', methods=['POST'])
 async def changepassword(request):
     data = request.json
+    print("==================data", data)
     password = data.get('password', None)
     current_uid = auth.current_user(request)
     print("==================PASSWORD", password)
