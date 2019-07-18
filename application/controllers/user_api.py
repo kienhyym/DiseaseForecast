@@ -138,6 +138,7 @@ async def prepost_user(request=None, data=None, Model=None, **kw):
     data['salt'] = salt
     password = data['password']
     data['password'] = auth.encrypt_password(password)
+    db.session.commit()
     data['active']= True
     
 async def preput_user(request=None, data=None, Model=None, **kw):
@@ -162,12 +163,13 @@ async def preput_user(request=None, data=None, Model=None, **kw):
     if currentUser.has_role("Giám Đốc") or str(currentUser.id) == data['id']:
         password = data['password']
         data['password'] = auth.encrypt_password(password)
+        db.session.commit()
     else:
         return json({"error_code":"PERMISSION_DENY","error_message":"Không có quyền thực hiện hành động này"}, status=520)
 
 async def predelete_user(request=None, data=None, Model=None, **kw):
     currentUser = await current_user(request)
-    if (currentUser is None):
+    if (currentUser is None):s
         return json({"error_code":"SESSION_EXPIRED","error_message":"Hết phiên làm việc, vui lòng đăng nhập lại!"}, status=520)
     if currentUser.has_role("Giám Đốc") == False:
         return json({"error_code":"PERMISSION_DENY","error_message":"Không có quyền thực hiện hành động này"}, status=520)
