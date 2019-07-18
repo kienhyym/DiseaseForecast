@@ -133,11 +133,11 @@ define(function (require) {
 			if (id) {
 				//progresbar quay quay
 				this.model.set('id', id);
-				self.changepasswordEvent(id);
 
 				this.model.fetch({
 					success: function (data) {
 						self.applyBindings();
+						self.changepasswordEvent(id);
 					},
 					error: function () {
 						self.getApp().notify("Get data Eror");
@@ -145,11 +145,13 @@ define(function (require) {
 				});
 			} else {
 				self.applyBindings();
+				self.changepasswordEvent(id);
 			}
-			self.changepasswordEvent(id);
+			
 		},
 		changepasswordEvent: function (id) {
 			var self = this;
+			var id = id;
 			self.$el.find("input[name*='save']").unbind("click").bind("click", function () {
 				$.ajax({
 					type: 'POST',
