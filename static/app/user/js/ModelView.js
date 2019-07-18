@@ -160,7 +160,7 @@ define(function (require) {
 						password: self.$el.find("#txtpass2").val()
 					}),
 					success: function (response) {
-
+						console.log('xxx',txtpass2)
 					}, error: function (xhr) {
 						console.log('xhr', xhr);
 					}
