@@ -3,10 +3,8 @@ define(function (require) {
 	var $ = require('jquery'),
 		_ = require('underscore'),
 		Gonrin = require('gonrin');
-
 	var template = require('text!app/user/tpl/model.html'),
 		schema = require('json!schema/UserSchema.json');
-
 	var RoleSelectView = require('app/role/js/SelectView');
 	var DonViSelectView = require('app/donvi/js/SelectView');
 	return Gonrin.ModelView.extend({
@@ -29,7 +27,6 @@ define(function (require) {
 						label: "TRANSLATE:BACK",
 						command: function () {
 							var self = this;
-
 							Backbone.history.history.back();
 						}
 					},
@@ -41,10 +38,12 @@ define(function (require) {
 						command: function () {
 							var self = this;
 							// self.getApp().showloading();
-							var ten = self.model.get("name");							
+							var ten = self.model.get("name");
+							
 							var donvi = self.model.get("donvi");
-							var pass = self.model.get('password');
-							console.log(pass)
+							console.log('self',self)
+							console.log('ten',name)
+							console.log('donvi',donvi)
 							if (ten == null || ten == "") {
 								self.getApp().notify({ message: "Tên đơn vị không được để trống!" }, { type: "danger" });
 							} else if (donvi == null || donvi == undefined) {
@@ -136,7 +135,6 @@ define(function (require) {
 				this.model.set('id', id);
 				this.model.fetch({
 					success: function (data) {
-
 						self.applyBindings();
 					},
 					error: function () {
@@ -146,9 +144,6 @@ define(function (require) {
 			} else {
 				self.applyBindings();
 			}
-
 		},
-
 	});
-
 });

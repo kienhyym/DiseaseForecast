@@ -109,6 +109,7 @@ define(function (require) {
 			this.$el.html(template);
 			var nav_list = this.$el.find('ul#menu-first');
 			this.loadEntries(nav_list, navdata, true);
+			$('ul').parents('li').children("ul").attr("style", "display:none");
 			return this;
 		},
 		handleEntryClick : function ($entry, entry) {
