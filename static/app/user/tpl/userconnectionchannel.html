@@ -1,8 +1,17 @@
 <div block-bind="content">
 	<!-- End Page Header -->
 	<div class="row">
-		<input type="text" userconnection-bind="value:channelname">
-		<input type="text" userconnection-bind="value:value">
+		<div class="col col-md-4" >
+			<input type="text" userconnection-bind="value:channelname" class="mb-1">
+		</div>
+		<div class="col col-md-7" >
+			<input type="text" userconnection-bind="value:value" class="mb-1">
+		</div>
+		<div class="col col-md-1" >
+				<button id="itemRemove" type="button" class="btn btn-listitem btn-outline-danger btn-sm"><span class="fa fa-minus"></span></button>
+		</div>
+
+		
 	</div>
 		
 </div>

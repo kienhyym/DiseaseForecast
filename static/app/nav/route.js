@@ -87,16 +87,16 @@ define(function (require) {
 			"$ref": "app/donvi/js/ModelView",
 		},
 
-		{
-			"collectionName": "kenhketnoinguoidung",
-			"route": "kenhketnoinguoidung/collection",
-			"$ref": "app/kenhketnoinguoidung/js/CollectionView",
-		},
-		{
-			"collectionName": "kenhketnoinguoidung",
-			"route": "kenhketnoinguoidung/model",
-			"$ref": "app/kenhketnoinguoidung/js/ModelView",
-		},
+		// {
+		// 	"collectionName": "kenhketnoinguoidung",
+		// 	"route": "kenhketnoinguoidung/collection",
+		// 	"$ref": "app/kenhketnoinguoidung/js/CollectionView",
+		// },
+		// {
+		// 	"collectionName": "kenhketnoinguoidung",
+		// 	"route": "kenhketnoinguoidung/model",
+		// 	"$ref": "app/kenhketnoinguoidung/js/ModelView",
+		// },
 
 	];
 

@@ -39,6 +39,10 @@ define(function (require) {
         render: function () {
             var self = this;
             this.applyBindings();
+
+            self.$el.find("#itemRemove").unbind("click").bind("click", function () {
+                self.remove(true);
+            });
             
             // self.registerEvent();
         },

@@ -22,12 +22,9 @@
 				</div>
 				<div class="card-body">
 					<form class="needs-validation" novalidate="">
-						<div class="row">
-							<!-- <div class="col-md-6 mb-3">
-								<label>ID</label>
-								<input type="text" class="form-control" data-bind="value:id" disabled>
-							</div> -->
-							<div class="col-md-6 mb-3">
+						<div class="row mb-3">
+
+							<div class="col-md-6 ">
 								<label>Tên</label>
 								<input type="text" class="form-control" data-bind="value:name" placeholder="Nhập tên "
 									required="">
@@ -35,59 +32,48 @@
 									Vui lòng nhập Tên.
 								</div>
 							</div>
-						</div>
-						<div class="mb-3">
-							<div class="row">
-								<div class="col-md-6 mb-3">
-									<label for="email">Email <span class="text-muted"></span></label>
-									<input type="email" class="form-control" id="email" data-bind="value:email"
-										placeholder="nhập email">
-									<div class="invalid-feedback">
-										Vui lòng nhập email.
-									</div>
-								</div>
-								<div class="col-md-6 mb-3">
-									<label for="phone_number">Điện thoại liên hệ</label>
-									<input type="text" class="form-control" id="phone_number"
-										data-bind="value:phone_number" placeholder="..." required="">
+
+
+							<div class="col-md-6">
+								<label for="email">Email <span class="text-muted"></span></label>
+								<input type="email" class="form-control" id="email" data-bind="value:email"
+									placeholder="nhập email">
+								<div class="invalid-feedback">
+									Vui lòng nhập email.
 								</div>
 							</div>
+							
+
 						</div>
-						<!-- <div class="mb-3">
-							<div class="row">
-								<div class="col-md-12 mb-3">
-									<label for="txtpass2">Password <span class="text-muted"></span></label>
-									<input type="password" class="form-control" id="txtpass2" data-bind="value:password"
-										placeholder="mật khẩu ">
-								</div>
-						</div> -->
-						<div class="mb-3">
-							<div class="row">
-								<div class="col-md-12 mb-3">
+						<div class="row mb-3">	
+							<div class="col-md-6">
+								<label for="phone_number">Điện thoại liên hệ</label>
+								<input type="text" class="form-control" id="phone_number" data-bind="value:phone_number"
+									placeholder="..." required="">
+							</div>
+							<div class="col-md-6">
+									<label for="password">Đơn vị<span class="text-muted"></span></label>
+									<input id="donvi" type="text" data-bind="dict:donvi" />
+							</div>
+						</div>
+
+							<div class="row mb-3">	
+							<div class="col-md-12">
 									<label for="password">Loại người dùng <span class="text-muted"></span></label>
 									<input type="text" data-bind="list:roles" />
-								</div>
 							</div>
-						</div>
-						<div class="mb-3">
-							<div class="row">
-								<div class="col-md-12 mb-3">
-									<label for="password">Đơn vị<span class="text-muted"></span></label>
-									
-										<input id="donvi" type="text" data-bind="dict:donvi" />
-									
-								</div>
-							</div>
+
 						</div>
 
 
-						<div class="row">
-							<div id="add_connection_channel"  class="col-md-12 mb-3"></div>
-							<div class="col-md-12 mb-3" data-bind="list:userconnectionchannels">
-
-
-
+						<div class="row col-md-12 w-100 ml-1 mb-3 p-0 " style="border-bottom:1px solid gainsboro ">
+							<label>Kênh kết nối người dùng</label>
+						</div>
+						<div>
+							<div class="row col-md-12">
+								<div id="add_connection_channel" class="mb-1"></div>
 							</div>
+							<div data-bind="list:userconnectionchannels"></div>
 
 						</div>
 					</form>
