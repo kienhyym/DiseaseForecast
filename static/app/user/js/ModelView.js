@@ -9,6 +9,8 @@ define(function (require) {
 	var RoleSelectView = require('app/role/js/SelectView');
 	var DonViSelectView = require('app/donvi/js/SelectView');
 
+	var ConnectionChannelItemView = require('app/user/js/ConnectionChannelItemView');
+
 	return Gonrin.ModelView.extend({
 		template: template,
 		modelSchema: schema,
@@ -124,6 +126,21 @@ define(function (require) {
 					foreignRemoteField: "id",
 					foreignField: "donvi_id",
 					dataSource: DonViSelectView
+				},
+
+				{
+					field: "userconnectionchannels",
+					uicontrol: false,
+					itemView: ConnectionChannelItemView,
+
+					tools: [{
+						name: "create",
+						type: "button",
+						buttonClass: "btn btn-outline-success btn-sm",
+						label: "<span class='fa fa-plus'></span>",
+						command: "create"
+					}],
+					toolEl: "#add_connection_channel"
 				},
 			]
 		},

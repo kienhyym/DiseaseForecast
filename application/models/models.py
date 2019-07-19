@@ -37,6 +37,7 @@ class User(CommonModel):
     description = db.Column(db.String())
     active = db.Column(db.Boolean(), default=True)
     roles = db.relationship('Role', secondary=roles_users, cascade="save-update")
+    userconnectionchannels = db.relationship('UserConnectionChannel', cascade="all, delete-orphan")
     def has_role(self, role):
         if isinstance(role, str):
             return role in (role.name for role in self.roles)
