@@ -41,7 +41,7 @@ define(function(require) {
                 type: 'post',
                 data: data,
                 success: function(response) {
-                    console.log(self.getApp().serviceURL );
+                    console.log("a>>>>>>>>>>>>>>>>>>>>>>",self.getApp() );
                     self.getApp().postLogin(response);
                 },
                 error: function(xhr) {

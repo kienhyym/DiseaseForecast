@@ -61,7 +61,11 @@ define(function (require) {
         },
         changepassword: function () {
             var self = this;
-            var changePasswordView = new ChangePasswordView({ el: $('.content-contain'), id: self.getApp().currentUser.id });
+            var changePasswordView = new ChangePasswordView(
+                {
+                el: $('.content-contain'),
+                id: self.getApp().currentUser.id 
+                });
             changePasswordView.render();
         },
         register: function () {

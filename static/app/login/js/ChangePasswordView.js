@@ -40,13 +40,20 @@ define(function (require) {
 					dataType: 'json',
 					data: JSON.stringify({
 						user_id: id,
-						password: self.$el.find("#txtpass2").val()
+						password_old: self.$el.find("#txtpass").val(),
+						password_new: self.$el.find("#txtpass2").val(),
 					}),
 					success: function (response) {
 						if (response) {
-							self.getApp().notify("Đổi mật khẩu thành công");
-							self.getApp().getRouter().navigate("login");
+							console.log('response',response);
+							// self.getApp().getRouter().navigate("login");
+							self.getApp().notify("Đổi mật khẩu đã thành công");
+							window.location=self.getApp().serviceURL;
 						}
+						else{
+							self.getApp().notify("Đổi mật khẩu không thành công");
+							self.getApp().getRouter().navigate("changepassword");
+						} 
 
 					}, error: function (xhr) {
 						console.log('xhr', xhr);

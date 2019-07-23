@@ -57,12 +57,13 @@ async def logout(request):
 @app.route('/api/v1/login', methods=['POST'])
 async def login(request):
     data = request.json
+    print("==================data", data)
     username = data['username']
     password = data['password']
     print("==================USER NAME", username)
     print("==================PASSWORD", password)
     user = db.session.query(User).filter(or_(User.email == username, User.phone_number == username)).first()
-    print("----------------------- auth.verify_password(password)", password, user.password)
+
 
     print("==================", user)
     if (user is not None) and auth.verify_password(password, user.password):
@@ -73,6 +74,51 @@ async def login(request):
         
     return json({"error_code":"LOGIN_FAILED","error_message":"Tài khoản hoặc mật khẩu không đúng"}, status=520)
 
+@app.route('/api/v1/changepassword', methods=['POST'])
+async def changepassword(request):
+    data = request.json
+    print("==================data", data)
+    password_old = data['password_old']
+    password_new = data['password_new']
+    current_uid = data['user_id']
+
+    print("==================PASSWORD_OLD", password_old)
+    print("==================PASSWORD_NEW", password_new)
+    print("===================current_uid============", current_uid)
+    user = db.session.query(User).filter(or_(User.id == current_uid)).first()
+
+    if current_uid and password_new is not None and auth.verify_password(password_old, user.password):
+        print("==============USER INFO", auth.verify_password(password_old, user.password))
+
+        user_info = db.session.query(User).filter(User.id == current_uid).first()
+        print("==============USER INFO", user_info)
+        if user_info is not None:
+            user_info.password = auth.encrypt_password(password_new)
+
+            db.session.commit()
+            return json({})
+# @app.route('/api/v1/changepassword', methods=['POST'])
+# async def changepassword(request):
+#     data = request.json
+#     print("==================data", data)
+#     password = data.get('password', None)
+#     current_uid = auth.current_user(request)
+#     user_id = data['user_id']
+#     password2 = data['password']
+#     print("==================PASSWORD", password)
+#     print("===================current_uid============", current_uid)
+#     print("===================user_id============", user_id)
+#     print("===================password2============", password2)
+
+
+#     if current_uid and password is not None:
+#         user_info = db.session.query(User).filter(User.id == current_uid).first()
+#         print("==============USER INFO", user_info)
+#         if user_info is not None:
+#             user_info.password = auth.encrypt_password(password)
+
+#             db.session.commit()
+#             return json({})
 
 @app.route('/api/v1/register', methods=["POST"])
 def register(request):
@@ -97,23 +143,7 @@ def register(request):
         result = user_to_dict(new_user)
         return json(result)
 
-@app.route('/api/v1/changepassword', methods=['POST'])
-async def changepassword(request):
-    data = request.json
-    print("==================data", data)
-    password = data.get('password', None)
-    current_uid = auth.current_user(request)
-    print("==================PASSWORD", password)
-    print("===================USER ID============", current_uid)
 
-    if current_uid and password is not None:
-        user_info = db.session.query(User).filter(User.id == current_uid).first()
-        print("==============USER INFO", user_info)
-        if user_info is not None:
-            user_info.password = auth.encrypt_password(password)
-
-            db.session.commit()
-            return json({})
 
 
 

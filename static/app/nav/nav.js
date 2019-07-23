@@ -152,28 +152,7 @@ define(function (require) {
 				return false;
 			}
 		},
-		// {
-		// 	"text": "Kênh kết nối người dùng",
-		// 	"icon": "fa fa-home",
-		// 	"type": "view",
-		// 	"collectionName": "kenhketnoinguoidung",
-		// 	"route": "kenhketnoinguoidung/collection",
-		// 	"$ref": "app/kenhketnoinguoidung/js/CollectionView",
-		// 	"visible": function () {
-		// 		return true;
-		// 	}
-		// },
-		// {
-			
-		// 	"icon": "fa fa-home",
-		// 	"type": "view",
-		// 	"collectionName": "kenhketnoinguoidung",
-		// 	"route": "kenhketnoinguoidung/model",
-		// 	"$ref": "app/kenhketnoinguoidung/js/ModelView",
-		// 	"visible": function () {
-		// 		return false;
-		// 	}
-		// },
+	
 	];
 
 });
