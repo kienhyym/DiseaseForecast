@@ -12,11 +12,13 @@ define(function (require) {
 
 		render: function () {
 			var self = this;
-			var id = self.id;
-			var pass = self.password;
+			// var id = self.id;
+			// console.log("self.currentUser",self.getApp().currentUser.id)
+			var id = self.getApp().currentUser.id
+			var pass = self.getApp().currentUser.password;
 			self.applyBindings();
 			self.changepasswordEvent(id);
-
+			console.log(id);
 			console.log(pass);
 		},
 		changepasswordEvent: function (id) {
@@ -46,17 +48,19 @@ define(function (require) {
 					success: function (response) {
 						if (response) {
 							console.log('response',response);
-							// self.getApp().getRouter().navigate("login");
+							
 							self.getApp().notify("Đổi mật khẩu đã thành công");
+							// self.getApp().getRouter().navigate("");
 							window.location=self.getApp().serviceURL;
 						}
-						else{
-							self.getApp().notify("Đổi mật khẩu không thành công");
-							self.getApp().getRouter().navigate("changepassword");
-						} 
+					
 
 					}, error: function (xhr) {
-						console.log('xhr', xhr);
+						
+							self.getApp().notify("Mật khẩu cũ không chính xác ");
+							// window.location=self.getApp().serviceURL+"#changepassword";
+							// self.getApp().getRouter().navigate("changepassword");
+						
 					}
 				})
 			});
