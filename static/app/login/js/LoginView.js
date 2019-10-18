@@ -43,6 +43,8 @@ define(function(require) {
                 success: function(response) {
                     console.log("a>>>>>>>>>>>>>>>>>>>>>>",self.getApp() );
                     self.getApp().postLogin(response);
+                    self.getApp().getRouter().navigate("index");
+
                 },
                 error: function(xhr) {
                 }

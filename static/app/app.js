@@ -99,7 +99,12 @@ require(['jquery', 'gonrin', 'app/router', 'app/nav/NavbarView', 'text!app/base/
 			$("#changepassword").on("click", function () {
 				self.router.navigate("changepassword");
 			});
+			$(".mainlogo").unbind('click').bind('click', function () {
+				self.router.navigate('index');
 
+				self.getRouter().refresh();
+
+			});
 		},
 		bind_event: function () {
 			var self = this;

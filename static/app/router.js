@@ -8,6 +8,7 @@ define(function (require) {
     var ChangePasswordView = require('app/login/js/ChangePasswordView');
     var ForgotPasswordView = require('app/login/js/ForgotPasswordView');
     var RegisterView = require('app/login/js/RegisterView');
+    var IndexView = require('app/login/js/IndexView');
     var navdata = require('app/nav/route');
 
     return Gonrin.Router.extend({
@@ -26,7 +27,8 @@ define(function (require) {
             //        	this.navigate('dangkykham/collection');
         },
         index: function () {
-            this.navigate('dangkykham/collection');
+            var indexView = new IndexView({ el: $('.main-content-container') });
+            indexView.render();
         },
         logout: function () {
             var self = this;
@@ -63,8 +65,8 @@ define(function (require) {
             var self = this;
             var changePasswordView = new ChangePasswordView(
                 {
-                el: $('.content-contain'),
-                id: self.getApp().currentUser.id 
+                    el: $('.content-contain'),
+                    id: self.getApp().currentUser.id
                 });
             changePasswordView.render();
         },
