@@ -20,8 +20,7 @@ define(function (require) {
 		     ],
 		     onRowClick: function(event){
 		    	if(event.rowId){
-						var path = this.collectionName + '/model?id='+ event.rowId;
-						console.log(path)
+		        		var path = this.collectionName + '/model?id='+ event.rowId;
 		        		this.getApp().getRouter().navigate(path);
 		        }
 		    	 //this.getApp().loading(); 
@@ -30,8 +29,7 @@ define(function (require) {
 		    }
     	},
 	    render:function(){
-			 this.applyBindings();
-			 console.log('aaaa');
+	    	 this.applyBindings();
 	    	 return this;
     	},
     });

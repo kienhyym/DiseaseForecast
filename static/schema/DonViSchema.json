@@ -53,17 +53,23 @@
     "vungmien": {
         "type": "number"
     },
-    "quocgia_id": {
-        "type": "string"
-    },
     "tinhthanh_id": {
         "type": "string"
+    },
+    "tinhthanh": {
+        "type": "json"
     },
     "quanhuyen_id": {
         "type": "string"
     },
+    "quanhuyen": {
+        "type": "json"
+    },
     "xaphuong_id": {
         "type": "string"
+    },
+    "xaphuong": {
+        "type": "json"
     },
     "tuyendonvi": {
         "type": "number",
@@ -93,17 +99,5 @@
     },
     "emailphogiamdoc": {
         "type": "string"
-    },
-    "quocgia": {
-        "type": "dict"
-    },
-    "tinhthanh": {
-        "type": "dict"
-    },
-    "quanhuyen": {
-        "type": "dict"
-    },
-    "xaphuong": {
-        "type": "dict"
     }
 }

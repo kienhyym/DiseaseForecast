@@ -40,6 +40,14 @@ define(function (require) {
 			fields: [
 				{ field: "ma", label: "Mã", width: 150 },
 				{ field: "ten", label: "Tên", width: 250 },
+				//    		     	{
+				//        	        	 field: "quanhuyen_id", 
+				//        	        	 label: "Quận huyện",
+				//        	        	 foreign: "quanhuyen",
+				//        	        	 foreignValueField: "id",
+				//        	        	 foreignTextField: "ten",
+				//        	        	 width:250
+				//        	         },
 			],
 			onRowClick: function (event) {
 				this.uiControl.selectedItems = event.selectedItems;
@@ -47,6 +55,14 @@ define(function (require) {
 		},
 		render: function () {
 			var self = this;
+			self.$el.find(".close").unbind('click').bind('click', function () {
+				console.log("xxxxxxxxx")
+				self.$el.find("#grid_search input").val("")
+			})
+			//    		var currentUser = this.getApp().currentUser;
+			//	    	 if (this.getApp().data("quanhuyen_id") !== null) {
+			//               this.uiControl.filters = { "quanhuyen_id": { "$eq": this.getApp().data("quanhuyen_id") } };
+			//            }
 			self.uiControl.orderBy = [{ "field": "ten", "direction": "desc" }];
 			var filter = new CustomFilterView({
 				el: self.$el.find("#grid_search"),
@@ -61,7 +77,10 @@ define(function (require) {
 						{ "ten": { "$likeI": text } },
 					]
 				};
-
+				//				var filters = {"$and": [
+				//					{"quanhuyen_id": {"$eq": this.getApp().data("quanhuyen_id")}},
+				//					query
+				//				]};
 				var filters = query;
 				if (self.uiControl.filters !== null) {
 					filters = {
@@ -104,6 +123,8 @@ define(function (require) {
 			});
 			return this;
 		},
+
+		
 	});
 
 });

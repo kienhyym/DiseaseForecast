@@ -37,9 +37,6 @@
         "type": "string"
     },
     "tinhthanh": {
-        "type": "dict"
-    },
-    "xaphuong": {
-        "type": "list"
+        "type": "json"
     }
 }

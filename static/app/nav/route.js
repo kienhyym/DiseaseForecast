@@ -87,6 +87,16 @@ define(function (require) {
 			"$ref": "app/donvi/js/ModelView",
 		},
 
+		{
+			"collectionName": "sendmail",
+			"route": "sendmail/collection",
+			"$ref": "app/sendmail/js/CollectionView",
+		},
+		{
+			"collectionName": "sendmail",
+			"route": "sendmail/model(/:id)",
+			"$ref": "app/sendmail/js/ModelView",
+		},
 	];
 
 });

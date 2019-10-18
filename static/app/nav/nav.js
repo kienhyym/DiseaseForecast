@@ -49,87 +49,87 @@ define(function (require) {
 			}
 		},
 
-		{
-			"text": "Danh mục",
-			"icon": "fa fa-home",
-			"type": "category",
+		// {
+		// 	"text": "Danh mục",
+		// 	"icon": "fa fa-home",
+		// 	"type": "category",
 
-			// "visible": function(){
-			// 	//console.log(this.checkHasRole("Admin"));
-			// 	return this.checkHasRole("Admin") ;
-			// },
-			"entries": [
-				{
-					"text": "Quốc gia",
-					"type": "view",
-					"collectionName": "quocgia",
-					"route": "quocgia/collection",
-					"$ref": "app/DanhMuc/QuocGia/view/CollectionView",
-					// "visible": function(){
-					// 	//console.log(this.checkHasRole("Admin"));
-					// 	return this.checkHasRole("Admin") ;
-					// }
-				},
-				{
-					"type": "view",
-					"collectionName": "quocgia",
-					"route": "quocgia/model(/:id)",
-					"$ref": "app/DanhMuc/QuocGia/view/ModelView",
-					"visible": false
-				},
-				{
-					"text": "Tỉnh thành",
-					"type": "view",
-					"collectionName": "tinhthanh",
-					"route": "tinhthanh/collection",
-					"$ref": "app/DanhMuc/TinhThanh/view/CollectionView",
-					// "visible": function(){
-					// 	return this.checkHasRole("Admin") ;
-					// }
-				},
-				{
-					"type": "view",
-					"collectionName": "tinhthanh",
-					"route": "tinhthanh/model(/:id)",
-					"$ref": "app/DanhMuc/TinhThanh/view/ModelView",
-					"visible": false
-				},
-				{
-					"text": "Quận huyện",
-					"type": "view",
-					"collectionName": "quanhuyen",
-					"route": "quanhuyen/collection",
-					"$ref": "app/DanhMuc/QuanHuyen/view/CollectionView",
-					// "visible": function(){
-					// 	return this.checkHasRole("Admin") ;
-					// }
-				},
-				{
-					"type": "view",
-					"collectionName": "quanhuyen",
-					"route": "quanhuyen/model(/:id)",
-					"$ref": "app/DanhMuc/QuanHuyen/view/ModelView",
-					"visible": false
-				},
-				{
-					"text": "Xã phường",
-					"type": "view",
-					"collectionName": "xaphuong",
-					"route": "xaphuong/collection",
-					"$ref": "app/DanhMuc/XaPhuong/view/CollectionView",
-					// "visible": function(){
-					// 	return this.checkHasRole("Admin") ;
-					// }
-				},
-				{
-					"type": "view",
-					"collectionName": "xaphuong",
-					"route": "xaphuong/model(/:id)",
-					"$ref": "app/DanhMuc/XaPhuong/view/ModelView",
-					"visible": false
-				},
-			]
-		},
+		// 	// "visible": function(){
+		// 	// 	//console.log(this.checkHasRole("Admin"));
+		// 	// 	return this.checkHasRole("Admin") ;
+		// 	// },
+		// 	"entries": [
+		// 		{
+		// 			"text": "Quốc gia",
+		// 			"type": "view",
+		// 			"collectionName": "quocgia",
+		// 			"route": "quocgia/collection",
+		// 			"$ref": "app/DanhMuc/QuocGia/view/CollectionView",
+		// 			// "visible": function(){
+		// 			// 	//console.log(this.checkHasRole("Admin"));
+		// 			// 	return this.checkHasRole("Admin") ;
+		// 			// }
+		// 		},
+		// 		{
+		// 			"type": "view",
+		// 			"collectionName": "quocgia",
+		// 			"route": "quocgia/model(/:id)",
+		// 			"$ref": "app/DanhMuc/QuocGia/view/ModelView",
+		// 			"visible": false
+		// 		},
+		// 		{
+		// 			"text": "Tỉnh thành",
+		// 			"type": "view",
+		// 			"collectionName": "tinhthanh",
+		// 			"route": "tinhthanh/collection",
+		// 			"$ref": "app/DanhMuc/TinhThanh/view/CollectionView",
+		// 			// "visible": function(){
+		// 			// 	return this.checkHasRole("Admin") ;
+		// 			// }
+		// 		},
+		// 		{
+		// 			"type": "view",
+		// 			"collectionName": "tinhthanh",
+		// 			"route": "tinhthanh/model(/:id)",
+		// 			"$ref": "app/DanhMuc/TinhThanh/view/ModelView",
+		// 			"visible": false
+		// 		},
+		// 		{
+		// 			"text": "Quận huyện",
+		// 			"type": "view",
+		// 			"collectionName": "quanhuyen",
+		// 			"route": "quanhuyen/collection",
+		// 			"$ref": "app/DanhMuc/QuanHuyen/view/CollectionView",
+		// 			// "visible": function(){
+		// 			// 	return this.checkHasRole("Admin") ;
+		// 			// }
+		// 		},
+		// 		{
+		// 			"type": "view",
+		// 			"collectionName": "quanhuyen",
+		// 			"route": "quanhuyen/model(/:id)",
+		// 			"$ref": "app/DanhMuc/QuanHuyen/view/ModelView",
+		// 			"visible": false
+		// 		},
+		// 		{
+		// 			"text": "Xã phường",
+		// 			"type": "view",
+		// 			"collectionName": "xaphuong",
+		// 			"route": "xaphuong/collection",
+		// 			"$ref": "app/DanhMuc/XaPhuong/view/CollectionView",
+		// 			// "visible": function(){
+		// 			// 	return this.checkHasRole("Admin") ;
+		// 			// }
+		// 		},
+		// 		{
+		// 			"type": "view",
+		// 			"collectionName": "xaphuong",
+		// 			"route": "xaphuong/model(/:id)",
+		// 			"$ref": "app/DanhMuc/XaPhuong/view/ModelView",
+		// 			"visible": false
+		// 		},
+		// 	]
+		// },
 		{
 			"text": "Đơn vị",
 			"icon": "fa fa-home",
@@ -153,8 +153,30 @@ define(function (require) {
 			}
 		},
 	
-	];
 
+		{
+			"text": "Soạn tin nhắn",
+			"icon": "fa fa-home",
+			"type": "view",
+			"collectionName": "sendmail",
+			"route": "sendmail/collection",
+			"$ref": "app/sendmail/js/CollectionView",
+			"visible": function () {
+				return true;
+			}
+		},
+		
+		{
+			"type": "view",
+			"collectionName": "sendmail",
+			"route": "sendmail/model",
+			"$ref": "app/sendmail/js/ModelView",
+			"visible": function () {
+				return false;
+			}
+		},
+
+	];
 });
 
 

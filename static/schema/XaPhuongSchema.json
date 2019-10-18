@@ -37,6 +37,6 @@
         "type": "string"
     },
     "quanhuyen": {
-        "type": "dict"
+        "type": "json"
     }
 }

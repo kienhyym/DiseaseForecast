@@ -138,6 +138,7 @@ define(function (require) {
 				this.model.fetch({
 					success: function (data) {
 						self.applyBindings();
+						self.registerEvent();
 						self.model.on("change:tinhthanh_id", function () {
 							self.getFieldElement("quanhuyen").data("gonrin").setFilters({ "tinhthanh_id": { "$eq": self.model.get("tinhthanh_id") } });
 						});
@@ -161,6 +162,8 @@ define(function (require) {
 				});
 			} else {
 				self.applyBindings();
+				self.registerEvent();
+
 				self.model.on("change:tinhthanh_id", function () {
 					console.log("change tinh thanh", self.model.get("tinhthanh_id"));
 					self.getFieldElement("quanhuyen").data("gonrin").setFilters({ "tinhthanh_id": { "$eq": self.model.get("tinhthanh_id") } });
@@ -172,6 +175,24 @@ define(function (require) {
 			}
 
 		},
+
+		registerEvent: function () {
+			const self = this;
+
+
+			var data = [
+				{ "TUOI": "19", "KEY": 19 },
+				{"TUOI": "29", "KEY": 29 },
+			]
+
+			self.$el.find("#combobox").combobox({
+				textField: "TUOI",
+				valueField: "KEY",
+				dataSource: data,
+				value: 19
+			});
+		},
+
 		validateEmail: function (email) {
 			var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 			return re.test(String(email).toLowerCase());

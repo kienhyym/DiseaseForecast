@@ -61,5 +61,8 @@
     },
     "roles": {
         "type": "list"
+    },
+    "userconnectionchannels": {
+        "type": "list"
     }
 }

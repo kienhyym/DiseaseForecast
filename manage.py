@@ -105,8 +105,80 @@ def generate_schema(path = None, exclude = None, prettyprint = True):
 
 
 @manager.command
-def run():        
+def add_danhsach_quocgia_tinhthanh():   
+    quocgias = QuocGia(ma = "VN", ten = "Việt Nam")
+    db.session.add(quocgias)
+    db.session.flush() 
+    db.session.commit()
+    try:
+        SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+        #add dantoc
+        json_url_dantoc = os.path.join(SITE_ROOT, "static/app/enum", "DanTocEnum.json")
+        data_dantoc = json.load(open(json_url_dantoc))
+        for item_dantoc in data_dantoc:
+            dantoc = DanToc(ma = item_dantoc["value"], ten = item_dantoc["text"])
+            db.session.add(dantoc)
+        
+        db.session.commit()
+        json_url_dstinhthanh = os.path.join(SITE_ROOT, "static/app/enum", "ThongTinTinhThanh.json")
+        data_dstinhthanh = json.load(open(json_url_dstinhthanh))
+        for item_dstinhthanh in data_dstinhthanh:
+            tinhthanh_filter = db.session.query(TinhThanh).filter(TinhThanh.ma == item_dstinhthanh["matinhthanh"]).first()
+            if tinhthanh_filter is None:
+#                 quocgia_filter = db.session.query(QuocGia).filter(QuocGia.ma == 'VN').first()
+                tinhthanh_filter = TinhThanh(ten = item_dstinhthanh["tentinhthanh"], ma = item_dstinhthanh["matinhthanh"], quocgia_id = quocgias.id)
+                db.session.add(tinhthanh_filter)
+        db.session.commit()
+    except Exception as e:
+        print("TINH THANH ERROR",e)
+        
+@manager.command
+def add_danhsach_quanhuyen():
+    try:
+        SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+        json_url_dsquanhuyen = os.path.join(SITE_ROOT, "static/app/enum", "ThongTinTinhThanh.json")
+        data_dsquanhuyen = json.load(open(json_url_dsquanhuyen))
+        for item_dsquanhuyen in data_dsquanhuyen:
+            quanhuyen_filter = db.session.query(QuanHuyen).filter(QuanHuyen.ma == item_dsquanhuyen["maquanhuyen"]).first()
+            if quanhuyen_filter is None:
+                tinhthanh_filter = db.session.query(TinhThanh).filter(TinhThanh.ma == item_dsquanhuyen["matinhthanh"]).first()
+                quanhuyen_filter = QuanHuyen(ten = item_dsquanhuyen["tenquanhuyen"], ma = item_dsquanhuyen["maquanhuyen"], tinhthanh_id = tinhthanh_filter.id)
+                db.session.add(quanhuyen_filter)
+        db.session.commit()
+    except Exception as e:
+        print("QUAN HUYEN ERROR", e)
+
+@manager.command
+def add_danhsach_xaphuong():
+    try:
+        SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+        json_url_dsxaphuong = os.path.join(SITE_ROOT, "static/app/enum", "ThongTinTinhThanh.json")
+        data_dsxaphuong = json.load(open(json_url_dsxaphuong))
+        for item_dsxaphuong in data_dsxaphuong:
+            xaphuong_filter = db.session.query(XaPhuong).filter(XaPhuong.ma == item_dsxaphuong["maxaphuong"]).first()
+            if xaphuong_filter is None:
+                quanhuyen_filter = db.session.query(QuanHuyen).filter(QuanHuyen.ma == item_dsxaphuong["maquanhuyen"]).first()
+                xaphuong_filter = XaPhuong(ten = item_dsxaphuong["tenxaphuong"], ma = item_dsxaphuong["maxaphuong"], quanhuyen_id = quanhuyen_filter.id)
+                db.session.add(xaphuong_filter)
+        db.session.commit()
+    except Exception as e:
+        print("XA PHUONG ERROR", e)
+
+
+
+@manager.command
+def run():
+    quocgiaa = db.session.query(QuocGia).first()
+
+    if quocgiaa is None:
+        add_danhsach_quocgia_tinhthanh()
+        add_danhsach_quanhuyen()
+        add_danhsach_xaphuong()
+        
     run_app(host="0.0.0.0", port=9081)
+
 
 if __name__ == '__main__':
     manager.main()
+
+

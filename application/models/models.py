@@ -45,36 +45,41 @@ class User(CommonModel):
             return role in self.roles
 
 
+class DanToc(CommonModel):
+    __tablename__ = 'dantoc'
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=default_uuid)
+    ma = db.Column(String(255), index=True)
+    ten = db.Column(String(255))
+    
 class QuocGia(CommonModel):
     __tablename__ = 'quocgia'
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=default_uuid)
-    ma = db.Column(String(255), unique=True)
+    ma = db.Column(String(255), index=True)
     ten = db.Column(String(255))
-    tinhthanh = db.relationship("TinhThanh", order_by="TinhThanh.id", cascade="all, delete-orphan")
+
 class TinhThanh(CommonModel):
     __tablename__ = 'tinhthanh'
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=default_uuid)
-    ma = db.Column(String(255), unique=True)
+    ma = db.Column(String(255),unique=True, index=True)
     ten = db.Column(String(255))
-    quocgia_id = db.Column(UUID(as_uuid=True), ForeignKey('quocgia.id'), nullable=True)
-    quocgia = relationship('QuocGia')
-    quanhuyen = db.relationship("QuanHuyen", order_by="QuanHuyen.id", cascade="all, delete-orphan")
+    quocgia_id = db.Column(UUID(as_uuid=True), nullable=True)
+    quocgia = db.Column(JSONB)
+
 class QuanHuyen(CommonModel):
     __tablename__ = 'quanhuyen'
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=default_uuid)
-    ma = db.Column(String(255), unique=True)
+    ma = db.Column(String(255),unique=True, index=True)
     ten = db.Column(String(255))
-    tinhthanh_id = db.Column(UUID(as_uuid=True), ForeignKey('tinhthanh.id'), nullable=True)
-    tinhthanh = relationship('TinhThanh')
-    xaphuong = db.relationship("XaPhuong", order_by="XaPhuong.id", cascade="all, delete-orphan")
+    tinhthanh_id = db.Column(UUID(as_uuid=True), nullable=True)
+    tinhthanh = db.Column(JSONB)
     
 class XaPhuong(CommonModel):
     __tablename__ = 'xaphuong'
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=default_uuid)
-    ma = db.Column(String(255), unique=True)
+    ma = db.Column(String(255),unique=True, index=True)
     ten = db.Column(String(255))
-    quanhuyen_id = db.Column(UUID(as_uuid=True), ForeignKey('quanhuyen.id'), nullable=True)
-    quanhuyen = relationship('QuanHuyen')  
+    quanhuyen_id = db.Column(UUID(as_uuid=True), nullable=True)
+    quanhuyen = db.Column(JSONB)
 
 class DonVi(CommonModel):
     __tablename__ = 'donvi'
@@ -87,17 +92,12 @@ class DonVi(CommonModel):
     ghichu = db.Column(db.String(255))
     vungmien = db.Column(db.SmallInteger) #
 
-    quocgia_id = db.Column(UUID(as_uuid=True), db.ForeignKey('quocgia.id'), nullable=True)
-    quocgia = db.relationship('QuocGia', viewonly=True)
-
-    tinhthanh_id = db.Column(UUID(as_uuid=True), db.ForeignKey('tinhthanh.id'), nullable=True)
-    tinhthanh = db.relationship('TinhThanh', viewonly=True)
-    
-    quanhuyen_id = db.Column(UUID(as_uuid=True), db.ForeignKey('quanhuyen.id'), nullable=True)
-    quanhuyen = db.relationship('QuanHuyen', viewonly=True)
-
-    xaphuong_id = db.Column(UUID(as_uuid=True), db.ForeignKey('xaphuong.id'), nullable=True)
-    xaphuong = db.relationship('XaPhuong', viewonly=True)
+    tinhthanh_id = db.Column(String, nullable=True)
+    tinhthanh = db.Column(JSONB)
+    quanhuyen_id = db.Column(String, nullable=True)
+    quanhuyen = db.Column(JSONB)
+    xaphuong_id = db.Column(String, nullable=True)
+    xaphuong = db.Column(JSONB)
     
     tuyendonvi = db.Column(db.SmallInteger, nullable=False) # la trung tam, hay truong hoc ...
     coquanchuquan = db.Column(db.String(255))
@@ -117,3 +117,16 @@ class UserConnectionChannel(CommonModel):
     user = db.relationship('User', viewonly=True)
     channelname = db.Column(String(255))
     value = db.Column(String(255))
+
+class SendMail(CommonModel):
+    __tablename__ = 'sendmail'
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=default_uuid)
+    email = db.Column(String(255))
+    password = db.Column(String(255))
+    to = db.Column(String(255))
+    message = db.Column(String(255))
+    subject = db.Column(String(255))
+    tailieu = db.Column(String(255))
+
+
+

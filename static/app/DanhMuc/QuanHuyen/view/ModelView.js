@@ -13,7 +13,7 @@ define(function (require) {
 		modelSchema: schema,
 		urlPrefix: "/api/v1/",
 		collectionName: "quanhuyen",
-		bindings: "data-quanhuyen-bind",
+		bindings:"data-quanhuyen-bind",
 		state: null,
 		tools: [
 			{
@@ -54,15 +54,15 @@ define(function (require) {
 									},
 									error: function (xhr, status, error) {
 										try {
-											if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED") {
+											if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED"){
 												self.getApp().notify("Hết phiên làm việc, vui lòng đăng nhập lại!");
 												self.getApp().getRouter().navigate("login");
 											} else {
-												self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
+											  self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
 											}
 										}
 										catch (err) {
-											self.getApp().notify({ message: "Lưu thông tin không thành công" }, { type: "danger", delay: 1000 });
+										  self.getApp().notify({ message: "Lưu thông tin không thành công"}, { type: "danger", delay: 1000 });
 										}
 									}
 								});
@@ -86,15 +86,15 @@ define(function (require) {
 								},
 								error: function (xhr, status, error) {
 									try {
-										if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED") {
+										if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED"){
 											self.getApp().notify("Hết phiên làm việc, vui lòng đăng nhập lại!");
 											self.getApp().getRouter().navigate("login");
 										} else {
-											self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
+										  self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
 										}
 									}
 									catch (err) {
-										self.getApp().notify({ message: "Xóa dữ liệu không thành công" }, { type: "danger", delay: 1000 });
+									  self.getApp().notify({ message: "Xóa dữ liệu không thành công"}, { type: "danger", delay: 1000 });
 									}
 								}
 							});
@@ -117,10 +117,10 @@ define(function (require) {
 		render: function () {
 			var self = this;
 			var currentUser = self.getApp().currentUser;
-			if (!!currentUser && !!currentUser.donvi) {
-				if (!!currentUser.donvi.tinhthanh_id && currentUser.donvi.tuyendonvi_id >= 2) {
-					self.model.set("tinhthanh_id", currentUser.donvi.tinhthanh_id);
-					self.model.set("tinhthanh", currentUser.donvi.tinhthanh);
+			if(!!currentUser && !!currentUser.donvi){
+				if (!!currentUser.donvi.tinhthanh_id && currentUser.donvi.tuyendonvi_id >= 2){
+					self.model.set("tinhthanh_id",currentUser.donvi.tinhthanh_id);
+					self.model.set("tinhthanh",currentUser.donvi.tinhthanh);
 					self.$el.find("#tinhthanh").prop('disabled', true);
 				}
 			}
@@ -134,15 +134,15 @@ define(function (require) {
 					},
 					error: function (xhr, status, error) {
 						try {
-							if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED") {
+							if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED"){
 								self.getApp().notify("Hết phiên làm việc, vui lòng đăng nhập lại!");
 								self.getApp().getRouter().navigate("login");
 							} else {
-								self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
+							  self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
 							}
 						}
 						catch (err) {
-							self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+						  self.getApp().notify({ message: "Lỗi không lấy được dữ liệu"}, { type: "danger", delay: 1000 });
 						}
 					}
 				});

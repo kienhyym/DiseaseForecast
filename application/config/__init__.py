@@ -17,8 +17,8 @@ class Config(object):
 
     TRANSACTION_TOKEN_EXPIRE_TIME = 120
     
-    # DOMAIN_URL = 'http://127.0.0.1:9081'
-    DOMAIN_URL = 'http://103.74.120.54:9081'
+    DOMAIN_URL = 'http://0.0.0.0:9081'
+    # DOMAIN_URL = 'http://103.74.120.54:9081'
     
     MAIL_SERVER_HOST = 'kienhyym.gmail.com'
     MAIL_SERVER_PORT = 587
@@ -37,6 +37,8 @@ class Config(object):
     FIREBASE_SERVER_KEY = "AIzaSyBj_Mat5FFPMAkXmUPjxjbgYby1Z9tkZgU"
 
 #     FS_ROOT= "/Users/namdv/workspace/thanhtra_moitruong/repo/static/uploads/"
-    FS_ROOT= "/opt/deploy/thanhtra-moitruong/repo/static/uploads/"
-    FILE_SERVICE_URL = 'http://103.74.120.65:9081/static/uploads'
+    # FS_ROOT= "/opt/deploy/thanhtra-moitruong/repo/static/uploads/"
+    FS_ROOT= "static/uploads/"
 
+    # FILE_SERVICE_URL = 'http://103.74.120.65:9081/static/uploads'
+    FILE_SERVICE_URL = '/static/uploads'

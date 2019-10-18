@@ -12,36 +12,74 @@ import random, string
 import aiofiles
 
     
+# @app.route('/api/v1/upload/file', methods=['POST'])
+# async def upload_file(request):
+#     ret = None
+#     url = app.config['FILE_SERVICE_URL']
+#     fsroot = app.config['FS_ROOT']
+#     if request.method == 'POST':
+#         try:
+#             file = request.files.get('file', None)
+#             if file :
+#                 rand = ''.join(random.choice(string.digits) for _ in range(15))
+#                 file_name = os.path.splitext(file.name)[0]
+#                 extname = os.path.splitext(file.name)[1]
+#     #             newfilename = file_name + "-" + rand + extname
+#                 newfilename = file_name + rand + extname
+                
+#                 async with aiofiles.open(fsroot + newfilename, 'wb+') as f:
+#                     await f.write(file.body)
+                
+#                 return json({
+#                         "error_code": "OK",
+#                         "error_message": "successful",
+#                         "id":rand,
+#                         "link":url  + "/" + newfilename,
+#                         "filename":newfilename,
+#                         "filename_organization":file_name,
+#                         "extname":extname
+#                     }, status=200)
+#         except Exception as e:
+#             raise e
+#     return json({
+#         "error_code": "Upload Error",
+#         "error_message": "Could not upload file to store"
+#     }, status=520)
+
+
+
 @app.route('/api/v1/upload/file', methods=['POST'])
 async def upload_file(request):
-    ret = None
     url = app.config['FILE_SERVICE_URL']
     fsroot = app.config['FS_ROOT']
     if request.method == 'POST':
-        try:
-            file = request.files.get('file', None)
-            if file :
-                rand = ''.join(random.choice(string.digits) for _ in range(15))
-                file_name = os.path.splitext(file.name)[0]
-                extname = os.path.splitext(file.name)[1]
-    #             newfilename = file_name + "-" + rand + extname
-                newfilename = file_name + rand + extname
-                
-                async with aiofiles.open(fsroot + newfilename, 'wb+') as f:
-                    await f.write(file.body)
-                
-                return json({
-                        "error_code": "OK",
-                        "error_message": "successful",
-                        "id":rand,
-                        "link":url  + "/" + newfilename,
-                        "filename":newfilename,
-                        "filename_organization":file_name,
-                        "extname":extname
-                    }, status=200)
-        except Exception as e:
-            raise e
+        file = request.files.get('file', None)
+
+        image = request.files.get('image')
+
+        if file :
+            rand = ''.join(random.choice(string.digits) for _ in range(15))
+            file_name = os.path.splitext(file.name)[0]
+            extname = os.path.splitext(file.name)[1]
+#             newfilename = file_name + "-" + rand + extname
+            newfilename = file_name + extname 
+
+            print(newfilename)
+            async with aiofiles.open(fsroot + newfilename, 'wb+') as f:
+                await f.write(file.body)
+            
+            return json({
+                    "error_code": "OK",
+                    "error_message": "successful",
+                    "id":rand,
+                    "link":url  + "/" + newfilename,
+                    "filename":newfilename,
+                    "filename_organization":file_name,
+                    "extname":extname
+                }, status=200)
+    
     return json({
         "error_code": "Upload Error",
         "error_message": "Could not upload file to store"
     }, status=520)
+

@@ -37,9 +37,6 @@
         "type": "string"
     },
     "quocgia": {
-        "type": "dict"
-    },
-    "quanhuyen": {
-        "type": "list"
+        "type": "json"
     }
 }

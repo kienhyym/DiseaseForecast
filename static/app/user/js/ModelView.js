@@ -153,6 +153,7 @@ define(function (require) {
 				this.model.fetch({
 					success: function (data) {
 						self.applyBindings();
+						
 					},
 					error: function () {
 						self.getApp().notify("Get data Eror");

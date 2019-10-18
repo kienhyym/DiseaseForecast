@@ -1,0 +1,52 @@
+{
+    "created_at": {
+        "type": "number"
+    },
+    "created_by": {
+        "type": "string"
+    },
+    "updated_at": {
+        "type": "number"
+    },
+    "updated_by": {
+        "type": "string"
+    },
+    "deleted": {
+        "type": "boolean",
+        "default": false
+    },
+    "deleted_by": {
+        "type": "string"
+    },
+    "deleted_at": {
+        "type": "number"
+    },
+    "id": {
+        "type": "string",
+        "primary": true
+    },
+    "email": {
+        "type": "string",
+        "length": 255
+    },
+    "password": {
+        "type": "string",
+        "length": 255
+    },
+    "to": {
+        "type": "string",
+        "length": 255
+    },
+    "message": {
+        "type": "string",
+        "length": 255
+    },
+    "subject": {
+        "type": "string",
+        "length": 255
+    },
+    "tailieu": {
+        "type": "string",
+        "length": 255
+    }
+}
