@@ -154,7 +154,7 @@ define(function (require) {
 								"password": self.$el.find("#pass").val(),
 							},
 							"to": item,
-							"message": self.$el.find("#content").html() +'Tài liệu đính kèm:'+ self.model.get("tailieu"),
+							"message": self.$el.find("#content").html() +'Tài liệu đính kèm:'+ self.getApp().serviceURL +self.model.get("tailieu"),
 							"subject": self.$el.find("#cc").val(),
 
 						}),
@@ -245,7 +245,7 @@ define(function (require) {
 			
 			}
 			self.$el.find(".linkDownload").attr("href", self.model.get("tailieu"));
-			self.$el.find(".textDownload").html(self.$el.find(".textDownload").html().slice(35))
+			self.$el.find(".textDownload").html(self.$el.find(".textDownload").html().slice(41))
 
 		},
 		saveModel: function () {

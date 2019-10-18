@@ -1,5 +1,6 @@
 static/js/lib
 static/js/lib1
+static/uploads
 static/vendor/GonrinUI
 alembic/**/__pycache__
 application/**/__pycache__
