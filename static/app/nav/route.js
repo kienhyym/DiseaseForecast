@@ -97,6 +97,16 @@ define(function (require) {
 			"route": "sendmail/model(/:id)",
 			"$ref": "app/sendmail/js/ModelView",
 		},
+		{
+			"collectionName": "sendzalo",
+			"route": "sendzalo/collection",
+			"$ref": "app/sendzalo/js/CollectionView",
+		},
+		{
+			"collectionName": "sendzalo",
+			"route": "sendzalo/model(/:id)",
+			"$ref": "app/sendzalo/js/ModelView",
+		},
 	];
 
 });

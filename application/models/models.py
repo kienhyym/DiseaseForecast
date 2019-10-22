@@ -129,4 +129,20 @@ class SendMail(CommonModel):
     tailieu = db.Column(String(255))
 
 
-
+class SendSMS(CommonModel):
+    __tablename__ = 'sendsms'
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=default_uuid)
+    to = db.Column(String(255))
+    content = db.Column(String(255))
+    sender = db.Column(String(255))
+    name = db.Column(String(255))
+    send_time = db.Column(String(255))
+    
+class SendZalo(CommonModel):
+    __tablename__ = 'sendzalo'
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=default_uuid)
+    to = db.Column(String(255))
+    content = db.Column(String(255))
+    sender = db.Column(String(255))
+    name = db.Column(String(255))
+    send_time = db.Column(String(255))

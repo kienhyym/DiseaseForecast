@@ -155,7 +155,7 @@ define(function (require) {
 	
 
 		{
-			"text": "Soạn tin nhắn",
+			"text": "Soạn tin nhắn gmail",
 			"icon": "fa fa-home",
 			"type": "view",
 			"collectionName": "sendmail",
@@ -171,6 +171,27 @@ define(function (require) {
 			"collectionName": "sendmail",
 			"route": "sendmail/model",
 			"$ref": "app/sendmail/js/ModelView",
+			"visible": function () {
+				return false;
+			}
+		},
+		{
+			"text": "Soạn tin nhắn zalo",
+			"icon": "fa fa-home",
+			"type": "view",
+			"collectionName": "sendzalo",
+			"route": "sendzalo/collection",
+			"$ref": "app/sendzalo/js/CollectionView",
+			"visible": function () {
+				return true;
+			}
+		},
+		
+		{
+			"type": "view",
+			"collectionName": "sendzalo",
+			"route": "sendzalo/model",
+			"$ref": "app/sendzalo/js/ModelView",
 			"visible": function () {
 				return false;
 			}
