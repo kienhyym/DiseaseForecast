@@ -96,51 +96,98 @@ define(function (require) {
 			var currentUser = self.getApp().currentUser;
 
 
+			
+
 
 
 
 			//UPLOAD FILE
-			self.bindEventSelect();
-			// self.applyBindings();
+			// self.bindEventSelect();
+			self.applyBindings();
+			var url = self.getApp().serviceURL + "/api/v1/user"
 
+			$.ajax({
+				url: url,
+				method: "GET",
+				contentType: "application/json",
+				success: function (data) {
+					var rabit = [];
+
+					data.objects.forEach(function (item, index) {
+						item.userconnectionchannels.forEach(function (item2, index2) {
+							if (item2.channelname == "Phone") {
+								rabit.push(item2.value)
+							}
+						})
+						self.$el.find("#to").val(rabit)
+					})
+					 console.log(rabit)
+				},
+				error: function (xhr, status, error) {
+					try {
+						if (($.parseJSON(xhr.responseText).error_code) === "SESSION_EXPIRED") {
+							self.getApp().notify("Hết phiên làm việc, vui lòng đăng nhập lại!");
+							self.getApp().getRouter().navigate("login");
+						} else {
+							self.getApp().notify({ message: $.parseJSON(xhr.responseText).error_message }, { type: "danger", delay: 1000 });
+						}
+					}
+					catch (err) {
+						self.getApp().notify({ message: "Không tìm thấy thông số" }, { type: "danger", delay: 1000 });
+					}
+				}
+			});
 			// self.renderUpload();
 
-
-
 			self.$el.find("#btn-send").bind("click", function () {
-				$.ajax({
-					type: "GET",
-					url: "https://openapi.zalo.me/v2.0/oa/getprofile?access_token=7oR0H1lc9IKG8Cj56U0k8HCcoKGQ-rKz5rBXF1l-U5fHIy9-0VHc7seoydeNyXTK6JVtIHtmSNXfBif-8ufLStOQr5KXWMvMJHpjR2ktQ5v5A8n-8R0CJ4qelNqGX2HRV1o1VWMCELfRDgv23B1AEmS8o3LAmoa44m6eE6IgIWq80yKVUfua37KXi20BWn8RLG3q3IUaLXri3T5yQR9iRGCDqW5li4atVX3m577GJ7KWGDDoJT9sN0b7wK5wrcPyC7M9S4_g5sygIuTsH4GyyzPK4FiY8W&data={'user_id':'0924025889'}",
-					data: "data",
-					dataType: "dataType",
-					success: function (response) {
-						Console.log("xxx",response)
-					}
-				});
+				var arr = self.$el.find("#to").val();
+				var res = arr.split(',');
+				var mees = self.$el.find("#content").val();
+				console.log(mees)
+				res.forEach(function(item){
+						var URL = "https://openapi.zalo.me/v2.0/oa/getprofile?access_token=1r2tNP-US4m8LhnSdPXxI0jGlbsUWpqt2ZgeT-7n9XaFQf1VuTuZDdTaasgGq2WQOsVaV93CVMbxTkSKlTjdG2zZf3wv-cXGK63N4xYbRq1G0AWreCup8cv0dL-Qa0LER0ErNPsV3mqGCRz_YO8E8M4Job2IgLiG1c32K9_gG4T-Uk8CxBP9QIDzxG3HrLTFF7dQ3Vtf7qmLM9afqiW0H4TgbXIXxWrZRNdAC-3NS3e5G-fazlDA3pXivaBhz4XN7rpnEl3sNMOcG9eLpCuYPg3zz2IKWtTB&data={'user_id':'" + item + "'}";
+					console.log(URL)
+
+					$.ajax({
+						type: "GET",
+						url: URL,
+						// url: "https://openapi.zalo.me/v2.0/oa/getfollowers?access_token=32BFHeZT1Zq39CH7YjiDEG0YnaQ9m4jaOaZfOhEpSazd6EvpbU5L2nfP_WVpnqiQVdo90FE07ZWY2vKzseW4HKi0d7k-lYm6K4ha2QgqLIzPJfmOeie912joaJlvnXWY5sU98lxHDrikS89AsEWxLoiNyMpnccra91Fc6-wgHHWB5SKVqUjUDXLFt1kGo6fdU6x8I9NLKN9pSvvUkujJTsiU-42-_qHcUrpcVVx7QbntMVb_aiPq1XrUndl9mNT31rZ0HElL2N0sIgDJnyvhMhpC-aw3m04w&data={'offset':0,'count':5}",
+						//url: "https://openapi.zalo.me/v2.0/oa/getoa?access_token=1r2tNP-US4m8LhnSdPXxI0jGlbsUWpqt2ZgeT-7n9XaFQf1VuTuZDdTaasgGq2WQOsVaV93CVMbxTkSKlTjdG2zZf3wv-cXGK63N4xYbRq1G0AWreCup8cv0dL-Qa0LER0ErNPsV3mqGCRz_YO8E8M4Job2IgLiG1c32K9_gG4T-Uk8CxBP9QIDzxG3HrLTFF7dQ3Vtf7qmLM9afqiW0H4TgbXIXxWrZRNdAC-3NS3e5G-fazlDA3pXivaBhz4XN7rpnEl3sNMOcG9eLpCuYPg3zz2IKWtTB",
+						data: "data",
+						dataType: 'json',
+						success: function (response) {
+							console.log('aaa', response.data.user_id);
+							$.ajax({
+								type: "POST",
+								url: "https://openapi.zalo.me/v2.0/oa/message?access_token=1r2tNP-US4m8LhnSdPXxI0jGlbsUWpqt2ZgeT-7n9XaFQf1VuTuZDdTaasgGq2WQOsVaV93CVMbxTkSKlTjdG2zZf3wv-cXGK63N4xYbRq1G0AWreCup8cv0dL-Qa0LER0ErNPsV3mqGCRz_YO8E8M4Job2IgLiG1c32K9_gG4T-Uk8CxBP9QIDzxG3HrLTFF7dQ3Vtf7qmLM9afqiW0H4TgbXIXxWrZRNdAC-3NS3e5G-fazlDA3pXivaBhz4XN7rpnEl3sNMOcG9eLpCuYPg3zz2IKWtTB",
+								data: JSON.stringify({
+									"recipient": {
+										"user_id": response.data.user_id
+									},
+									"message": {
+										"text": mees,
+									}
+								}),
+								success: function (response) {
+									self.getApp().notify({ message: "Da gui " });
+								},
+								error: function (response) {
+									self.getApp().notify({ message: "Tài khoản hoặc mật khẩu gmail không chính xác" }, { type: "danger", delay: 1000 });
+								}
+							});
+
+
+						}, error: function (response) {
+							self.getApp().notify({ message: "lỗi rồi" }, { type: "danger", delay: 1000 });
+						}
+
+					});
+				})
 				
 
-				// $.ajax({
-				// 	type: "POST",
-				// 	url: "https://openapi.zalo.me/v2.0/oa/message?access_token=7oR0H1lc9IKG8Cj56U0k8HCcoKGQ-rKz5rBXF1l-U5fHIy9-0VHc7seoydeNyXTK6JVtIHtmSNXfBif-8ufLStOQr5KXWMvMJHpjR2ktQ5v5A8n-8R0CJ4qelNqGX2HRV1o1VWMCELfRDgv23B1AEmS8o3LAmoa44m6eE6IgIWq80yKVUfua37KXi20BWn8RLG3q3IUaLXri3T5yQR9iRGCDqW5li4atVX3m577GJ7KWGDDoJT9sN0b7wK5wrcPyC7M9S4_g5sygIuTsH4GyyzPK4FiY8W",
-
-				// 	data: JSON.stringify({
-				// 		"recipient": {
-				// 			"user_id": "phuonglan1102"
-				// 		},
-				// 		"message": {
-				// 			"text": "hello, world!"
-				// 		}
-				// 	}),
-				// 	success: function (response) {
-				// 		self.getApp().notify({ message: "Da gui " });
-
-				// 	},
-				// 	error: function (response) {
-				// 		self.getApp().notify({ message: "Tài khoản hoặc mật khẩu gmail không chính xác" }, { type: "danger", delay: 1000 });
-				// 	}
+				
 
 
-				// });
 
 			})
 
