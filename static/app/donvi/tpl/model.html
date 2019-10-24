@@ -8,7 +8,7 @@
 	</div>
 	<!-- End Page Header -->
 	<div class="row">
-		<div class="col-lg-8 col-md-12">
+		<div class="col-lg-12 col-md-12">
 			<div class="card  card-small mb-4">
 				<div class="card-header  border-bottom">
 					<div class="row">
@@ -25,7 +25,7 @@
 				<div class="card-body">
 					<form class="needs-validation" novalidate="">
 						<div class="row">
-							<div class="col-md-6 mb-3">
+							<div class="col-md-4 mb-3">
 								<label>Mã Đơn Vị</label>
 								<input type="text" class="form-control" data-bind="value:ma"
 									placeholder="Nhập mã đơn vị" value="" required="">
@@ -33,7 +33,7 @@
 									Vui lòng nhập mã đơn vị.
 								</div>
 							</div>
-							<div class="col-md-6 mb-3">
+							<div class="col-md-8 mb-3">
 								<label>Tên đơn vị</label>
 								<input type="text" class="form-control" data-bind="value:ten"
 									placeholder="Nhập tên đơn vị " value="" required="">
@@ -44,7 +44,7 @@
 						</div>
 						<div class="mb-3">
 							<div class="row">
-								<div class="col-md-6 mb-3">
+								<div class="col-md-4 mb-3">
 									<label for="email">Email <span class="text-muted"></span></label>
 									<input type="email" class="form-control" id="email" data-bind="value:email"
 										placeholder="...">
@@ -52,10 +52,15 @@
 										Vui lòng nhập email để nhận thông báo.
 									</div>
 								</div>
-								<div class="col-md-6 mb-3">
-									<label for="tuyendonvi">Tuyen don</label>
-									<input type="text" class="form-control" id="tuyendonvi" data-bind="value:tuyendonvi"
-										placeholder="..." required="">
+								<div class="col-md-4 mb-3">
+									<label for="sodienthoai">Số điện thoại</label>
+									<input type="text" class="form-control" id="sodienthoai"
+										data-bind="value:sodienthoai" placeholder="..." required="">
+								</div>
+								<div class="col-md-4 mb-3">
+									<label for="nhanthongbaohaykhong">Có nhận cảnh bảo không</label>
+									<input type="text" class="form-control" id="nhanthongbaohaykhong"
+										data-bind="value:nhanthongbaohaykhong" placeholder="..." required="">
 								</div>
 							</div>
 
@@ -63,21 +68,22 @@
 
 
 						<div class="row">
-							<div class="col-md-6 mb-3">
+							<div class="col-md-4 mb-3">
 								<label for="cc-name">Tỉnh/Thành phố</label>
 								<input type="text" class="form-control" id="tinhthanh" data-bind="dict:tinhthanh"
 									placeholder="..." required="">
 							</div>
-							<div class="col-md-6 mb-3">
+							<div class="col-md-4 mb-3">
 								<label for="cc-number">Quận/Huyện</label>
 								<input type="text" class="form-control" id="quanhuyen" data-bind="dict:quanhuyen"
 									placeholder="..." required="">
 							</div>
-							<div class="col-md-6 mb-3">
+							<div class="col-md-4 mb-3">
 								<label for="cc-expiration">Xã/Phường</label>
 								<input type="text" class="form-control" id="xaphuong" placeholder="..."
 									data-bind="dict:xaphuong" required="">
 							</div>
+							
 
 						</div>
 						<div class="mb-3">
@@ -85,9 +91,19 @@
 							<textarea rows="3" class="form-control" data-bind="value:diachi" placeholder="..."
 								required=""></textarea>
 						</div>
-						<!-- <hr class="mb-4">
-						<button id="btn_save_info" class="btn btn-info btn-lg btn-block" type="submit">Lưu thông
-							tin</button> -->
+							<table class="table table-bordered text-center">
+								<tr>
+									<th style="width: 100px;padding-left: 0px;padding-right: 0px;">Tên</th>
+									<th style="width: 100px;padding-left: 0px;padding-right: 0px;">Vai trò</th>
+									<th style="width: 100px;padding-left: 0px;padding-right: 0px;">Email</th>
+									<th style="width: 80px;padding-left: 0px;padding-right: 0px;">Điện thoại</th>
+									<th style="width: 80px;padding-left: 0px;padding-right: 0px;">Zalo ID</th>
+									<th style="width: 150px;padding-left: 0px;padding-right: 0px;">Chọn loại thông báo</th>
+									<th style="width: 10px;padding-left: 0px;padding-right: 0px;">Xóa</th>
+								</tr>
+								<tbody id="danhsach_users"></tbody>
+
+							</table>
 					</form>
 				</div>
 			</div>

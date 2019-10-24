@@ -27,7 +27,11 @@
     },
     "phone_number": {
         "type": "string",
-        "length": 50
+        "length": 11
+    },
+    "phone_zalo": {
+        "type": "string",
+        "length": 11
     },
     "email": {
         "type": "string",
@@ -43,26 +47,17 @@
     "salt": {
         "type": "string"
     },
-    "type": {
-        "type": "string"
-    },
     "donvi_id": {
         "type": "string"
     },
-    "description": {
-        "type": "string"
-    },
-    "active": {
-        "type": "boolean",
-        "default": true
+    "phancapnhanbaocao": {
+        "type": "string",
+        "length": 50
     },
     "donvi": {
         "type": "dict"
     },
     "roles": {
-        "type": "list"
-    },
-    "userconnectionchannels": {
         "type": "list"
     }
 }

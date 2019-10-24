@@ -46,12 +46,9 @@
         "type": "string",
         "length": 255
     },
-    "ghichu": {
+    "nhanthongbaohaykhong": {
         "type": "string",
-        "length": 255
-    },
-    "vungmien": {
-        "type": "number"
+        "length": 7
     },
     "tinhthanh_id": {
         "type": "string"
@@ -71,33 +68,7 @@
     "xaphuong": {
         "type": "json"
     },
-    "tuyendonvi": {
-        "type": "number",
-        "required": true
-    },
-    "coquanchuquan": {
-        "type": "string",
-        "length": 255
-    },
-    "parent_id": {
-        "type": "number"
-    },
-    "giamdoc": {
-        "type": "string"
-    },
-    "sdtgiamdoc": {
-        "type": "string"
-    },
-    "emailgiamdoc": {
-        "type": "string"
-    },
-    "phogiamdoc": {
-        "type": "string"
-    },
-    "sdtphogiamdoc": {
-        "type": "string"
-    },
-    "emailphogiamdoc": {
-        "type": "string"
+    "user_shield": {
+        "type": "list"
     }
 }

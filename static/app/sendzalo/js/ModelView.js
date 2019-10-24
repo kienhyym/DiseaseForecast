@@ -96,13 +96,15 @@ define(function (require) {
 			var currentUser = self.getApp().currentUser;
 
 
-			
+
 
 
 
 
 			//UPLOAD FILE
-			// self.bindEventSelect();
+			self.bindEventSelect();
+			self.renderUpload();
+
 			self.applyBindings();
 			var url = self.getApp().serviceURL + "/api/v1/user"
 
@@ -121,7 +123,7 @@ define(function (require) {
 						})
 						self.$el.find("#to").val(rabit)
 					})
-					 console.log(rabit)
+					console.log(rabit)
 				},
 				error: function (xhr, status, error) {
 					try {
@@ -137,15 +139,12 @@ define(function (require) {
 					}
 				}
 			});
-			// self.renderUpload();
 
 			self.$el.find("#btn-send").bind("click", function () {
 				var arr = self.$el.find("#to").val();
 				var res = arr.split(',');
-				var mees = self.$el.find("#content").val();
-				console.log(mees)
-				res.forEach(function(item){
-						var URL = "https://openapi.zalo.me/v2.0/oa/getprofile?access_token=1r2tNP-US4m8LhnSdPXxI0jGlbsUWpqt2ZgeT-7n9XaFQf1VuTuZDdTaasgGq2WQOsVaV93CVMbxTkSKlTjdG2zZf3wv-cXGK63N4xYbRq1G0AWreCup8cv0dL-Qa0LER0ErNPsV3mqGCRz_YO8E8M4Job2IgLiG1c32K9_gG4T-Uk8CxBP9QIDzxG3HrLTFF7dQ3Vtf7qmLM9afqiW0H4TgbXIXxWrZRNdAC-3NS3e5G-fazlDA3pXivaBhz4XN7rpnEl3sNMOcG9eLpCuYPg3zz2IKWtTB&data={'user_id':'" + item + "'}";
+				res.forEach(function (item) {
+					var URL = "https://openapi.zalo.me/v2.0/oa/getprofile?access_token=1r2tNP-US4m8LhnSdPXxI0jGlbsUWpqt2ZgeT-7n9XaFQf1VuTuZDdTaasgGq2WQOsVaV93CVMbxTkSKlTjdG2zZf3wv-cXGK63N4xYbRq1G0AWreCup8cv0dL-Qa0LER0ErNPsV3mqGCRz_YO8E8M4Job2IgLiG1c32K9_gG4T-Uk8CxBP9QIDzxG3HrLTFF7dQ3Vtf7qmLM9afqiW0H4TgbXIXxWrZRNdAC-3NS3e5G-fazlDA3pXivaBhz4XN7rpnEl3sNMOcG9eLpCuYPg3zz2IKWtTB&data={'user_id':'" + item + "'}";
 					console.log(URL)
 
 					$.ajax({
@@ -165,7 +164,7 @@ define(function (require) {
 										"user_id": response.data.user_id
 									},
 									"message": {
-										"text": mees,
+										"text": self.$el.find("#content").val(),
 									}
 								}),
 								success: function (response) {
@@ -182,11 +181,34 @@ define(function (require) {
 						}
 
 					});
+
+					// $.ajax({
+					// 	url: self.getApp().serviceURL + "/api/v1/sendzalo",
+					// 	method: "POST",
+					// 	data: JSON.stringify({
+					// 		"id": gonrin.uuid(),
+					// 		"message": self.$el.find("#cc").val(),
+					// 		"to": self.$el.find("#to").val(),
+					// 		"tailieu": self.getApp().serviceURL + mdel,
+					// 	}),
+					// 	contentType: "application/json",
+					// 	success: function (data) {
+
+					// 		self.getApp().notify({ message: "Đã gửi tin" });
+					// 	},
+					// 	error: function (xhr, status, error) {
+					// 		try {
+					// 			if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED") {
+					// 				self.getApp().notify("Hết phiên làm việc, vui lòng đăng nhập lại!");
+					// 			} else {
+					// 				self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
+					// 			}
+					// 		} catch (err) {
+					// 			self.getApp().notify({ message: "Có lỗi xảy ra, vui lòng thử lại sau" }, { type: "danger", delay: 1000 });
+					// 		}
+					// 	}
+					// });
 				})
-				
-
-				
-
 
 
 			})
@@ -376,3 +398,8 @@ define(function (require) {
 		},
 	});
 });
+
+
+
+
+

@@ -40,6 +40,8 @@ define(function (require) {
 							self.model.save(null, {
 								success: function (model, respose, options) {
 									self.getApp().notify("Lưu thông tin thành công");
+									self.getApp().getRouter().navigate(self.collectionName + "/collection");
+
 								},
 								error: function (xhr, status, error) {
 									try {
@@ -113,17 +115,16 @@ define(function (require) {
 					foreignField: "tinhthanh_id",
 					dataSource: TinhThanhSelectView
 				},
-				// {
-				// 	field: "type",
-				// 	uicontrol: "combobox",
-				// 	textField: "text",
-				// 	valueField: "value",
-				// 	dataSource: [
-				// 		{ "value": "loai1", "text": "Doanh nghiệp nhà nước" },
-				// 		{ "value": "loai2", "text": "Doanh nghiệp tư nhân" },
-				// 		{ "value": "loai3", "text": "Doanh nghiệp cổ phần" },
-				// 	],
-				// },
+				{
+					field: "nhanthongbaohaykhong",
+					uicontrol: "combobox",
+					textField: "text",
+					valueField: "value",
+					dataSource: [
+						{ "value": "co", "text": "Nhận cảnh bảo" },
+						{ "value": "khong", "text": "Không nhận cảnh bảo" },
+					],
+				},
 			]
 		},
 		render: function () {
@@ -138,7 +139,7 @@ define(function (require) {
 				this.model.fetch({
 					success: function (data) {
 						self.applyBindings();
-						self.registerEvent();
+						self.danhSachUser();
 						self.model.on("change:tinhthanh_id", function () {
 							self.getFieldElement("quanhuyen").data("gonrin").setFilters({ "tinhthanh_id": { "$eq": self.model.get("tinhthanh_id") } });
 						});
@@ -162,36 +163,20 @@ define(function (require) {
 				});
 			} else {
 				self.applyBindings();
-				self.registerEvent();
-
+				self.danhSachUser();
 				self.model.on("change:tinhthanh_id", function () {
-					console.log("change tinh thanh", self.model.get("tinhthanh_id"));
+					// console.log("change tinh thanh", self.model.get("tinhthanh_id"));
 					self.getFieldElement("quanhuyen").data("gonrin").setFilters({ "tinhthanh_id": { "$eq": self.model.get("tinhthanh_id") } });
 				});
 				self.model.on("change:quanhuyen_id", function () {
 					self.getFieldElement("xaphuong").data("gonrin").setFilters({ "quanhuyen_id": { "$eq": self.model.get("quanhuyen_id") } });
-					console.log("change quanhuyen", self.model.get("quanhuyen_id"));
+					// console.log("change quanhuyen", self.model.get("quanhuyen_id"));
 				});
 			}
 
 		},
 
-		registerEvent: function () {
-			const self = this;
 
-
-			var data = [
-				{ "TUOI": "19", "KEY": 19 },
-				{"TUOI": "29", "KEY": 29 },
-			]
-
-			self.$el.find("#combobox").combobox({
-				textField: "TUOI",
-				valueField: "KEY",
-				dataSource: data,
-				value: 19
-			});
-		},
 
 		validateEmail: function (email) {
 			var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -208,6 +193,209 @@ define(function (require) {
 			} else {
 				return false;
 			}
-		}
+		},
+		danhSachUser: function () {
+			var self = this;
+			var userShield = self.model.get('user_shield');
+			var rabit = self.model.get('user_shield');
+
+
+
+			rabit.forEach(function (item, index) {
+				// console.log(item)
+				self.$el.find('#danhsach_users').append('<tr class="record"><td class="p-0" style="line-height:40px;font-size:12px;">' + item.name + '</td>' +
+					'<td class="p-1"><select class="selectpicker form-control multiselect_vaitro" multiple data-live-search="true" data-actions-box="true" data-noneSelectedText="Chọn vai trò" title="Chọn vai trò"></select></td>'
+					+ '<td class="p-0" style="line-height:40px;font-size:12px;">' + item.email + '</td><td class="p-0" style="line-height:40px;font-size:12px;">' + item.phone_number + '</td><td class="p-0" style="line-height:40px;font-size:12px;">' + item.phone_zalo + '</td><td class="p-1"><input type="text" class="form-control loaithongbao" ></td><td class="p-0 pt-1"><button class="btn btn-danger del">X</button></td></tr>');
+
+				self.$el.find('.loaithongbao').combobox({
+					textField: "loaithongbao",
+					valueField: "id",
+					dataSource: [
+						{ loaithongbao: "Nhận thông báo loại 1", id: 'loai1' },
+						{ loaithongbao: "Nhận thông báo loại 2", id: 'loai2' },
+						{ loaithongbao: "Nhận thông báo loại 3", id: 'loai3' },
+						{ loaithongbao: "Không nhận thông báo", id: 'loai4' },
+					],
+				});
+			})
+			self.getVaiTro();
+
+
+		
+
+
+
+			self.$el.find('.loaithongbao').each(function (index, item) {
+				index, self.$el.find(item).data('gonrin').setValue(userShield[index].phancapnhanbaocao);
+			})
+
+			self.$el.find('.loaithongbao').each(function (item, index) {
+				index.onchange = function (e) {
+					userShield[item].phancapnhanbaocao = index.value;
+					self.model.set("user_shield", userShield);
+				};
+			})
+			self.$el.find('.del').each(function (item, index) {
+				self.$el.find(index).unbind('click').bind('click', function () {
+					var userShield2 = self.model.get("user_shield");
+
+					console.log('item', item)
+					console.log('index', index)
+
+					userShield2.splice(item, 1);
+					console.log(userShield2)
+					self.$el.find('.record').remove();
+					rabit.forEach(function (item, index) {
+						self.$el.find('#danhsach_users').append('<tr class="record"><td class="p-0" style="line-height:40px;font-size:10px;">' + item.name + '</td>' +
+							'<td class="p-1"><select class="selectpicker form-control multiselect_vaitro" multiple data-live-search="true" data-actions-box="true" data-noneSelectedText="Chọn vai trò" title="Chọn vai trò"></select></td>'
+							+ '<td class="p-0" style="line-height:40px;font-size:12px;">' + item.email + '</td><td class="p-0" style="line-height:40px;font-size:12px;">' + item.phone_number + '</td><td class="p-0" style="line-height:40px;font-size:12px;">' + item.phone_zalo + '</td><td class="p-1"><input type="text" class="form-control loaithongbao" ></td><td class="p-0 pt-1"><button class="btn btn-danger del">X</button></td></tr>');
+
+						self.$el.find('.loaithongbao').combobox({
+							textField: "loaithongbao",
+							valueField: "id",
+							dataSource: [
+								{ loaithongbao: "Nhận thông báo loại 1", id: 'loai1' },
+								{ loaithongbao: "Nhận thông báo loại 2", id: 'loai2' },
+								{ loaithongbao: "Nhận thông báo loại 3", id: 'loai3' },
+								{ loaithongbao: "Không nhận thông báo", id: 'loai4' },
+							],
+						});
+					});
+
+					self.$el.find('.loaithongbao').each(function (index, item) {
+						self.$el.find(item).data('gonrin').setValue(userShield2[index].phancapnhanbaocao);
+					});
+
+					self.model.set("user_shield", userShield2);
+
+				})
+
+
+			})
+
+
+		},
+		getVaiTro: function () {
+			var self = this;
+			var url = self.getApp().serviceURL + "/api/v1/role";
+			// self.model.get("user_shield").forEach(function (item,index) {
+			// 	console.log(item.id)
+			// })
+			self.$el.find(".multiselect_vaitro").each(function (item, index) {
+			
+				$.ajax({
+					url: url,
+					method: "GET",
+					contentType: "application/json",
+					success: function (data) {
+
+						$(index).html("");
+						for (var i = 0; i < data.objects.length; i++) {
+							var item1 = data.objects[i];
+							var data_str = encodeURIComponent(JSON.stringify(item1));
+							var option_elm = $('<option>').attr({ 'value': item1.id, 'data-ck': data_str }).html(item1.name)
+							$(index).append(option_elm);
+						}
+						$.fn.selectpicker.Constructor.DEFAULTS.multipleSeparator = ' | ';
+						$.ajax({
+							url: self.getApp().serviceURL + "/api/v1/user",
+							method: "GET",
+							contentType: "application/json",
+							success: function (data) {
+								data.objects.forEach(function (index2, item2) {
+									if (item2 == item) {
+										var danhmuclinhvuc_foreign = index2.roles;
+										var val_danhmuclinhvuc_foreign = [];
+										if (val_danhmuclinhvuc_foreign !== null) {
+											for (var i = 0; i < danhmuclinhvuc_foreign.length; i++) {
+												val_danhmuclinhvuc_foreign.push(danhmuclinhvuc_foreign[i].id);
+											}
+										}
+										$(index).selectpicker('val', val_danhmuclinhvuc_foreign);
+									}
+								})
+							},
+							error: function (xhr, status, error) {
+								console.log("Không lấy được dữ liệu linh vuc");
+							},
+						});
+
+
+					},
+					error: function (xhr, status, error) {
+						console.log("Không lấy được dữ liệu linh vuc");
+					},
+				});
+
+
+
+				$(index).on("change",function(){
+					$.ajax({
+						url: self.getApp().serviceURL + "/api/v1/user",
+						method: "GET",
+						contentType: "application/json",
+						success: function (data2) {
+							var userRole = [];
+							data2.objects.forEach(function (index2, item2) {
+								if (item2 == item) {
+									$.ajax({
+										url: self.getApp().serviceURL + "/api/v1/role",
+										method: "GET",
+										contentType: "application/json",
+										success: function (data3) {
+											data3.objects.forEach(function (index3, item3) {
+												// console.log(index3.id)
+													var xxx =$(index).val();
+													xxx.forEach(function (index4,item4) {
+														if(index4 == index3.id){
+															userRole.push(index3)
+														}
+													})
+											})
+											console.log(index2.roles)
+											// console.log(userRole)
+											var param = {
+												roles:userRole
+											}
+											self.$el.find('.btn-success').bind("click",function(){
+												$.ajax({
+													url: self.getApp().serviceURL + "/api/v1/user/"+index2.id,
+													method: "PUT",
+													data: JSON.stringify(param),
+													headers: {
+														'content-type': 'application/json'
+													},
+													dataType: 'json',
+													success: function () {
+														// self.getApp().notify("Đã thành công");
+	
+													},
+													error: function (xhr, status, error) {
+														console.log("Không lấy được dữ liệu vai tro");
+													},
+												});
+											})
+											
+										},
+										error: function (xhr, status, error) {
+											console.log("Không lấy được dữ liệu vai tro");
+										},
+									});
+								}
+							})
+						},
+						error: function (xhr, status, error) {
+							console.log("Không lấy được dữ liệu vai tro");
+						},
+					});
+				})
+			})
+
+
+
+
+
+
+		},
 	});
 });

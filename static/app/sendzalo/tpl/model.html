@@ -19,17 +19,14 @@
 				<div class="card-body">
 					
 					<label>Số điện thoại đăng ký zalo</label>
-					<input type="text" class="form-control" id="to">
-					<label>Tiêu đề</label>
-					<input type="text" class="form-control" value="Thông báo có dịch sốt xuât huyết" id="cc">
-
+					<input type="text" class="form-control" id="to" data-bind="value:to">
+				
 					<label>nội dung</label>
-					<textarea rows="10" class="form-control" id="content">
+					<textarea rows="10" class="form-control" id="content" data-bind="value:message">
 							Chúng tôi thấy xuất hiện có trường hợp sốt xuất huyết đầu tiên tại Hà Nội
 					</textarea>
 
-				
-					<!-- <div class="row">
+					<div class="row">
 						<div class="form-group col">
 							<label>Tài liệu đính kèm</label>
 							<div id="upload-tailieu">
@@ -48,7 +45,7 @@
 							</div>
 
 						</div>
-					</div> -->
+					</div>
 					<div class="d-flex justify-content-end">
 						<button type="button" class="btn btn-primary mt-2" id="btn-send">Gửi</button>
 					</div>

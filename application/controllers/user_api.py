@@ -225,26 +225,8 @@ sqlapimanager.create_api(DonVi, max_results_per_page=1000000,
     # preprocess=dict(GET_SINGLE=[auth_func], GET_MANY=[auth_func], POST=[auth_func], PUT_SINGLE=[auth_func]),
     collection_name='donvi')
 
-sqlapimanager.create_api(UserConnectionChannel, max_results_per_page=1000000,
+sqlapimanager.create_api(SendWarning, max_results_per_page=1000000,
     methods=['GET'],
     url_prefix='/api/v1',
     # preprocess=dict(GET_SINGLE=[auth_func], GET_MANY=[auth_func], POST=[auth_func], PUT_SINGLE=[auth_func]),
-    collection_name='userconnectionchannel')
-
-sqlapimanager.create_api(SendMail, max_results_per_page=1000000,
-    methods=['GET'],
-    url_prefix='/api/v1',
-    # preprocess=dict(GET_SINGLE=[auth_func], GET_MANY=[auth_func], POST=[auth_func], PUT_SINGLE=[auth_func]),
-    collection_name='sendmail')
-
-sqlapimanager.create_api(SendSMS, max_results_per_page=1000000,
-    methods=['GET'],
-    url_prefix='/api/v1',
-    # preprocess=dict(GET_SINGLE=[auth_func], GET_MANY=[auth_func], POST=[auth_func], PUT_SINGLE=[auth_func]),
-    collection_name='sendsms')
-
-sqlapimanager.create_api(SendZalo, max_results_per_page=1000000,
-    methods=['GET'],
-    url_prefix='/api/v1',
-    # preprocess=dict(GET_SINGLE=[auth_func], GET_MANY=[auth_func], POST=[auth_func], PUT_SINGLE=[auth_func]),
-    collection_name='sendzalo')
+    collection_name='sendwarning')
