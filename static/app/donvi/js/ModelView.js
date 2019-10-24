@@ -165,12 +165,10 @@ define(function (require) {
 				self.applyBindings();
 				self.danhSachUser();
 				self.model.on("change:tinhthanh_id", function () {
-					// console.log("change tinh thanh", self.model.get("tinhthanh_id"));
 					self.getFieldElement("quanhuyen").data("gonrin").setFilters({ "tinhthanh_id": { "$eq": self.model.get("tinhthanh_id") } });
 				});
 				self.model.on("change:quanhuyen_id", function () {
 					self.getFieldElement("xaphuong").data("gonrin").setFilters({ "quanhuyen_id": { "$eq": self.model.get("quanhuyen_id") } });
-					// console.log("change quanhuyen", self.model.get("quanhuyen_id"));
 				});
 			}
 
@@ -202,7 +200,6 @@ define(function (require) {
 
 
 			rabit.forEach(function (item, index) {
-				// console.log(item)
 				self.$el.find('#danhsach_users').append('<tr class="record"><td class="p-0" style="line-height:40px;font-size:12px;">' + item.name + '</td>' +
 					'<td class="p-1"><select class="selectpicker form-control multiselect_vaitro" multiple data-live-search="true" data-actions-box="true" data-noneSelectedText="Chọn vai trò" title="Chọn vai trò"></select></td>'
 					+ '<td class="p-0" style="line-height:40px;font-size:12px;">' + item.email + '</td><td class="p-0" style="line-height:40px;font-size:12px;">' + item.phone_number + '</td><td class="p-0" style="line-height:40px;font-size:12px;">' + item.phone_zalo + '</td><td class="p-1"><input type="text" class="form-control loaithongbao" ></td><td class="p-0 pt-1"><button class="btn btn-danger del">X</button></td></tr>');
@@ -221,7 +218,7 @@ define(function (require) {
 			self.getVaiTro();
 
 
-		
+
 
 
 
@@ -238,39 +235,11 @@ define(function (require) {
 			self.$el.find('.del').each(function (item, index) {
 				self.$el.find(index).unbind('click').bind('click', function () {
 					var userShield2 = self.model.get("user_shield");
-
-					console.log('item', item)
-					console.log('index', index)
-
 					userShield2.splice(item, 1);
-					console.log(userShield2)
-					self.$el.find('.record').remove();
-					rabit.forEach(function (item, index) {
-						self.$el.find('#danhsach_users').append('<tr class="record"><td class="p-0" style="line-height:40px;font-size:10px;">' + item.name + '</td>' +
-							'<td class="p-1"><select class="selectpicker form-control multiselect_vaitro" multiple data-live-search="true" data-actions-box="true" data-noneSelectedText="Chọn vai trò" title="Chọn vai trò"></select></td>'
-							+ '<td class="p-0" style="line-height:40px;font-size:12px;">' + item.email + '</td><td class="p-0" style="line-height:40px;font-size:12px;">' + item.phone_number + '</td><td class="p-0" style="line-height:40px;font-size:12px;">' + item.phone_zalo + '</td><td class="p-1"><input type="text" class="form-control loaithongbao" ></td><td class="p-0 pt-1"><button class="btn btn-danger del">X</button></td></tr>');
-
-						self.$el.find('.loaithongbao').combobox({
-							textField: "loaithongbao",
-							valueField: "id",
-							dataSource: [
-								{ loaithongbao: "Nhận thông báo loại 1", id: 'loai1' },
-								{ loaithongbao: "Nhận thông báo loại 2", id: 'loai2' },
-								{ loaithongbao: "Nhận thông báo loại 3", id: 'loai3' },
-								{ loaithongbao: "Không nhận thông báo", id: 'loai4' },
-							],
-						});
-					});
-
-					self.$el.find('.loaithongbao').each(function (index, item) {
-						self.$el.find(item).data('gonrin').setValue(userShield2[index].phancapnhanbaocao);
-					});
-
+					$(self.$el.find('.record')[item]).remove();
 					self.model.set("user_shield", userShield2);
 
 				})
-
-
 			})
 
 
@@ -278,11 +247,7 @@ define(function (require) {
 		getVaiTro: function () {
 			var self = this;
 			var url = self.getApp().serviceURL + "/api/v1/role";
-			// self.model.get("user_shield").forEach(function (item,index) {
-			// 	console.log(item.id)
-			// })
 			self.$el.find(".multiselect_vaitro").each(function (item, index) {
-			
 				$.ajax({
 					url: url,
 					method: "GET",
@@ -305,31 +270,31 @@ define(function (require) {
 								data.objects.forEach(function (index2, item2) {
 									if (item2 == item) {
 										var danhmuclinhvuc_foreign = index2.roles;
-										var val_danhmuclinhvuc_foreign = [];
-										if (val_danhmuclinhvuc_foreign !== null) {
+										var val_vaitro = [];
+										if (val_vaitro !== null) {
 											for (var i = 0; i < danhmuclinhvuc_foreign.length; i++) {
-												val_danhmuclinhvuc_foreign.push(danhmuclinhvuc_foreign[i].id);
+												val_vaitro.push(danhmuclinhvuc_foreign[i].id);
 											}
 										}
-										$(index).selectpicker('val', val_danhmuclinhvuc_foreign);
+										$(index).selectpicker('val', val_vaitro);
 									}
 								})
 							},
 							error: function (xhr, status, error) {
-								console.log("Không lấy được dữ liệu linh vuc");
+								self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
 							},
 						});
 
 
 					},
 					error: function (xhr, status, error) {
-						console.log("Không lấy được dữ liệu linh vuc");
+						self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
 					},
 				});
 
 
 
-				$(index).on("change",function(){
+				$(index).on("change", function () {
 					$.ajax({
 						url: self.getApp().serviceURL + "/api/v1/user",
 						method: "GET",
@@ -344,22 +309,19 @@ define(function (require) {
 										contentType: "application/json",
 										success: function (data3) {
 											data3.objects.forEach(function (index3, item3) {
-												// console.log(index3.id)
-													var xxx =$(index).val();
-													xxx.forEach(function (index4,item4) {
-														if(index4 == index3.id){
-															userRole.push(index3)
-														}
-													})
+												var xxx = $(index).val();
+												xxx.forEach(function (index4, item4) {
+													if (index4 == index3.id) {
+														userRole.push(index3)
+													}
+												})
 											})
-											console.log(index2.roles)
-											// console.log(userRole)
 											var param = {
-												roles:userRole
+												roles: userRole
 											}
-											self.$el.find('.btn-success').bind("click",function(){
+											self.$el.find('.btn-success').bind("click", function () {
 												$.ajax({
-													url: self.getApp().serviceURL + "/api/v1/user/"+index2.id,
+													url: self.getApp().serviceURL + "/api/v1/user/" + index2.id,
 													method: "PUT",
 													data: JSON.stringify(param),
 													headers: {
@@ -367,25 +329,23 @@ define(function (require) {
 													},
 													dataType: 'json',
 													success: function () {
-														// self.getApp().notify("Đã thành công");
-	
 													},
 													error: function (xhr, status, error) {
-														console.log("Không lấy được dữ liệu vai tro");
+														self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
 													},
 												});
 											})
-											
+
 										},
 										error: function (xhr, status, error) {
-											console.log("Không lấy được dữ liệu vai tro");
+											self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
 										},
 									});
 								}
 							})
 						},
 						error: function (xhr, status, error) {
-							console.log("Không lấy được dữ liệu vai tro");
+							self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
 						},
 					});
 				})
