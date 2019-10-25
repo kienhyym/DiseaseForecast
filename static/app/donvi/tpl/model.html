@@ -25,7 +25,11 @@
 				<div class="card-body">
 					<form class="needs-validation" novalidate="">
 						<div class="row">
-							<div class="col-md-4 mb-3">
+								<div class="col-md-3 mb-3">
+										<label>Đơn vị cấp:</label>
+										<input type="text" class="form-control" data-bind="value:captren_id"  id="captren" required="">
+									</div>
+							<div class="col-md-3 mb-3">
 								<label>Mã Đơn Vị</label>
 								<input type="text" class="form-control" data-bind="value:ma"
 									placeholder="Nhập mã đơn vị" value="" required="">
@@ -33,7 +37,7 @@
 									Vui lòng nhập mã đơn vị.
 								</div>
 							</div>
-							<div class="col-md-8 mb-3">
+							<div class="col-md-6 mb-3">
 								<label>Tên đơn vị</label>
 								<input type="text" class="form-control" data-bind="value:ten"
 									placeholder="Nhập tên đơn vị " value="" required="">
@@ -41,6 +45,7 @@
 									Vui lòng nhập Tên đơn vị.
 								</div>
 							</div>
+							
 						</div>
 						<div class="mb-3">
 							<div class="row">

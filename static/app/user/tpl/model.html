@@ -42,25 +42,31 @@
 									Vui lòng nhập email.
 								</div>
 							</div>
-							
+
 
 						</div>
-						<div class="row mb-3">	
+						<div class="row mb-3">
 							<div class="col-md-6">
 								<label for="phone_number">Điện thoại liên hệ</label>
 								<input type="text" class="form-control" id="phone_number" data-bind="value:phone_number"
 									placeholder="..." required="">
 							</div>
 							<div class="col-md-6">
-									<label for="password">Đơn vị<span class="text-muted"></span></label>
-									<input id="donvi" type="text" data-bind="dict:donvi" />
+								<label for="phone_zalo">Điện thoại đăng ký zalo</label>
+								<input type="text" class="form-control" id="phone_zalo" data-bind="value:phone_zalo"
+									placeholder="..." required="">
 							</div>
+
 						</div>
 
-							<div class="row mb-3">	
-							<div class="col-md-12">
-									<label for="password">Loại người dùng <span class="text-muted"></span></label>
-									<input type="text" data-bind="list:roles" />
+						<div class="row mb-3">
+							<div class="col-md-6">
+								<label for="password">Đơn vị<span class="text-muted"></span></label>
+								<input id="donvi" type="text" data-bind="dict:donvi" />
+							</div>
+							<div class="col-md-6">
+								<label for="password">Loại người dùng <span class="text-muted"></span></label>
+								<input type="text" data-bind="list:roles" readonly />
 							</div>
 
 						</div>

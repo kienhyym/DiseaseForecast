@@ -155,12 +155,12 @@ define(function (require) {
 	
 
 		{
-			"text": "Soạn tin nhắn gmail",
+			"text": "Quản lý gửi thông báo",
 			"icon": "fa fa-home",
 			"type": "view",
-			"collectionName": "sendmail",
-			"route": "sendmail/collection",
-			"$ref": "app/sendmail/js/CollectionView",
+			"collectionName": "sendwarning",
+			"route": "sendwarning/collection",
+			"$ref": "app/sendwarning/js/CollectionView",
 			"visible": function () {
 				return true;
 			}
@@ -168,34 +168,34 @@ define(function (require) {
 		
 		{
 			"type": "view",
-			"collectionName": "sendmail",
-			"route": "sendmail/model",
-			"$ref": "app/sendmail/js/ModelView",
+			"collectionName": "sendwarning",
+			"route": "sendwarning/model",
+			"$ref": "app/sendwarning/js/ModelView",
 			"visible": function () {
 				return false;
 			}
 		},
-		{
-			"text": "Soạn tin nhắn zalo",
-			"icon": "fa fa-home",
-			"type": "view",
-			"collectionName": "sendzalo",
-			"route": "sendzalo/collection",
-			"$ref": "app/sendzalo/js/CollectionView",
-			"visible": function () {
-				return true;
-			}
-		},
+		// {
+		// 	"text": "Soạn tin nhắn zalo",
+		// 	"icon": "fa fa-home",
+		// 	"type": "view",
+		// 	"collectionName": "sendzalo",
+		// 	"route": "sendzalo/collection",
+		// 	"$ref": "app/sendzalo/js/CollectionView",
+		// 	"visible": function () {
+		// 		return true;
+		// 	}
+		// },
 		
-		{
-			"type": "view",
-			"collectionName": "sendzalo",
-			"route": "sendzalo/model",
-			"$ref": "app/sendzalo/js/ModelView",
-			"visible": function () {
-				return false;
-			}
-		},
+		// {
+		// 	"type": "view",
+		// 	"collectionName": "sendzalo",
+		// 	"route": "sendzalo/model",
+		// 	"$ref": "app/sendzalo/js/ModelView",
+		// 	"visible": function () {
+		// 		return false;
+		// 	}
+		// },
 
 	];
 });

@@ -125,6 +125,18 @@ define(function (require) {
 						{ "value": "khong", "text": "Không nhận cảnh bảo" },
 					],
 				},
+				{
+					field: "captren_id",
+					uicontrol: "combobox",
+					textField: "text",
+					valueField: "value",
+					dataSource: [
+						{ "value": 1, "text": "Cấp tỉnh" },
+						{ "value": 2, "text": "Cấp huyện" },
+						{ "value": 3, "text": "Cấp xã" },
+
+					],
+				},
 			]
 		},
 		render: function () {
@@ -248,6 +260,7 @@ define(function (require) {
 			var self = this;
 			var url = self.getApp().serviceURL + "/api/v1/role";
 			self.$el.find(".multiselect_vaitro").each(function (item, index) {
+
 				$.ajax({
 					url: url,
 					method: "GET",
@@ -295,6 +308,7 @@ define(function (require) {
 
 
 				$(index).on("change", function () {
+
 					$.ajax({
 						url: self.getApp().serviceURL + "/api/v1/user",
 						method: "GET",

@@ -25,7 +25,16 @@
         "type": "string",
         "primary": true
     },
-    "to": {
+    "toemail": {
+        "type": "json"
+    },
+    "tozalo": {
+        "type": "json"
+    },
+    "tophone": {
+        "type": "json"
+    },
+    "cc": {
         "type": "string",
         "length": 255
     },
@@ -36,5 +45,14 @@
     "tailieu": {
         "type": "string",
         "length": 255
+    },
+    "ngayguizalo": {
+        "type": "number"
+    },
+    "ngayguigmail": {
+        "type": "number"
+    },
+    "ngayguiphone": {
+        "type": "number"
     }
 }

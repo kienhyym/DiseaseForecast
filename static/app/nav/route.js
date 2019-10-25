@@ -88,25 +88,25 @@ define(function (require) {
 		},
 
 		{
-			"collectionName": "sendmail",
-			"route": "sendmail/collection",
-			"$ref": "app/sendmail/js/CollectionView",
+			"collectionName": "sendwarning",
+			"route": "sendwarning/collection",
+			"$ref": "app/sendwarning/js/CollectionView",
 		},
 		{
-			"collectionName": "sendmail",
-			"route": "sendmail/model(/:id)",
-			"$ref": "app/sendmail/js/ModelView",
+			"collectionName": "sendwarning",
+			"route": "sendwarning/model(/:id)",
+			"$ref": "app/sendwarning/js/ModelView",
 		},
-		{
-			"collectionName": "sendzalo",
-			"route": "sendzalo/collection",
-			"$ref": "app/sendzalo/js/CollectionView",
-		},
-		{
-			"collectionName": "sendzalo",
-			"route": "sendzalo/model(/:id)",
-			"$ref": "app/sendzalo/js/ModelView",
-		},
+		// {
+		// 	"collectionName": "sendzalo",
+		// 	"route": "sendzalo/collection",
+		// 	"$ref": "app/sendzalo/js/CollectionView",
+		// },
+		// {
+		// 	"collectionName": "sendzalo",
+		// 	"route": "sendzalo/model(/:id)",
+		// 	"$ref": "app/sendzalo/js/ModelView",
+		// },
 	];
 
 });

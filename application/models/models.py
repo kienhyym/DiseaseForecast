@@ -89,6 +89,7 @@ class DonVi(CommonModel):
     diachi = db.Column(db.String(255))
     email = db.Column(db.String(255))
     nhanthongbaohaykhong = db.Column(db.String(7))
+    captren_id = db.Column(Integer())
     tinhthanh_id = db.Column(String, nullable=True)
     tinhthanh = db.Column(JSONB)
     quanhuyen_id = db.Column(String, nullable=True)
@@ -98,10 +99,16 @@ class DonVi(CommonModel):
     user_shield = db.relationship('User', cascade="all, delete-orphan")
 
 
-    
 class SendWarning(CommonModel):
     __tablename__ = 'sendwarning'
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=default_uuid)
-    to = db.Column(String(255))
+    toemail = db.Column(JSONB)
+    tozalo = db.Column(JSONB)
+    tophone = db.Column(JSONB)
+    cc = db.Column(String(255))
     message = db.Column(String(255))
     tailieu = db.Column(String(255))
+    ngayguizalo = db.Column(BigInteger())
+    ngayguigmail = db.Column(BigInteger())
+    ngayguiphone = db.Column(BigInteger())
+    

@@ -50,6 +50,9 @@
         "type": "string",
         "length": 7
     },
+    "captren_id": {
+        "type": "number"
+    },
     "tinhthanh_id": {
         "type": "string"
     },
