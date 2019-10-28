@@ -94,7 +94,7 @@ define(function (require) {
 			var self = this;
 			var id = this.getApp().getRouter().getParam("id");
 			var currentUser = self.getApp().currentUser;
-			if(id == null){
+			if (id == null) {
 				self.setDonVi();
 			}
 			// self.bindEventSelect();
@@ -262,10 +262,10 @@ define(function (require) {
 		// 		http.send(fd);
 		// 	});
 		// },
-		
+
 		setDonVi: function () {
 			var self = this;
-			if(self.model.get("toemail")== null){
+			if (self.model.get("toemail") == null) {
 				$.ajax({
 					url: self.getApp().serviceURL + "/api/v1/donvi",
 					method: "GET",
@@ -275,10 +275,13 @@ define(function (require) {
 						self.$el.find(".multiselect_donvi").html("");
 						for (var i = 0; i < data.objects.length; i++) {
 							var item = data.objects[i];
-							danhsachdonvi.push(item.id);
-							var data_str = encodeURIComponent(JSON.stringify(item));
-							var option_elm = $('<option>').attr({ 'value': item.id, 'data-ck': data_str }).html(item.ten)
-							self.$el.find(".multiselect_donvi").append(option_elm);
+							if (item.nhanthongbaohaykhong !== "khong") {
+								danhsachdonvi.push(item.id);
+								var data_str = encodeURIComponent(JSON.stringify(item));
+								var option_elm = $('<option>').attr({ 'value': item.id, 'data-ck': data_str }).html(item.ten)
+								self.$el.find(".multiselect_donvi").append(option_elm);
+							}
+
 						}
 						$.fn.selectpicker.Constructor.DEFAULTS.multipleSeparator = ' | ';
 						self.$el.find(".multiselect_donvi").selectpicker('val', danhsachdonvi);
@@ -291,7 +294,7 @@ define(function (require) {
 					},
 				});
 			}
-			else{
+			else {
 				$.ajax({
 					url: self.getApp().serviceURL + "/api/v1/donvi",
 					method: "GET",
@@ -300,9 +303,12 @@ define(function (require) {
 						self.$el.find(".multiselect_donvi").html("");
 						for (var i = 0; i < data.objects.length; i++) {
 							var item = data.objects[i];
-							var data_str = encodeURIComponent(JSON.stringify(item));
-							var option_elm = $('<option>').attr({ 'value': item.id, 'data-ck': data_str }).html(item.ten)
-							self.$el.find(".multiselect_donvi").append(option_elm);
+							if (item.nhanthongbaohaykhong !== "khong") {
+								var data_str = encodeURIComponent(JSON.stringify(item));
+								var option_elm = $('<option>').attr({ 'value': item.id, 'data-ck': data_str }).html(item.ten)
+								self.$el.find(".multiselect_donvi").append(option_elm);
+							}
+
 						}
 						$.fn.selectpicker.Constructor.DEFAULTS.multipleSeparator = ' | ';
 						self.$el.find(".multiselect_donvi").selectpicker('val', self.model.get('toemail'));
@@ -314,7 +320,7 @@ define(function (require) {
 					},
 				});
 			}
-				
+
 		},
 		getDonVi: function () {
 			var self = this;

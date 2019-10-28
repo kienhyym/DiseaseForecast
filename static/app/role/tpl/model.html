@@ -1,15 +1,15 @@
 <div block-bind="content">
 	<!-- Page Header -->
 	<div class="page-header row no-gutters py-4">
-	  <div class="col-12 col-md-10 col-sm-4 text-center text-sm-left mb-0">
-	    <span class="text-uppercase page-subtitle"> </span>
-	    <h3 class="page-title text-uppercase">Vai trò</h3>
-	  </div>
+		<div class="col-12 col-md-10 col-sm-4 text-center text-sm-left mb-0">
+			<span class="text-uppercase page-subtitle"> </span>
+			<h3 class="page-title text-uppercase">Loại thông báo</h3>
+		</div>
 	</div>
 	<!-- End Page Header -->
-      <div class="row">
-        <div class="col-lg-8 col-md-12">
-        	<div class="card  card-small mb-4">
+	<div class="row">
+		<div class="col-lg-8 col-md-12">
+			<div class="card  card-small mb-4">
 				<div class="card-header  border-bottom">
 					<div class="row">
 						<div class="col-md-7">
@@ -19,38 +19,42 @@
 							<div block-bind="toolbar"></div>
 						</div>
 					</div>
-					
-					
+
+
 				</div>
 				<div class="card-body">
-		          <form class="needs-validation" novalidate="">
-		            <div class="row">
-		              <div class="col-md-6 mb-3">
-		                <label>ID</label>
-		                <input type="text" class="form-control" data-bind="value:id" disabled>
-		              </div>
-		              <div class="col-md-6 mb-3">
-		                <label>vai trò</label>
-		                <input type="text" class="form-control" data-bind="value:name" placeholder="Nhập vai trò"  required="">
-		                <div class="invalid-feedback">
-		                  Vui lòng nhập vai trò.
-		                </div>
-		              </div>
-		            </div>
-		            <div class="mb-3">
-		            	<div class="row">
-		            		<div class="col-md-12 mb-3">
-				                <label for="description">miêu tả <span class="text-muted"></span></label>
-					              <input type="text" class="form-control" id="description" data-bind="value:description" placeholder="nhập thêm thông tin cho vai trò" >
-				              </div>
-				          
-		            	</div>
-		              
-		            </div>
-		          </form>
-		      </div>
+					<form class="needs-validation" novalidate="">
+						<div class="row">
+							
+							<div class="col-md-6 mb-3">
+								<label>Mã thông báo</label>
+								<input type="text" class="form-control" data-bind="value:name"
+									placeholder="Nhập mã thông báo" required="">
+								<div class="invalid-feedback">
+									Vui lòng nhập loại thông báo.
+								</div>
+							</div>
+							<div class="col-md-6 mb-3">
+								<label for="description">Tên Thông báo <span class="text-muted"></span></label>
+								<input type="text" class="form-control" id="description"
+									data-bind="value:description" placeholder="Nhập tên thông báo">
+							</div>
+						</div>
+						<!-- <div class="mb-3">
+							<div class="row">
+								<div class="col-md-12 mb-3">
+									<label for="description">Tên Thông báo <span class="text-muted"></span></label>
+									<input type="text" class="form-control" id="description"
+										data-bind="value:description" placeholder="nhập loại thông báo">
+								</div>
+
+							</div>
+
+						</div> -->
+					</form>
+				</div>
 			</div>
 		</div>
-	        
-    </div>
- </div>
+
+	</div>
+</div>

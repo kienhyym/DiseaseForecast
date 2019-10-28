@@ -41,9 +41,7 @@ define(function (require) {
 						label: "TRANSLATE:SAVE",
 						command: function () {
 							var self = this;
-							console.log(self.model.get("password"));
 
-							self.hasPassword();
 
 							var ten = self.model.get("name");
 							var donvi = self.model.get("donvi");
@@ -54,9 +52,38 @@ define(function (require) {
 							} else {
 								self.model.save(null, {
 									success: function (model, respose, options) {
+										self.model.set("donvi_captren_id", respose.donvi.captren_id);
+										if (respose.donvi.captren_id == 2) {
+											self.model.set("tinhthanh__id", respose.donvi.tinhthanh_id);
+											self.model.set("quanhuyen_id", respose.donvi.quanhuyen_id);
+											self.model.set("xaphuong_id", respose.donvi.xaphuong_id);
+
+										}
+										if (respose.donvi.captren_id == 3) {
+											self.model.set("tinhthanh__id", respose.donvi.tinhthanh_id);
+											self.model.set("quanhuyen_id", respose.donvi.quanhuyen_id);
+											self.model.set("xaphuong_id", respose.donvi.xaphuong_id);
+
+										}
+										if (respose.donvi.captren_id == 4) {
+											self.model.set("tinhthanh__id", respose.donvi.tinhthanh_id);
+											self.model.set("quanhuyen_id", respose.donvi.quanhuyen_id);
+											self.model.set("xaphuong_id", respose.donvi.xaphuong_id);
+										}
+
+
+										self.model.save(null, {
+											success: function (model, respose, options) {
+												self.getApp().notify("Lưu thông tin thành công");
+												location.reload();
+											},
+											error: function (xhr, status, error) {
+												self.getApp().notify({ message: "Lưu thông tin không thành công" }, { type: "danger", delay: 1000 });
+
+											}
+										});
 										// self.getApp().hideloading();
-										self.getApp().notify("Lưu thông tin thành công");
-										self.getApp().getRouter().navigate(self.collectionName + "/collection");
+
 									},
 									error: function (xhr, status, error) {
 										try {
@@ -113,7 +140,7 @@ define(function (require) {
 				{
 					field: "roles",
 					uicontrol: "ref",
-					textField: "name",
+					textField: "description",
 					foreignRemoteField: "id",
 					foreignField: "role_id",
 					selectionMode: "multiple",
@@ -152,6 +179,10 @@ define(function (require) {
 				this.model.set('id', id);
 				this.model.fetch({
 					success: function (data) {
+							(self.model).on("change:donvi",function (params) {
+								self.model.set("phancapnhanbaocao",null)
+								self.model.set("roles",null)
+							})
 						self.applyBindings();
 						
 					},
@@ -163,12 +194,5 @@ define(function (require) {
 				self.applyBindings();
 			}
 		},
-
-		hasPassword: function () {
-			var self = this;
-			var hasPassword = self.model.get("password");
-			console.log(hasPassword);
-			self.model.set("password", hasPassword);
-		}
 	});
 });

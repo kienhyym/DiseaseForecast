@@ -50,6 +50,21 @@
     "donvi_id": {
         "type": "string"
     },
+    "donvi_captren_id": {
+        "type": "number"
+    },
+    "tinhthanh__id": {
+        "type": "string",
+        "length": 150
+    },
+    "quanhuyen_id": {
+        "type": "string",
+        "length": 150
+    },
+    "xaphuong_id": {
+        "type": "string",
+        "length": 150
+    },
     "phancapnhanbaocao": {
         "type": "string",
         "length": 50

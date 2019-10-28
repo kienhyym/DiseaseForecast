@@ -16,10 +16,10 @@ define(function (require) {
             fields: [
 
                 {
-                    field: "name", label: "Tên", width: 250, readonly: true,
+                    field: "name", label: "Mã", width: 100, readonly: true,
                 },
                 {
-                    field: "description", label: "miêu tả", width: 250, readonly: true,
+                    field: "description", label: "Tên", width: 250, readonly: true,
                 },
                 
 

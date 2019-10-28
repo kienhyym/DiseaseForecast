@@ -8,16 +8,15 @@ define(function(require) {
     return Gonrin.View.extend({
         render: function() {
             var self = this;
-            this.$el.html(template);
-            self.getApp().currentUser = null;
-            $("body").attr({
-                'style': 'background-color: #e9ecf3 !important;'
-            });
-           
-         
+            self.$el.html(template);
+            // self.getApp().currentUser = null;
+            // location.reload();
 
+            // $("body").attr({
+            //     'style': 'background-color: #e9ecf3 !important;'
+            // });
             return this;
         },
-       
+    
     });
 });

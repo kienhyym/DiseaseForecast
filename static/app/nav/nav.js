@@ -27,7 +27,7 @@ define(function (require) {
 			}
 		},
 		{
-			"text": "Vai trò",
+			"text": "Danh sách thông báo",
 			"icon": "fa fa-home",
 			"type": "view",
 			"collectionName": "role",
@@ -38,8 +38,7 @@ define(function (require) {
 			}
 		},
 		{
-			"text": "Vai trò",
-			"icon": "fa fa-home",
+			
 			"type": "view",
 			"collectionName": "role",
 			"route": "role/model",
@@ -131,7 +130,7 @@ define(function (require) {
 		// 	]
 		// },
 		{
-			"text": "Đơn vị",
+			"text": "Quản lý đơn vị cấp dưới",
 			"icon": "fa fa-home",
 			"type": "view",
 			"collectionName": "donvi",
@@ -142,8 +141,6 @@ define(function (require) {
 			}
 		},
 		{
-			"text": "Đơn vị",
-			"icon": "fa fa-home",
 			"type": "view",
 			"collectionName": "donvi",
 			"route": "donvi/model",

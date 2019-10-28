@@ -167,6 +167,22 @@ def add_danhsach_xaphuong():
 
 
 @manager.command
+def create_default_models_donvi(): 
+    #add user
+    user1 = User(email='admin@gmail.com', name='admin',phancapnhanbaocao="quanly",  password=auth.encrypt_password('zxc'))
+    db.session.add(user1)
+    db.session.flush()
+
+    #add don vi
+    donvi1 = DonVi(ten='Cục Y Tế Dự Phòng Cảnh Báo Dịch Bệnh', ma='CYTDP',  captren_id='1')
+    donvi1.user_shield.append(user1)
+    db.session.add(donvi1)
+    db.session.flush()
+
+    db.session.commit()
+
+
+@manager.command
 def run():
     quocgiaa = db.session.query(QuocGia).first()
 
@@ -174,7 +190,9 @@ def run():
         add_danhsach_quocgia_tinhthanh()
         add_danhsach_quanhuyen()
         add_danhsach_xaphuong()
-        
+        create_default_models_donvi()
+
+
     run_app(host="0.0.0.0", port=9081)
 
 
