@@ -179,12 +179,14 @@ define(function (require) {
 				this.model.set('id', id);
 				this.model.fetch({
 					success: function (data) {
+						if(self.getApp().currentUser.id !== self.model.get('id')){
+							self.$el.find('.toolbar').hide();
+						}
 							(self.model).on("change:donvi",function (params) {
 								self.model.set("phancapnhanbaocao",null)
 								self.model.set("roles",null)
 							})
 						self.applyBindings();
-						
 					},
 					error: function () {
 						self.getApp().notify("Get data Eror");

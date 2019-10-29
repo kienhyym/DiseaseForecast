@@ -19,17 +19,21 @@
 				</div>
 				<div class="card-body row">
 					<div class="col-md-8">
-						<label>Người nhận</label>
+						<label>Đơn vị nhận được báo cáo</label>
 						<!-- <input type="text" class="form-control" id="to"> -->
 						<select class="selectpicker form-control multiselect_donvi" multiple data-live-search="true"
 							data-actions-box="true" data-noneSelectedText="Chọn đơn vị" title="Chọn đơn vị"></select>
+						<br>
+						<label>Chọn loại cảnh báo</label>
+						<select class="selectpicker form-control multiselect_canhbao" multiple data-live-search="true"
+							data-actions-box="true" data-noneSelectedText="chọn loại cảnh báo" title="chọn loại cảnh báo"></select>
 						<br>
 						<label>Tiêu đề</label>
 						<input type="text" class="form-control" data-bind="value:cc"  id="cc">
 
 						<label>nội dung</label>
 						<textarea rows="10" class="form-control" data-bind="value:message" id="content"></textarea>
-						<!-- <div class="row">
+						<div class="row">
 							<div class="form-group col">
 							<label>Tài liệu đính kèm</label>
 							<div id="upload-tailieu">
@@ -46,10 +50,8 @@
 							</div>
 							<div class="row"> <span class="link col"></span>
 							</div>
-
 						</div>
-						</div> -->
-
+						</div>
 					</div>
 					<div class="col-md-4">
 						<label> </label><br>

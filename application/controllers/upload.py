@@ -60,19 +60,20 @@ async def upload_file(request):
         if file :
             rand = ''.join(random.choice(string.digits) for _ in range(15))
             file_name = os.path.splitext(file.name)[0]
+            # print("-----------------Hello World------------------------",file_name)
             extname = os.path.splitext(file.name)[1]
 #             newfilename = file_name + "-" + rand + extname
             newfilename = file_name + extname 
-
-            print(newfilename)
-            async with aiofiles.open(fsroot + newfilename, 'wb+') as f:
+            new_filename = newfilename.replace(" ", "_")
+            async with aiofiles.open(fsroot + new_filename, 'wb+') as f:
                 await f.write(file.body)
-            
+            print("-----------------Hello World------------------------",new_filename)
+
             return json({
                     "error_code": "OK",
                     "error_message": "successful",
                     "id":rand,
-                    "link":url  + "/" + newfilename,
+                    "link":url  + "/" + new_filename,
                     "filename":newfilename,
                     "filename_organization":file_name,
                     "extname":extname

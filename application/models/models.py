@@ -109,6 +109,7 @@ class SendWarning(CommonModel):
     toemail = db.Column(JSONB)
     tozalo = db.Column(JSONB)
     tophone = db.Column(JSONB)
+    canhbao = db.Column(JSONB)
     cc = db.Column(String(255))
     message = db.Column(String(255))
     tailieu = db.Column(String(255))
