@@ -17,7 +17,9 @@ class Config(object):
 
     TRANSACTION_TOKEN_EXPIRE_TIME = 120
     
-    DOMAIN_URL = 'http://0.0.0.0:9081'
+    DOMAIN_URL = 'http://0.0.0.0:20202'
+    # DOMAIN_URL = 'http://0.0.0.0:9081'
+
     # DOMAIN_URL = 'http://103.74.120.54:9081'
     
     MAIL_SERVER_HOST = 'kienhyym.gmail.com'
