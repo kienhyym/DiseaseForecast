@@ -68,6 +68,7 @@ define(function (require) {
                 contentType: "application/json",
                 success: function (data) {
                     console.log(data.objects);
+                    console.log(self.getApp().currentUser.donvi_captren_id );
                     var arr = [];
                     if (self.getApp().currentUser.donvi_captren_id == 1) {
                         data.objects.forEach(function (item, index) {
@@ -83,7 +84,6 @@ define(function (require) {
                             if (item.captren_id == 3) {
                                 if (item.tinhthanh_id == self.getApp().currentUser.tinhthanh__id) {
                                     arr.push(item);
-
                                 }
                             }
                         });
