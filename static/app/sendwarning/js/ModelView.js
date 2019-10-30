@@ -229,7 +229,7 @@ define(function (require) {
 							var data_file = JSON.parse(http.responseText), link, p, t;
 							self.getApp().notify("Tải file thành công");
 							self.model.set(data_attr, data_file.link);
-							self.$el.find("#content").val(self.$el.find("#content").val()+"Tài liệu đính kèm:\n" + self.getApp().serviceURL + self.model.get("tailieu"));
+							self.$el.find("#content").val(self.$el.find("#content").val()+"\n"+"Tài liệu đính kèm:\n" + self.getApp().serviceURL + self.model.get("tailieu"));
 
 						}
 					} else {
