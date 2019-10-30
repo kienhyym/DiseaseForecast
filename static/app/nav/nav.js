@@ -5,7 +5,7 @@ define(function (require) {
 		Gonrin = require('gonrin');
 	return [
 		{
-			"text": "Danh sách người dùng",
+			"text": "Quản lý người dùng",
 			"icon": "fa fa-home",
 			"type": "view",
 			"collectionName": "user",
