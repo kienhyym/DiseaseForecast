@@ -229,8 +229,7 @@ define(function (require) {
 							var data_file = JSON.parse(http.responseText), link, p, t;
 							self.getApp().notify("Tải file thành công");
 							self.model.set(data_attr, data_file.link);
-							self.$el.find("#content").val(self.$el.find("#content").val()+"\n"+"Tài liệu đính kèm:\n" + self.getApp().serviceURL + self.model.get("tailieu"));
-
+							// self.$el.find("#content").val(self.$el.find("#content").val()
 						}
 					} else {
 						self.getApp().notify("Không thể tải tệp tin lên máy chủ");
@@ -400,8 +399,7 @@ define(function (require) {
 								"password": "kocopass_1",
 							},
 							"to": item,
-							"message": self.$el.find("#content").val(),
-							// .html() +'Tài liệu đính kèm:'+ self.getApp().serviceURL +self.model.get("tailieu"),
+							"message": self.$el.find("#content").val()+"\n\n"+"Tài liệu đính kèm:" + self.getApp().serviceURL + self.model.get("tailieu"),
 							"subject": self.$el.find("#cc").val(),
 						}),
 						success: function (response) {
@@ -511,7 +509,7 @@ define(function (require) {
 											"user_id": response.data.user_id
 										},
 										"message": {
-											"text": self.$el.find("#content").val()
+											"text": self.$el.find("#content").val()+"\n\n"+"Tài liệu đính kèm:" + self.getApp().serviceURL + self.model.get("tailieu")
 										},
 									}),
 									success: function (response) {
