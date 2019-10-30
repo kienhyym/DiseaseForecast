@@ -100,6 +100,8 @@ define(function (require) {
 
 			}
 
+			
+
 			self.bindEventSelect();
 			self.applyBindings();
 			if (id) {
@@ -118,12 +120,12 @@ define(function (require) {
 						if (self.model.get("ngayguizalo") !== null) {
 							self.$el.find("#btn-send-zalo").removeClass("btn-primary");
 							self.$el.find("#btn-send-zalo").addClass("btn-success");
-							self.$el.find("#btn-send-zalo").html('Đã gửi qua gmail');
+							self.$el.find("#btn-send-zalo").html('Đã gửi qua zalo');
 						}
 						if (self.model.get("ngayguiphone") !== null) {
 							self.$el.find("#btn-send-phone").removeClass("btn-primary");
 							self.$el.find("#btn-send-phone").addClass("btn-success");
-							self.$el.find("#btn-send-phone").html('Đã gửi qua gmail');
+							self.$el.find("#btn-send-phone").html('Đã gửi qua phone');
 						}
 						self.setDonVi();
 						self.setCanhBao();
@@ -165,16 +167,15 @@ define(function (require) {
 		},
 		renderUpload() {
 			var self = this;
-			if(self.model.get("tailieu") == null){
+			if (self.model.get("tailieu") == null) {
 				self.$el.find(".linkDownload").hide();
 			}
-			else{
+			else {
 				self.$el.find(".linkDownload").show();
-
 			}
 			self.$el.find(".linkDownload").attr("href", self.model.get("tailieu"));
 			self.$el.find(".textDownload").html('aaaaa');
-				// (self.$el.find(".linkDownload").html()).slice(51))
+			// (self.$el.find(".linkDownload").html()).slice(51))
 
 		},
 		saveModel: function () {
@@ -207,7 +208,7 @@ define(function (require) {
 			self.$el.find(".upload_files").on("change", function () {
 				var http = new XMLHttpRequest();
 				var fd = new FormData();
-				
+
 				var data_attr = $(this).attr("data-attr");
 				fd.append('file', this.files[0]);
 				http.open('POST', '/api/v1/upload/file');
@@ -228,6 +229,8 @@ define(function (require) {
 							var data_file = JSON.parse(http.responseText), link, p, t;
 							self.getApp().notify("Tải file thành công");
 							self.model.set(data_attr, data_file.link);
+							self.$el.find("#content").val(self.$el.find("#content").val()+"Tài liệu đính kèm:\n" + self.getApp().serviceURL + self.model.get("tailieu"));
+
 						}
 					} else {
 						self.getApp().notify("Không thể tải tệp tin lên máy chủ");
@@ -240,13 +243,13 @@ define(function (require) {
 		setDonVi: function () {
 			var self = this;
 			let capduoiid = null;
-			if(self.getApp().currentUser.donvi_captren_id ==1){
+			if (self.getApp().currentUser.donvi_captren_id == 1) {
 				capduoiid = 2;
 			}
-			else if(self.getApp().currentUser.donvi_captren_id ==2){
+			else if (self.getApp().currentUser.donvi_captren_id == 2) {
 				capduoiid = 3;
 			}
-			else{
+			else {
 				capduoiid = 4;
 			}
 
@@ -260,27 +263,27 @@ define(function (require) {
 						for (var i = 0; i < data.objects.length; i++) {
 							var item = data.objects[i];
 							if (item.nhanthongbaohaykhong !== "khong" && item.captren_id == capduoiid) {
-								if(self.getApp().currentUser.donvi_captren_id == 1){
+								if (self.getApp().currentUser.donvi_captren_id == 1) {
 									danhsachdonvi.push(item.id);
 									var data_str = encodeURIComponent(JSON.stringify(item));
 									var option_elm = $('<option>').attr({ 'value': item.id, 'data-ck': data_str }).html(item.ten)
 									self.$el.find(".multiselect_donvi").append(option_elm);
-								}	
-								
-								if(self.getApp().currentUser.donvi_captren_id == 2){
-									if(self.getApp().currentUser.tinhthanh__id == item.tinhthanh_id){
+								}
+
+								if (self.getApp().currentUser.donvi_captren_id == 2) {
+									if (self.getApp().currentUser.tinhthanh__id == item.tinhthanh_id) {
 										danhsachdonvi.push(item.id);
-									var data_str = encodeURIComponent(JSON.stringify(item));
-									var option_elm = $('<option>').attr({ 'value': item.id, 'data-ck': data_str }).html(item.ten)
-									self.$el.find(".multiselect_donvi").append(option_elm);
+										var data_str = encodeURIComponent(JSON.stringify(item));
+										var option_elm = $('<option>').attr({ 'value': item.id, 'data-ck': data_str }).html(item.ten)
+										self.$el.find(".multiselect_donvi").append(option_elm);
 									}
 								}
-								if(self.getApp().currentUser.donvi_captren_id == 3){
-									if(self.getApp().currentUser.quanhuyen_id == item.quanhuyen_id){
+								if (self.getApp().currentUser.donvi_captren_id == 3) {
+									if (self.getApp().currentUser.quanhuyen_id == item.quanhuyen_id) {
 										danhsachdonvi.push(item.id);
-									var data_str = encodeURIComponent(JSON.stringify(item));
-									var option_elm = $('<option>').attr({ 'value': item.id, 'data-ck': data_str }).html(item.ten)
-									self.$el.find(".multiselect_donvi").append(option_elm);
+										var data_str = encodeURIComponent(JSON.stringify(item));
+										var option_elm = $('<option>').attr({ 'value': item.id, 'data-ck': data_str }).html(item.ten)
+										self.$el.find(".multiselect_donvi").append(option_elm);
 									}
 								}
 							}
@@ -414,7 +417,7 @@ define(function (require) {
 				d.getDate();
 				self.model.set("ngayguigmail", moment().unix())
 				var danhsachcanhbao = self.$el.find('.multiselect_canhbao select').val();
-				self.model.set("canhbao",danhsachcanhbao)
+				self.model.set("canhbao", danhsachcanhbao)
 				self.model.save(null, {
 					success: function (model, respose, options) {
 						self.getApp().notify("Lưu thông tin thành công");
@@ -424,7 +427,7 @@ define(function (require) {
 
 					}
 				});
-				
+
 
 			})
 
@@ -475,7 +478,7 @@ define(function (require) {
 						}
 						$.fn.selectpicker.Constructor.DEFAULTS.multipleSeparator = ' | ';
 						self.$el.find(".multiselect_canhbao").selectpicker('val', self.model.get('canhbao'));
-						
+
 
 					},
 					error: function (xhr, status, error) {
@@ -490,7 +493,7 @@ define(function (require) {
 			self.$el.find("#btn-send-zalo").unbind('click').bind("click", function () {
 
 				arrzalo.forEach(function (item, index) {
-					if(item != null){
+					if (item != null) {
 						var URL = "https://openapi.zalo.me/v2.0/oa/getprofile?access_token=1r2tNP-US4m8LhnSdPXxI0jGlbsUWpqt2ZgeT-7n9XaFQf1VuTuZDdTaasgGq2WQOsVaV93CVMbxTkSKlTjdG2zZf3wv-cXGK63N4xYbRq1G0AWreCup8cv0dL-Qa0LER0ErNPsV3mqGCRz_YO8E8M4Job2IgLiG1c32K9_gG4T-Uk8CxBP9QIDzxG3HrLTFF7dQ3Vtf7qmLM9afqiW0H4TgbXIXxWrZRNdAC-3NS3e5G-fazlDA3pXivaBhz4XN7rpnEl3sNMOcG9eLpCuYPg3zz2IKWtTB&data={'user_id':'" + item + "'}";
 						$.ajax({
 							type: "GET",
@@ -508,8 +511,8 @@ define(function (require) {
 											"user_id": response.data.user_id
 										},
 										"message": {
-											"text": self.$el.find("#content").val(),
-										}
+											"text": self.$el.find("#content").val()
+										},
 									}),
 									success: function (response) {
 										self.getApp().notify({ message: "Da gui " });
@@ -518,22 +521,22 @@ define(function (require) {
 										self.getApp().notify({ message: "Tài khoản hoặc mật khẩu gmail không chính xác" }, { type: "danger", delay: 1000 });
 									}
 								});
-	
-	
+
+
 							}, error: function (response) {
 								self.getApp().notify({ message: "lỗi rồi" }, { type: "danger", delay: 1000 });
 							}
-	
+
 						});
 					}
 
-					
+
 				})
 				var d = new Date();
 				d.getDate();
 				self.model.set("ngayguizalo", moment().unix())
 				var danhsachcanhbao = self.$el.find('.multiselect_canhbao select').val();
-				self.model.set("canhbao",danhsachcanhbao)
+				self.model.set("canhbao", danhsachcanhbao)
 				self.model.save(null, {
 					success: function (model, respose, options) {
 						self.getApp().notify("Lưu thông tin thành công");
@@ -543,7 +546,7 @@ define(function (require) {
 
 					}
 				});
-				
+
 
 			})
 
@@ -551,7 +554,7 @@ define(function (require) {
 
 
 		},
-		
+
 
 	});
 });
