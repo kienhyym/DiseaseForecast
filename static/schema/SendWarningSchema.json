@@ -57,5 +57,9 @@
     },
     "ngayguiphone": {
         "type": "number"
+    },
+    "user_id": {
+        "type": "string",
+        "length": 255
     }
 }

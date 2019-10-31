@@ -116,4 +116,5 @@ class SendWarning(CommonModel):
     ngayguizalo = db.Column(BigInteger())
     ngayguigmail = db.Column(BigInteger())
     ngayguiphone = db.Column(BigInteger())
-    
+    user_id = db.Column(String(255))
+

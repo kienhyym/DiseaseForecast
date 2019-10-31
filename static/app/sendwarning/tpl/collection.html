@@ -13,9 +13,23 @@
 			<div class="card-header">
 				<div block-bind="toolbar"></div>
 			</div>
+			
 			<div class="card-body">
-				<div id="grid" data-bind='collection:$collection'></div>
+					<div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
+							<label class="btn btn-outline-primary active" id="xxx">
+								<input type="radio" name="options" id="option1" autocomplete="off" checked>Hộp thư đến
+							</label>
+							<label class="btn btn-outline-primary" id="yyy">
+								<input type="radio" name="options" id="option2" autocomplete="off">Tin đã gửi
+							</label>
+						</div>
+				<div id="all" class="all"></div>
+
+				<div id="hopthuden" class="hopthuden" ></div>
+				<div id="thudagui" class="thudagui" ></div>
+
 			</div>
+			
 		</div>
 	</div>
 </div>

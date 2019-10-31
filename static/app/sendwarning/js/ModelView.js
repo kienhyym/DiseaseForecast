@@ -100,7 +100,7 @@ define(function (require) {
 
 			}
 
-			
+
 
 			self.bindEventSelect();
 			self.applyBindings();
@@ -108,7 +108,14 @@ define(function (require) {
 				this.model.set('id', id);
 				this.model.fetch({
 					success: function (data) {
-
+						if(self.model.get("user_id") !== self.getApp().currentUser.id){
+							self.$el.find('.send-all').css('display','none');
+							self.$el.find('.title').html('Tin nhắn đã nhận')
+						}
+						if(self.model.get("user_id") == self.getApp().currentUser.id){
+							self.$el.find('.title').html('Tin nhắn đã gửi')
+						}
+						
 						// self.bindEventSelect();
 
 						self.renderUpload();
@@ -390,6 +397,13 @@ define(function (require) {
 			var self = this;
 			self.$el.find("#btn-send-gmail").unbind('click').bind("click", function () {
 				arrGmail.forEach(function (item, index) {
+					var content = null;
+									if(self.model.get("tailieu") == null){
+										content = self.$el.find("#content").val();
+									}
+									else{
+										content = self.$el.find("#content").val() + "\n\n" + "Tài liệu đính kèm:" + self.getApp().serviceURL + self.model.get("tailieu");
+									}
 					$.ajax({
 						type: "POST",
 						url: "https://upstart.vn/services/api/email/send",
@@ -399,7 +413,7 @@ define(function (require) {
 								"password": "kocopass_1",
 							},
 							"to": item,
-							"message": self.$el.find("#content").val()+"\n\n"+"Tài liệu đính kèm:" + self.getApp().serviceURL + self.model.get("tailieu"),
+							"message":  content,
 							"subject": self.$el.find("#cc").val(),
 						}),
 						success: function (response) {
@@ -416,6 +430,7 @@ define(function (require) {
 				self.model.set("ngayguigmail", moment().unix())
 				var danhsachcanhbao = self.$el.find('.multiselect_canhbao select').val();
 				self.model.set("canhbao", danhsachcanhbao)
+				self.model.set("user_id", self.getApp().currentUser.id)
 				self.model.save(null, {
 					success: function (model, respose, options) {
 						self.getApp().notify("Lưu thông tin thành công");
@@ -487,10 +502,10 @@ define(function (require) {
 		},
 		sendzalo: function (arrzalo) {
 			var self = this;
-
 			self.$el.find("#btn-send-zalo").unbind('click').bind("click", function () {
 
 				arrzalo.forEach(function (item, index) {
+
 					if (item != null) {
 						var URL = "https://openapi.zalo.me/v2.0/oa/getprofile?access_token=1r2tNP-US4m8LhnSdPXxI0jGlbsUWpqt2ZgeT-7n9XaFQf1VuTuZDdTaasgGq2WQOsVaV93CVMbxTkSKlTjdG2zZf3wv-cXGK63N4xYbRq1G0AWreCup8cv0dL-Qa0LER0ErNPsV3mqGCRz_YO8E8M4Job2IgLiG1c32K9_gG4T-Uk8CxBP9QIDzxG3HrLTFF7dQ3Vtf7qmLM9afqiW0H4TgbXIXxWrZRNdAC-3NS3e5G-fazlDA3pXivaBhz4XN7rpnEl3sNMOcG9eLpCuYPg3zz2IKWtTB&data={'user_id':'" + item + "'}";
 						$.ajax({
@@ -501,24 +516,34 @@ define(function (require) {
 							data: "data",
 							dataType: 'json',
 							success: function (response) {
-								$.ajax({
-									type: "POST",
-									url: "https://openapi.zalo.me/v2.0/oa/message?access_token=1r2tNP-US4m8LhnSdPXxI0jGlbsUWpqt2ZgeT-7n9XaFQf1VuTuZDdTaasgGq2WQOsVaV93CVMbxTkSKlTjdG2zZf3wv-cXGK63N4xYbRq1G0AWreCup8cv0dL-Qa0LER0ErNPsV3mqGCRz_YO8E8M4Job2IgLiG1c32K9_gG4T-Uk8CxBP9QIDzxG3HrLTFF7dQ3Vtf7qmLM9afqiW0H4TgbXIXxWrZRNdAC-3NS3e5G-fazlDA3pXivaBhz4XN7rpnEl3sNMOcG9eLpCuYPg3zz2IKWtTB",
-									data: JSON.stringify({
-										"recipient": {
-											"user_id": response.data.user_id
-										},
-										"message": {
-											"text": self.$el.find("#content").val()+"\n\n"+"Tài liệu đính kèm:" + self.getApp().serviceURL + self.model.get("tailieu")
-										},
-									}),
-									success: function (response) {
-										self.getApp().notify({ message: "Da gui " });
-									},
-									error: function (response) {
-										self.getApp().notify({ message: "Tài khoản hoặc mật khẩu gmail không chính xác" }, { type: "danger", delay: 1000 });
+								if (response.data !== undefined) {
+									var content = null;
+									if(self.model.get("tailieu") == null){
+										content = self.$el.find("#content").val();
 									}
-								});
+									else{
+										content = self.$el.find("#content").val() + "\n\n" + "Tài liệu đính kèm:" + self.getApp().serviceURL + self.model.get("tailieu");
+									}
+									// $.ajax({
+									// 	type: "POST",
+									// 	url: "https://openapi.zalo.me/v2.0/oa/message?access_token=1r2tNP-US4m8LhnSdPXxI0jGlbsUWpqt2ZgeT-7n9XaFQf1VuTuZDdTaasgGq2WQOsVaV93CVMbxTkSKlTjdG2zZf3wv-cXGK63N4xYbRq1G0AWreCup8cv0dL-Qa0LER0ErNPsV3mqGCRz_YO8E8M4Job2IgLiG1c32K9_gG4T-Uk8CxBP9QIDzxG3HrLTFF7dQ3Vtf7qmLM9afqiW0H4TgbXIXxWrZRNdAC-3NS3e5G-fazlDA3pXivaBhz4XN7rpnEl3sNMOcG9eLpCuYPg3zz2IKWtTB",
+									// 	data: JSON.stringify({
+									// 		"recipient": {
+									// 			"user_id": response.data.user_id
+									// 		},
+									// 		"message": {
+									// 			"text": content
+									// 		},
+									// 	}),
+									// 	success: function (response) {
+									// 		self.getApp().notify({ message: "Da gui " });
+									// 	},
+									// 	error: function (response) {
+									// 		self.getApp().notify({ message: "Tài khoản hoặc mật khẩu gmail không chính xác" }, { type: "danger", delay: 1000 });
+									// 	}
+									// });
+								}
+
 
 
 							}, error: function (response) {
@@ -535,6 +560,9 @@ define(function (require) {
 				self.model.set("ngayguizalo", moment().unix())
 				var danhsachcanhbao = self.$el.find('.multiselect_canhbao select').val();
 				self.model.set("canhbao", danhsachcanhbao)
+				self.model.set("tozalo", arrzalo)
+				self.model.set("user_id", self.getApp().currentUser.id)
+
 				self.model.save(null, {
 					success: function (model, respose, options) {
 						self.getApp().notify("Lưu thông tin thành công");

@@ -137,7 +137,6 @@ define(function (require) {
 						{ "value": 2, "text": "Cấp tỉnh" },
 						{ "value": 3, "text": "Cấp huyện" },
 						{ "value": 4, "text": "Cấp xã" },
-
 					],
 				},
 			]
@@ -147,6 +146,16 @@ define(function (require) {
 			var id = this.getApp().getRouter().getParam("id");
 			$.fn.selectpicker.Constructor.DEFAULTS.multipleSeparator = ' | ';
 			self.$el.find("#multiselect_required").selectpicker();
+				if(self.getApp().currentUser.donvi_captren_id == 1){
+					self.model.set("captren_id",2)
+				}
+				else if(self.getApp().currentUser.donvi_captren_id == 2){
+					self.model.set("captren_id",3)
+				}
+				else{
+					self.model.set("captren_id",4)
+				}
+			
 
 			if (id) {
 				this.model.set('id', id);
