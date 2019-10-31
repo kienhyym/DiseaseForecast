@@ -15,8 +15,12 @@
 						<div class="col-md-7">
 							<h6 class="m-0">Thông tin chi tiết</h6>
 						</div>
-						<div class="col-md-5 text-right">
+						<div class="col-md-5 text-right toolTaoMoi"">
 							<div block-bind="toolbar"></div>
+						</div>
+						<div class="col-md-5 text-right btn-taomoi">
+								<div class="btn-back btn btn-secondary">Trở lại</div>
+								<div class="btn-luu btn btn-success">Lưu</div>
 						</div>
 					</div>
 				</div>
@@ -26,7 +30,7 @@
 
 							<div class="col-md-6 ">
 								<label>Tên</label>
-								<input type="text" class="form-control" data-bind="value:name" placeholder="Nhập tên "
+								<input type="text" id="name" class="form-control" data-bind="value:name" placeholder="Nhập tên "
 									required="">
 								<div class="invalid-feedback">
 									Vui lòng nhập Tên.
@@ -52,24 +56,33 @@
 									placeholder="..." required="">
 							</div>
 							<div class="col-md-6">
-								<label for="phone_zalo">Điện thoại đăng ký zalo</label>
+								<label for="phone_zalo">Điện thoại đăng ký zalo <a href="https://zalo.me/1924532547349265830">Đăng ký nhận cảnh báo</a></label>
 								<input type="text" class="form-control" id="phone_zalo" data-bind="value:phone_zalo"
 									placeholder="..." required="">
 							</div>
 
 						</div>
-
 						<div class="row mb-3">
-							<div class="col-md-6">
-								<label for="password">Đơn vị<span class="text-muted"></span></label>
-								<input id="donvi" type="text" data-bind="dict:donvi" />
+								<div class="col-md-12">
+									<label >Đơn vị<span class="text-muted"></span></label>
+									<input id="donvi" type="text" data-bind="dict:donvi" />
+								</div>
 							</div>
-							<div class="col-md-6" style="pointer-events:none">
-								<label for="password">Nhận các loại thông báo <span class="text-muted"></span></label>
-								<input type="text" data-bind="list:roles"  />
+						<div class="row mb-3">
+								<div class="col-md-6" style="pointer-events:none">
+										<label>Nhận các loại thông báo <span class="text-muted"></span></label>
+										<input type="text" data-bind="list:roles" />
+									</div>
+							<div class="col-md-6 pass">
+								<label for="password">Mật khẩu</label>
+								<input type="password" class="form-control" id="password" data-bind="value:password"
+									placeholder="..." required="">
 							</div>
+							
 
 						</div>
+						
+
 
 
 						<!-- <div class="row col-md-12 w-100 ml-1 mb-3 p-0 " style="border-bottom:1px solid gainsboro ">

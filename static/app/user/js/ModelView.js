@@ -53,23 +53,10 @@ define(function (require) {
 								self.model.save(null, {
 									success: function (model, respose, options) {
 										self.model.set("donvi_captren_id", respose.donvi.captren_id);
-										if (respose.donvi.captren_id == 2) {
-											self.model.set("tinhthanh__id", respose.donvi.tinhthanh_id);
-											self.model.set("quanhuyen_id", respose.donvi.quanhuyen_id);
-											self.model.set("xaphuong_id", respose.donvi.xaphuong_id);
+										self.model.set("tinhthanh__id", respose.donvi.tinhthanh_id);
+										self.model.set("quanhuyen_id", respose.donvi.quanhuyen_id);
+										self.model.set("xaphuong_id", respose.donvi.xaphuong_id);
 
-										}
-										if (respose.donvi.captren_id == 3) {
-											self.model.set("tinhthanh__id", respose.donvi.tinhthanh_id);
-											self.model.set("quanhuyen_id", respose.donvi.quanhuyen_id);
-											self.model.set("xaphuong_id", respose.donvi.xaphuong_id);
-
-										}
-										if (respose.donvi.captren_id == 4) {
-											self.model.set("tinhthanh__id", respose.donvi.tinhthanh_id);
-											self.model.set("quanhuyen_id", respose.donvi.quanhuyen_id);
-											self.model.set("xaphuong_id", respose.donvi.xaphuong_id);
-										}
 
 
 										self.model.save(null, {
@@ -174,18 +161,69 @@ define(function (require) {
 
 		render: function () {
 			var self = this;
+			self.$el.find('.toolTaoMoi').css("display","none")
+
+			var iddonvi = null;
+			var captrenid = null;
+			var tinhthanhid = null;
+			var quanhuyenid = null;
+			var xaphuongid = null;
+			(self.model).on("change:donvi", function () {
+				iddonvi = self.model.get("donvi").id;
+				captrenid = self.model.get("donvi").captren_id;
+				tinhthanhid = self.model.get("donvi").tinhthanh_id;
+				quanhuyenid = self.model.get("donvi").quanhuyen_id;
+				xaphuongid = self.model.get("donvi").xaphuong_id;
+			})
+			self.$el.find(".btn-luu").unbind("click").bind("click", function () {
+				$.ajax({
+					method: "POST",
+					url: self.getApp().serviceURL + "/api/v1/register",
+					data: JSON.stringify({
+						email: self.$el.find("#email").val(),
+						name: self.$el.find("#name").val(),
+						phone_number: self.$el.find("#phone_number").val(),
+						phone_zalo: self.$el.find("#phone_zalo").val(),
+						password: self.$el.find("#password").val(),
+						donvi_id: iddonvi,
+						donvi_captren_id: captrenid,
+						tinhthanh__id: tinhthanhid,
+						quanhuyen_id: quanhuyenid,
+						xaphuong_id: xaphuongid
+					}),
+					success: function (response) {
+						if (response) {
+							self.getApp().notify("Đăng ký thành công");
+							self.getApp().getRouter().navigate("login");
+						}
+					}, error: function (xhr, ere) {
+						console.log('xhr', ere);
+
+					}
+				})
+			});
+			self.$el.find(".btn-back").unbind("click").bind("click", function () {
+				Backbone.history.history.back();
+
+			});
+
 			var id = this.getApp().getRouter().getParam("id");
 			if (id) {
 				this.model.set('id', id);
 				this.model.fetch({
 					success: function (data) {
-						if(self.getApp().currentUser.id !== self.model.get('id')){
-							self.$el.find('.toolbar').hide();
+						if (self.getApp().currentUser.id !== self.model.get('id')) {
+							self.$el.find('.toolTaoMoi').hide();
+						}else{
+							self.$el.find('.toolTaoMoi').show();
+							self.$el.find('.btn-taomoi').hide();							
 						}
-							(self.model).on("change:donvi",function (params) {
-								self.model.set("phancapnhanbaocao",null)
-								self.model.set("roles",null)
-							})
+						self.$el.find('.pass').hide();							
+
+						(self.model).on("change:donvi", function (params) {
+							self.model.set("phancapnhanbaocao", null)
+							self.model.set("roles", null)
+						})
 						self.applyBindings();
 					},
 					error: function () {
