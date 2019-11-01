@@ -25,6 +25,9 @@
         "type": "string",
         "primary": true
     },
+    "todonvi": {
+        "type": "json"
+    },
     "toemail": {
         "type": "json"
     },

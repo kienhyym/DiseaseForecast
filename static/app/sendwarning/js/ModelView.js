@@ -259,7 +259,7 @@ define(function (require) {
 				capduoiid = 4;
 			}
 
-			if (self.model.get("toemail") == null) {
+			if (self.model.get("todonvi") == null) {
 				$.ajax({
 					url: self.getApp().serviceURL + "/api/v1/donvi",
 					method: "GET",
@@ -314,14 +314,30 @@ define(function (require) {
 						for (var i = 0; i < data.objects.length; i++) {
 							var item = data.objects[i];
 							if (item.nhanthongbaohaykhong !== "khong" && item.captren_id == capduoiid) {
-								var data_str = encodeURIComponent(JSON.stringify(item));
-								var option_elm = $('<option>').attr({ 'value': item.id, 'data-ck': data_str }).html(item.ten)
-								self.$el.find(".multiselect_donvi").append(option_elm);
-							}
+								if (self.getApp().currentUser.donvi_captren_id == 1) {
+									var data_str = encodeURIComponent(JSON.stringify(item));
+									var option_elm = $('<option>').attr({ 'value': item.id, 'data-ck': data_str }).html(item.ten)
+									self.$el.find(".multiselect_donvi").append(option_elm);
+								}
 
+								if (self.getApp().currentUser.donvi_captren_id == 2) {
+									if (self.getApp().currentUser.tinhthanh__id == item.tinhthanh_id) {
+										var data_str = encodeURIComponent(JSON.stringify(item));
+										var option_elm = $('<option>').attr({ 'value': item.id, 'data-ck': data_str }).html(item.ten)
+										self.$el.find(".multiselect_donvi").append(option_elm);
+									}
+								}
+								if (self.getApp().currentUser.donvi_captren_id == 3) {
+									if (self.getApp().currentUser.quanhuyen_id == item.quanhuyen_id) {
+										var data_str = encodeURIComponent(JSON.stringify(item));
+										var option_elm = $('<option>').attr({ 'value': item.id, 'data-ck': data_str }).html(item.ten)
+										self.$el.find(".multiselect_donvi").append(option_elm);
+									}
+								}
+							}
 						}
 						$.fn.selectpicker.Constructor.DEFAULTS.multipleSeparator = ' | ';
-						self.$el.find(".multiselect_donvi").selectpicker('val', self.model.get('toemail'));
+						self.$el.find(".multiselect_donvi").selectpicker('val', self.model.get('todonvi'));
 
 						self.getDonVi();
 					},
@@ -337,7 +353,7 @@ define(function (require) {
 			var arrGmail = [];
 			var arrZalo = [];
 			var danhsachdonviguithongbao = self.$el.find('.multiselect_donvi select').val();
-			self.model.set("toemail", danhsachdonviguithongbao)
+			self.model.set("todonvi", danhsachdonviguithongbao)
 
 			danhsachdonviguithongbao.forEach(function (ite, ind) {
 				$.ajax({
@@ -366,7 +382,7 @@ define(function (require) {
 				arrGmail = [];
 				arrZalo = [];
 				var danhsachdonviguithongbao = self.$el.find('.multiselect_donvi select').val();
-				self.model.set("toemail", danhsachdonviguithongbao)
+				self.model.set("todonvi", danhsachdonviguithongbao)
 
 				danhsachdonviguithongbao.forEach(function (item, index) {
 					$.ajax({
@@ -397,6 +413,7 @@ define(function (require) {
 			var self = this;
 			self.$el.find("#btn-send-gmail").unbind('click').bind("click", function () {
 				arrGmail.forEach(function (item, index) {
+					
 					var content = null;
 									if(self.model.get("tailieu") == null){
 										content = self.$el.find("#content").val();

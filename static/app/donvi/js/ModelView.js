@@ -8,6 +8,7 @@ define(function (require) {
 	var XaPhuongSelectView = require('app/DanhMuc/XaPhuong/view/SelectView');
 	var QuanHuyenSelectView = require('app/DanhMuc/QuanHuyen/view/SelectView');
 	var TinhThanhSelectView = require('app/DanhMuc/TinhThanh/view/SelectView');
+
 	return Gonrin.ModelView.extend({
 		template: template,
 		modelSchema: schema,
@@ -38,11 +39,11 @@ define(function (require) {
 						command: function () {
 							var self = this;
 
-							
+
 							self.model.save(null, {
 								success: function (model, respose, options) {
 									self.getApp().notify("Lưu thông tin thành công");
-									self.getApp().getRouter().navigate(self.collectionName + "/collection");
+									self.getApp().getRouter().refresh();
 
 								},
 								error: function (xhr, status, error) {
@@ -132,6 +133,7 @@ define(function (require) {
 					uicontrol: "combobox",
 					textField: "text",
 					valueField: "value",
+
 					dataSource: [
 						{ "value": 1, "text": "Cấp cục" },
 						{ "value": 2, "text": "Cấp tỉnh" },
@@ -139,29 +141,33 @@ define(function (require) {
 						{ "value": 4, "text": "Cấp xã" },
 					],
 				},
+
 			]
 		},
 		render: function () {
 			var self = this;
+			self.donViCapTren();
+
 			var id = this.getApp().getRouter().getParam("id");
 			$.fn.selectpicker.Constructor.DEFAULTS.multipleSeparator = ' | ';
 			self.$el.find("#multiselect_required").selectpicker();
-				if(self.getApp().currentUser.donvi_captren_id == 1){
-					self.model.set("captren_id",2)
-				}
-				else if(self.getApp().currentUser.donvi_captren_id == 2){
-					self.model.set("captren_id",3)
-				}
-				else{
-					self.model.set("captren_id",4)
-				}
-			
+			if (self.getApp().currentUser.donvi_captren_id == 1) {
+				self.model.set("captren_id", 2)
+
+			}
+			else if (self.getApp().currentUser.donvi_captren_id == 2) {
+				self.model.set("captren_id", 3)
+			}
+			else {
+				self.model.set("captren_id", 4)
+			}
 
 			if (id) {
 				this.model.set('id', id);
 				this.model.fetch({
 					success: function (data) {
 						self.aiDuocChinhSua();
+						self.donViCapTren();
 
 						self.applyBindings();
 						self.danhSachUser();
@@ -224,36 +230,16 @@ define(function (require) {
 				self.$el.find('#danhsach_users').append('<tr class="record"><td class="p-0" style="line-height:40px;font-size:12px;">' + item.name + '</td>' +
 					'<td class="p-1"><select class="selectpicker form-control multiselect_thongbao" multiple data-live-search="true" data-actions-box="true" data-noneSelectedText="Chọn vai trò" title="Chọn vai trò"></select></td>'
 					+ '<td class="p-0" style="line-height:40px;font-size:12px;">' + item.email + '</td><td class="p-0" style="line-height:40px;font-size:12px;">' + item.phone_number + '</td><td class="p-0" style="line-height:40px;font-size:12px;">' + item.phone_zalo + '</td><td class="p-1"><input type="text" class="form-control loaivaitro" ></td><td class="p-0 pt-1"><button class="btn btn-danger del">X</button></td></tr>');
-
-				// self.$el.find('.loaivaitro').combobox({
-				// 	textField: "loaivaitro",
-				// 	valueField: "id",
-				// 	dataSource: [
-				// 		{ loaivaitro: "Quản lý", id: 'quanly' },
-				// 		{ loaivaitro: "Nhân viên", id: 'nhanvien' },
-						
-				// 	],
-				// 	value: 'quanly',
-				// 	refresh: true
-				// });
 			})
-			self.getThongBao();
 
-
-
-
-
-			
 
 			self.$el.find('.loaivaitro').each(function (item, index) {
-				console.log(self.model.get("user_shield")[item].phancapnhanbaocao)
 				$(index).combobox({
 					textField: "loaivaitro",
 					valueField: "id",
 					dataSource: [
 						{ loaivaitro: "Quản lý", id: 'quanly' },
 						{ loaivaitro: "Nhân viên", id: 'nhanvien' },
-						
 					],
 					value: self.model.get("user_shield")[item].phancapnhanbaocao,
 					refresh: true
@@ -282,7 +268,11 @@ define(function (require) {
 					})
 				});
 			})
-
+			self.getThongBao();
+			self.xoaNguoiDung();
+		},
+		xoaNguoiDung: function () {
+			var self = this;
 			self.$el.find('.del').each(function (item, index) {
 				self.$el.find(index).unbind('click').bind('click', function () {
 					var userShield2 = self.model.get("user_shield");
@@ -292,41 +282,38 @@ define(function (require) {
 				})
 			})
 		},
+
 		getThongBao: function () {
 			var self = this;
-			var url = self.getApp().serviceURL + "/api/v1/role";
 			self.$el.find(".multiselect_thongbao").each(function (item, index) {
 				var arrIdRole = [];
 				$.ajax({
-					url: url,
+					url: self.getApp().serviceURL + "/api/v1/role",
 					method: "GET",
 					contentType: "application/json",
 					success: function (data) {
-
-						$(index).html("");
-						for (var i = 0; i < data.objects.length; i++) {
-							var item1 = data.objects[i];
-							var data_str = encodeURIComponent(JSON.stringify(item1));
-							var option_elm = $('<option>').attr({ 'value': item1.id, 'data-ck': data_str }).html(item1.description)
+						data.objects.forEach(function (itemrole, indexrole) {
+							var data_str = encodeURIComponent(JSON.stringify(itemrole));
+							var option_elm = $('<option>').attr({ 'value': itemrole.id, 'data-ck': data_str }).html(itemrole.description)
 							$(index).append(option_elm);
-						}
-						$.fn.selectpicker.Constructor.DEFAULTS.multipleSeparator = ' | ';
+						})
 
+						$.fn.selectpicker.Constructor.DEFAULTS.multipleSeparator = ' | ';
 						var dsuser = self.model.get("user_shield")[item].id;
 						$.ajax({
 							url: self.getApp().serviceURL + "/api/v1/user",
 							method: "GET",
 							contentType: "application/json",
 							success: function (datauser) {
-								datauser.objects.forEach(function (indexuser, itemuser) {
-									if (dsuser == indexuser.id) {
-										(indexuser.roles).forEach(function (item, index) {
-											arrIdRole.push(item.id)
+								datauser.objects.forEach(function (itemuser,indexuser) {
+									if (dsuser == itemuser.id) {
+										(itemuser.roles).forEach(function (itemroles, indexroles) {
+											arrIdRole.push(itemroles.id)
 										})
 									}
+
 								})
 								$(index).selectpicker('val', arrIdRole);
-
 							},
 							error: function (xhr, status, error) {
 								self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
@@ -407,10 +394,107 @@ define(function (require) {
 		aiDuocChinhSua: function () {
 			var self = this;
 			var currentUser = self.getApp().currentUser;
-			if (currentUser.phancapnhanbaocao !== "quanly") {
-				self.$el.find(".toolbar").css("display", "none");
+			// if (currentUser.phancapnhanbaocao !== "quanly") {
+			// 	self.$el.find(".toolbar").css("display", "none");
+
+			// }
+
+		},
+		donViCapTren: function () {
+			var self = this;
+			var arrdonvi = [];
+			if (self.model.get("captren_id") == 2) {
+				// arrdonvi = [];
+				$.ajax({
+					url: self.getApp().serviceURL + "/api/v1/donvi",
+					method: "GET",
+					contentType: "application/json",
+					success: function (data) {
+
+
+						data.objects.forEach(function (item, index) {
+
+							if (1 == item.captren_id) {
+								arrdonvi.push(item)
+							}
+						})
+						self.$el.find('#donvicaptren').combobox({
+							textField: "ten",
+							valueField: "id",
+							dataSource: arrdonvi,
+							value: self.model.get("donvicaptren")
+						});
+						self.$el.find('#donvicaptren').on('change.gonrin', function (e) {
+							self.model.set("donvicaptren", self.$el.find('#donvicaptren').data('gonrin').getValue())
+						});
+					},
+					error: function (xhr, status, error) {
+						self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+					},
+				});
 
 			}
+			else if (self.model.get("captren_id") == 3) {
+				arrdonvi = [];
+				$.ajax({
+					url: self.getApp().serviceURL + "/api/v1/donvi",
+					method: "GET",
+					contentType: "application/json",
+					success: function (data) {
+						data.objects.forEach(function (item, index) {
+
+							if (2 == item.captren_id && item.tinhthanh_id == self.model.get("tinhthanh_id")) {
+								arrdonvi.push(item)
+							}
+						})
+						self.$el.find('#donvicaptren').combobox({
+							textField: "ten",
+							valueField: "id",
+							dataSource: arrdonvi,
+							value: self.model.get("donvicaptren")
+						});
+						self.$el.find('#donvicaptren').on('change.gonrin', function (e) {
+							self.model.set("donvicaptren", self.$el.find('#donvicaptren').data('gonrin').getValue())
+						});
+
+					},
+					error: function (xhr, status, error) {
+						self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+					},
+				});
+			}
+			else if (self.model.get("captren_id") == 4) {
+				arrdonvi = [];
+				$.ajax({
+					url: self.getApp().serviceURL + "/api/v1/donvi",
+					method: "GET",
+					contentType: "application/json",
+					success: function (data) {
+						data.objects.forEach(function (item, index) {
+
+							if (3 == item.captren_id && item.quanhuyen_id == self.model.get("quanhuyen_id")) {
+								console.log(item)
+								arrdonvi.push(item)
+							}
+						})
+						self.$el.find('#donvicaptren').combobox({
+							textField: "ten",
+							valueField: "id",
+							dataSource: arrdonvi,
+							value: self.model.get("donvicaptren")
+						});
+						self.$el.find('#donvicaptren').on('change.gonrin', function (e) {
+							self.model.set("donvicaptren", self.$el.find('#donvicaptren').data('gonrin').getValue())
+						});
+					},
+					error: function (xhr, status, error) {
+						self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+					},
+				});
+			}
+
+
+
 
 		}
 	});

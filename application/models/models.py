@@ -91,6 +91,7 @@ class DonVi(CommonModel):
     ten = db.Column(db.String(255), nullable=False)
     sodienthoai = db.Column(db.String(63))
     diachi = db.Column(db.String(255))
+    donvicaptren = db.Column(db.String(255))
     email = db.Column(db.String(255))
     nhanthongbaohaykhong = db.Column(db.String(7))
     captren_id = db.Column(Integer())
@@ -106,6 +107,7 @@ class DonVi(CommonModel):
 class SendWarning(CommonModel):
     __tablename__ = 'sendwarning'
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=default_uuid)
+    todonvi = db.Column(JSONB)
     toemail = db.Column(JSONB)
     tozalo = db.Column(JSONB)
     tophone = db.Column(JSONB)

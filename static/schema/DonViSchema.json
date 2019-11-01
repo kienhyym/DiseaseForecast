@@ -42,6 +42,10 @@
         "type": "string",
         "length": 255
     },
+    "donvicaptren": {
+        "type": "string",
+        "length": 255
+    },
     "email": {
         "type": "string",
         "length": 255

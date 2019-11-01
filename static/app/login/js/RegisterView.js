@@ -72,7 +72,13 @@ define(function (require) {
                         email: self.$el.find("#txtemail").val(),
                         name: self.$el.find("#txtname").val(),
                         phone_number: self.$el.find("#txtphone").val(),
-                        password: self.$el.find("#txtpass").val()
+                        phone_zalo: null,
+                        password: self.$el.find("#txtpass").val(),
+                        donvi_id:  null,
+						donvi_captren_id:  null,
+						tinhthanh__id:  null,
+						quanhuyen_id:  null,
+						xaphuong_id:  null,
                     }), 
                     success: function (response) {
                         if (response) {

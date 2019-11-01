@@ -67,8 +67,7 @@ define(function (require) {
                 data: { "q": JSON.stringify({ "order_by": [{ "field": "updated_at", "direction": "desc" }] }) },
                 contentType: "application/json",
                 success: function (data) {
-                    console.log(data.objects);
-                    console.log(self.getApp().currentUser.donvi_captren_id );
+                    
                     var arr = [];
                     if (self.getApp().currentUser.donvi_captren_id == 1) {
                         data.objects.forEach(function (item, index) {

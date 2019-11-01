@@ -9,7 +9,6 @@ define(function (require) {
 	var RoleSelectView = require('app/role/js/SelectView');
 	var DonViSelectView = require('app/donvi/js/SelectView');
 
-	// var ConnectionChannelItemView = require('app/user/js/ConnectionChannelItemView');
 
 	return Gonrin.ModelView.extend({
 		template: template,
@@ -40,53 +39,7 @@ define(function (require) {
 						buttonClass: "btn-success btn-sm",
 						label: "TRANSLATE:SAVE",
 						command: function () {
-							var self = this;
 
-
-							var ten = self.model.get("name");
-							var donvi = self.model.get("donvi");
-							if (ten == null || ten == "") {
-								self.getApp().notify({ message: "Tên đơn vị không được để trống!" }, { type: "danger" });
-							} else if (donvi == null || donvi == undefined) {
-								self.getApp().notify({ message: "Bạn chưa chọn tên đơn vị!" }, { type: "danger" });
-							} else {
-								self.model.save(null, {
-									success: function (model, respose, options) {
-										self.model.set("donvi_captren_id", respose.donvi.captren_id);
-										self.model.set("tinhthanh__id", respose.donvi.tinhthanh_id);
-										self.model.set("quanhuyen_id", respose.donvi.quanhuyen_id);
-										self.model.set("xaphuong_id", respose.donvi.xaphuong_id);
-
-
-
-										self.model.save(null, {
-											success: function (model, respose, options) {
-												self.getApp().notify("Lưu thông tin thành công");
-												location.reload();
-											},
-											error: function (xhr, status, error) {
-												self.getApp().notify({ message: "Lưu thông tin không thành công" }, { type: "danger", delay: 1000 });
-
-											}
-										});
-										// self.getApp().hideloading();
-
-									},
-									error: function (xhr, status, error) {
-										try {
-											if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED") {
-												self.getApp().notify("Hết phiên làm việc, vui lòng đăng nhập lại!");
-												self.getApp().getRouter().navigate("login");
-											} else {
-												self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
-											}
-										}
-										catch (err) {
-											self.getApp().notify({ message: "Lưu thông tin không thành công" }, { type: "danger", delay: 1000 });
-										}
-									}
-								});
-							}
 						}
 					},
 					{
@@ -161,7 +114,7 @@ define(function (require) {
 
 		render: function () {
 			var self = this;
-			self.$el.find('.toolTaoMoi').css("display","none")
+			self.$el.find('.toolTaoMoi').css("display", "none")
 
 			var iddonvi = null;
 			var captrenid = null;
@@ -212,19 +165,86 @@ define(function (require) {
 				this.model.set('id', id);
 				this.model.fetch({
 					success: function (data) {
+						console.log(self.getApp().currentUser.id,self.model.get('id'))
 						if (self.getApp().currentUser.id !== self.model.get('id')) {
 							self.$el.find('.toolTaoMoi').hide();
-						}else{
+						} else {
 							self.$el.find('.toolTaoMoi').show();
-							self.$el.find('.btn-taomoi').hide();							
+							self.$el.find('.btn-taomoi').hide();
 						}
-						self.$el.find('.pass').hide();							
+						self.$el.find('.pass').hide();
 
-						(self.model).on("change:donvi", function (params) {
-							self.model.set("phancapnhanbaocao", null)
-							self.model.set("roles", null)
-						})
+						self.$el.find(".btn-backid").unbind("click").bind("click", function () {
+							Backbone.history.history.back();
+						});
+						self.$el.find(".btn-xoaid").unbind("click").bind("click", function () {
+							
+							$.ajax({
+								url: self.getApp().serviceURL + "/api/v1/user/" +self.model.get("id"),
+								method: "DELETE",
+								headers: {
+									'content-type': 'application/json'
+								},
+								dataType: 'json',
+								success: function (data, res) {
+									self.getApp().notify({ message: "xóa thành công" });
+
+								},
+								error: function (xhr, status, error) {
+									self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+								},
+							});
+						});
+
+						self.$el.find(".btn-luuid").unbind("click").bind("click", function () {
+							var param = {
+								email:self.model.get("email"),
+								name: self.model.get("name"),
+								phone_number: self.model.get("phone_number"),
+								phone_zalo: self.model.get("phone_zalo"),
+								donvi_id: self.model.get("donvi_id"),
+
+							}
+							$.ajax({
+								url: self.getApp().serviceURL + "/api/v1/user/" +self.model.get("id"),
+								method: "PUT",
+								data: JSON.stringify(param),
+								headers: {
+									'content-type': 'application/json'
+								},
+								dataType: 'json',
+								success: function (data, res) {
+									
+									var param2 = {
+										donvi_captren_id: data.donvi.captren_id,
+										tinhthanh__id: data.donvi.tinhthanh_id,
+										quanhuyen_id: data.donvi.quanhuyen_id,
+										xaphuong_id: data.donvi.xaphuong_id
+									}
+									$.ajax({
+										url: self.getApp().serviceURL + "/api/v1/user/" +self.model.get("id"),
+										method: "PUT",
+										data: JSON.stringify(param2),
+										headers: {
+											'content-type': 'application/json'
+										},
+										dataType: 'json',
+										success: function (data, res) {
+											self.getApp().notify({ message: "Cập nhật thành công" });
+											location.reload();
+										},
+										error: function (xhr, status, error) {
+											self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+										},
+									});
+								},
+								error: function (xhr, status, error) {
+									self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+								},
+							});
+						});
 						self.applyBindings();
+
 					},
 					error: function () {
 						self.getApp().notify("Get data Eror");
