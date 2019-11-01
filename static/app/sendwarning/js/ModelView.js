@@ -95,8 +95,8 @@ define(function (require) {
 			var id = this.getApp().getRouter().getParam("id");
 			var currentUser = self.getApp().currentUser;
 			if (id == null) {
-				self.setDonVi();
 				self.setCanhBao();
+				self.setDonVi();
 
 			}
 
@@ -108,14 +108,14 @@ define(function (require) {
 				this.model.set('id', id);
 				this.model.fetch({
 					success: function (data) {
-						if(self.model.get("user_id") !== self.getApp().currentUser.id){
-							self.$el.find('.send-all').css('display','none');
+						if (self.model.get("user_id") !== self.getApp().currentUser.id) {
+							self.$el.find('.send-all').css('display', 'none');
 							self.$el.find('.title').html('Tin nhắn đã nhận')
 						}
-						if(self.model.get("user_id") == self.getApp().currentUser.id){
+						if (self.model.get("user_id") == self.getApp().currentUser.id) {
 							self.$el.find('.title').html('Tin nhắn đã gửi')
 						}
-						
+
 						// self.bindEventSelect();
 
 						self.renderUpload();
@@ -134,8 +134,9 @@ define(function (require) {
 							self.$el.find("#btn-send-phone").addClass("btn-success");
 							self.$el.find("#btn-send-phone").html('Đã gửi qua phone');
 						}
-						self.setDonVi();
 						self.setCanhBao();
+						self.setDonVi();
+
 						self.applyBindings();
 
 					},
@@ -185,31 +186,6 @@ define(function (require) {
 			// (self.$el.find(".linkDownload").html()).slice(51))
 
 		},
-		saveModel: function () {
-			var self = this;
-
-
-			self.model.save(null, {
-				success: function (model, response, options) {
-					self.getApp().notify("Lưu thông tin thành công");
-					self.getApp().router.refresh();
-				},
-				error: function (xhr, status, error) {
-					try {
-						if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED") {
-							self.getApp().notify("Hết phiên làm việc, vui lòng đăng nhập lại!");
-							self.getApp().getRouter().navigate("login");
-						} else {
-							self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
-						}
-					}
-					catch (err) {
-						self.getApp().notify({ message: "Lưu thông tin không thành công" }, { type: "danger", delay: 1000 });
-					}
-				}
-			});
-
-		},
 		bindEventSelect: function () {
 			var self = this;
 			self.$el.find(".upload_files").on("change", function () {
@@ -245,226 +221,8 @@ define(function (require) {
 				http.send(fd);
 			});
 		},
+				//TẠO DANH SÁCH LOẠI THÔNG BÁO TRONG MUTISELECT_CANHBAO
 
-		setDonVi: function () {
-			var self = this;
-			let capduoiid = null;
-			if (self.getApp().currentUser.donvi_captren_id == 1) {
-				capduoiid = 2;
-			}
-			else if (self.getApp().currentUser.donvi_captren_id == 2) {
-				capduoiid = 3;
-			}
-			else {
-				capduoiid = 4;
-			}
-
-			if (self.model.get("todonvi") == null) {
-				$.ajax({
-					url: self.getApp().serviceURL + "/api/v1/donvi",
-					method: "GET",
-					contentType: "application/json",
-					success: function (data) {
-						var danhsachdonvi = [];
-						for (var i = 0; i < data.objects.length; i++) {
-							var item = data.objects[i];
-							if (item.nhanthongbaohaykhong !== "khong" && item.captren_id == capduoiid) {
-								if (self.getApp().currentUser.donvi_captren_id == 1) {
-									danhsachdonvi.push(item.id);
-									var data_str = encodeURIComponent(JSON.stringify(item));
-									var option_elm = $('<option>').attr({ 'value': item.id, 'data-ck': data_str }).html(item.ten)
-									self.$el.find(".multiselect_donvi").append(option_elm);
-								}
-
-								if (self.getApp().currentUser.donvi_captren_id == 2) {
-									if (self.getApp().currentUser.tinhthanh__id == item.tinhthanh_id) {
-										danhsachdonvi.push(item.id);
-										var data_str = encodeURIComponent(JSON.stringify(item));
-										var option_elm = $('<option>').attr({ 'value': item.id, 'data-ck': data_str }).html(item.ten)
-										self.$el.find(".multiselect_donvi").append(option_elm);
-									}
-								}
-								if (self.getApp().currentUser.donvi_captren_id == 3) {
-									if (self.getApp().currentUser.quanhuyen_id == item.quanhuyen_id) {
-										danhsachdonvi.push(item.id);
-										var data_str = encodeURIComponent(JSON.stringify(item));
-										var option_elm = $('<option>').attr({ 'value': item.id, 'data-ck': data_str }).html(item.ten)
-										self.$el.find(".multiselect_donvi").append(option_elm);
-									}
-								}
-							}
-						}
-						$.fn.selectpicker.Constructor.DEFAULTS.multipleSeparator = ' | ';
-						self.$el.find(".multiselect_donvi").selectpicker('val', danhsachdonvi);
-						self.getDonVi();
-
-
-					},
-					error: function (xhr, status, error) {
-						self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
-					},
-				});
-			}
-			else {
-				$.ajax({
-					url: self.getApp().serviceURL + "/api/v1/donvi",
-					method: "GET",
-					contentType: "application/json",
-					success: function (data) {
-						for (var i = 0; i < data.objects.length; i++) {
-							var item = data.objects[i];
-							if (item.nhanthongbaohaykhong !== "khong" && item.captren_id == capduoiid) {
-								if (self.getApp().currentUser.donvi_captren_id == 1) {
-									var data_str = encodeURIComponent(JSON.stringify(item));
-									var option_elm = $('<option>').attr({ 'value': item.id, 'data-ck': data_str }).html(item.ten)
-									self.$el.find(".multiselect_donvi").append(option_elm);
-								}
-
-								if (self.getApp().currentUser.donvi_captren_id == 2) {
-									if (self.getApp().currentUser.tinhthanh__id == item.tinhthanh_id) {
-										var data_str = encodeURIComponent(JSON.stringify(item));
-										var option_elm = $('<option>').attr({ 'value': item.id, 'data-ck': data_str }).html(item.ten)
-										self.$el.find(".multiselect_donvi").append(option_elm);
-									}
-								}
-								if (self.getApp().currentUser.donvi_captren_id == 3) {
-									if (self.getApp().currentUser.quanhuyen_id == item.quanhuyen_id) {
-										var data_str = encodeURIComponent(JSON.stringify(item));
-										var option_elm = $('<option>').attr({ 'value': item.id, 'data-ck': data_str }).html(item.ten)
-										self.$el.find(".multiselect_donvi").append(option_elm);
-									}
-								}
-							}
-						}
-						$.fn.selectpicker.Constructor.DEFAULTS.multipleSeparator = ' | ';
-						self.$el.find(".multiselect_donvi").selectpicker('val', self.model.get('todonvi'));
-
-						self.getDonVi();
-					},
-					error: function (xhr, status, error) {
-						self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
-					},
-				});
-			}
-
-		},
-		getDonVi: function () {
-			var self = this;
-			var arrGmail = [];
-			var arrZalo = [];
-			var danhsachdonviguithongbao = self.$el.find('.multiselect_donvi select').val();
-			self.model.set("todonvi", danhsachdonviguithongbao)
-
-			danhsachdonviguithongbao.forEach(function (ite, ind) {
-				$.ajax({
-					url: self.getApp().serviceURL + "/api/v1/donvi",
-					method: "GET",
-					contentType: "application/json",
-					success: function (data) {
-						data.objects.forEach(function (ite2, ind2) {
-							if (ite == ite2.id) {
-								ite2.user_shield.forEach(function (ite3, ind) {
-									arrGmail.push(ite3.email)
-									arrZalo.push(ite3.phone_zalo)
-								})
-							}
-						})
-					},
-					error: function (xhr, status, error) {
-						self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
-					},
-				});
-			})
-			self.sendMail(arrGmail);
-			self.sendzalo(arrZalo);
-
-			self.$el.find('.multiselect_donvi select').on("change", function () {
-				arrGmail = [];
-				arrZalo = [];
-				var danhsachdonviguithongbao = self.$el.find('.multiselect_donvi select').val();
-				self.model.set("todonvi", danhsachdonviguithongbao)
-
-				danhsachdonviguithongbao.forEach(function (item, index) {
-					$.ajax({
-						url: self.getApp().serviceURL + "/api/v1/donvi",
-						method: "GET",
-						contentType: "application/json",
-						success: function (data) {
-							data.objects.forEach(function (item2, index2) {
-								if (item == item2.id) {
-									item2.user_shield.forEach(function (item3, index3) {
-										arrGmail.push(item3.email)
-										arrZalo.push(item3.phone_zalo)
-
-									})
-								}
-							})
-						},
-						error: function (xhr, status, error) {
-							self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
-						},
-					});
-				})
-				self.sendMail(arrGmail);
-				self.sendzalo(arrZalo);
-			})
-		},
-		sendMail: function (arrGmail) {
-			var self = this;
-			self.$el.find("#btn-send-gmail").unbind('click').bind("click", function () {
-				arrGmail.forEach(function (item, index) {
-					
-					var content = null;
-									if(self.model.get("tailieu") == null){
-										content = self.$el.find("#content").val();
-									}
-									else{
-										content = self.$el.find("#content").val() + "\n\n" + "Tài liệu đính kèm:" + self.getApp().serviceURL + self.model.get("tailieu");
-									}
-					$.ajax({
-						type: "POST",
-						url: "https://upstart.vn/services/api/email/send",
-						data: JSON.stringify({
-							from: {
-								"id": "kien97ym@gmail.com",
-								"password": "kocopass_1",
-							},
-							"to": item,
-							"message":  content,
-							"subject": self.$el.find("#cc").val(),
-						}),
-						success: function (response) {
-							self.getApp().notify({ message: "Đã gưi thành công" });
-
-						},
-						error: function (response) {
-							self.getApp().notify({ message: "Tài khoản hoặc mật khẩu gmail không chính xác" }, { type: "danger", delay: 1000 });
-						}
-					});
-				})
-				var d = new Date();
-				d.getDate();
-				self.model.set("ngayguigmail", moment().unix())
-				var danhsachcanhbao = self.$el.find('.multiselect_canhbao select').val();
-				self.model.set("canhbao", danhsachcanhbao)
-				self.model.set("user_id", self.getApp().currentUser.id)
-				self.model.save(null, {
-					success: function (model, respose, options) {
-						self.getApp().notify("Lưu thông tin thành công");
-					},
-					error: function (xhr, status, error) {
-						self.getApp().notify({ message: "Lưu thông tin không thành công" }, { type: "danger", delay: 1000 });
-
-					}
-				});
-
-
-			})
-
-
-
-
-		},
 		setCanhBao: function () {
 			var self = this;
 			if (self.model.get("canhbao") == null || self.model.get("canhbao") == []) {
@@ -517,85 +275,277 @@ define(function (require) {
 				});
 			}
 		},
-		sendzalo: function (arrzalo) {
+		//TẠO DANH SÁCH ĐƠN VỊ TRONG MUTISELECT_DONVI
+		setDonVi: function () {
 			var self = this;
-			self.$el.find("#btn-send-zalo").unbind('click').bind("click", function () {
-
-				arrzalo.forEach(function (item, index) {
-
-					if (item != null) {
-						var URL = "https://openapi.zalo.me/v2.0/oa/getprofile?access_token=1r2tNP-US4m8LhnSdPXxI0jGlbsUWpqt2ZgeT-7n9XaFQf1VuTuZDdTaasgGq2WQOsVaV93CVMbxTkSKlTjdG2zZf3wv-cXGK63N4xYbRq1G0AWreCup8cv0dL-Qa0LER0ErNPsV3mqGCRz_YO8E8M4Job2IgLiG1c32K9_gG4T-Uk8CxBP9QIDzxG3HrLTFF7dQ3Vtf7qmLM9afqiW0H4TgbXIXxWrZRNdAC-3NS3e5G-fazlDA3pXivaBhz4XN7rpnEl3sNMOcG9eLpCuYPg3zz2IKWtTB&data={'user_id':'" + item + "'}";
-						$.ajax({
-							type: "GET",
-							url: URL,
-							// url: "https://openapi.zalo.me/v2.0/oa/getfollowers?access_token=32BFHeZT1Zq39CH7YjiDEG0YnaQ9m4jaOaZfOhEpSazd6EvpbU5L2nfP_WVpnqiQVdo90FE07ZWY2vKzseW4HKi0d7k-lYm6K4ha2QgqLIzPJfmOeie912joaJlvnXWY5sU98lxHDrikS89AsEWxLoiNyMpnccra91Fc6-wgHHWB5SKVqUjUDXLFt1kGo6fdU6x8I9NLKN9pSvvUkujJTsiU-42-_qHcUrpcVVx7QbntMVb_aiPq1XrUndl9mNT31rZ0HElL2N0sIgDJnyvhMhpC-aw3m04w&data={'offset':0,'count':5}",
-							//url: "https://openapi.zalo.me/v2.0/oa/getoa?access_token=1r2tNP-US4m8LhnSdPXxI0jGlbsUWpqt2ZgeT-7n9XaFQf1VuTuZDdTaasgGq2WQOsVaV93CVMbxTkSKlTjdG2zZf3wv-cXGK63N4xYbRq1G0AWreCup8cv0dL-Qa0LER0ErNPsV3mqGCRz_YO8E8M4Job2IgLiG1c32K9_gG4T-Uk8CxBP9QIDzxG3HrLTFF7dQ3Vtf7qmLM9afqiW0H4TgbXIXxWrZRNdAC-3NS3e5G-fazlDA3pXivaBhz4XN7rpnEl3sNMOcG9eLpCuYPg3zz2IKWtTB",
-							data: "data",
-							dataType: 'json',
-							success: function (response) {
-								if (response.data !== undefined) {
-									var content = null;
-									if(self.model.get("tailieu") == null){
-										content = self.$el.find("#content").val();
-									}
-									else{
-										content = self.$el.find("#content").val() + "\n\n" + "Tài liệu đính kèm:" + self.getApp().serviceURL + self.model.get("tailieu");
-									}
-									// $.ajax({
-									// 	type: "POST",
-									// 	url: "https://openapi.zalo.me/v2.0/oa/message?access_token=1r2tNP-US4m8LhnSdPXxI0jGlbsUWpqt2ZgeT-7n9XaFQf1VuTuZDdTaasgGq2WQOsVaV93CVMbxTkSKlTjdG2zZf3wv-cXGK63N4xYbRq1G0AWreCup8cv0dL-Qa0LER0ErNPsV3mqGCRz_YO8E8M4Job2IgLiG1c32K9_gG4T-Uk8CxBP9QIDzxG3HrLTFF7dQ3Vtf7qmLM9afqiW0H4TgbXIXxWrZRNdAC-3NS3e5G-fazlDA3pXivaBhz4XN7rpnEl3sNMOcG9eLpCuYPg3zz2IKWtTB",
-									// 	data: JSON.stringify({
-									// 		"recipient": {
-									// 			"user_id": response.data.user_id
-									// 		},
-									// 		"message": {
-									// 			"text": content
-									// 		},
-									// 	}),
-									// 	success: function (response) {
-									// 		self.getApp().notify({ message: "Da gui " });
-									// 	},
-									// 	error: function (response) {
-									// 		self.getApp().notify({ message: "Tài khoản hoặc mật khẩu gmail không chính xác" }, { type: "danger", delay: 1000 });
-									// 	}
-									// });
+			if (self.model.get("todonvi") == null) {
+				$.ajax({
+					url: self.getApp().serviceURL + "/api/v1/donvi",
+					method: "GET",
+					contentType: "application/json",
+					success: function (data) {
+						var danhsachdonvi = [];
+						for (var i = 0; i < data.objects.length; i++) {
+							var item = data.objects[i];
+							if (item.nhanthongbaohaykhong !== "khong") {
+								if (self.getApp().currentUser.donvi_id == item.donvicaptren) {
+									danhsachdonvi.push(item.id)
+									var data_str = encodeURIComponent(JSON.stringify(item));
+									var option_elm = $('<option>').attr({ 'value': item.id, 'data-ck': data_str }).html(item.ten)
+									self.$el.find(".multiselect_donvi").append(option_elm);
 								}
-
-
-
-							}, error: function (response) {
-								self.getApp().notify({ message: "lỗi rồi" }, { type: "danger", delay: 1000 });
 							}
+						}
+						$.fn.selectpicker.Constructor.DEFAULTS.multipleSeparator = ' | ';
+						self.$el.find(".multiselect_donvi").selectpicker('val', danhsachdonvi);
+						self.getDonViVaLoaiCanhBao();
 
-						});
-					}
 
-
-				})
-				var d = new Date();
-				d.getDate();
-				self.model.set("ngayguizalo", moment().unix())
-				var danhsachcanhbao = self.$el.find('.multiselect_canhbao select').val();
-				self.model.set("canhbao", danhsachcanhbao)
-				self.model.set("tozalo", arrzalo)
-				self.model.set("user_id", self.getApp().currentUser.id)
-
-				self.model.save(null, {
-					success: function (model, respose, options) {
-						self.getApp().notify("Lưu thông tin thành công");
 					},
 					error: function (xhr, status, error) {
-						self.getApp().notify({ message: "Lưu thông tin không thành công" }, { type: "danger", delay: 1000 });
-
-					}
+						self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+					},
 				});
+			}
+			else {
+				$.ajax({
+					url: self.getApp().serviceURL + "/api/v1/donvi",
+					method: "GET",
+					contentType: "application/json",
+					success: function (data) {
+						for (var i = 0; i < data.objects.length; i++) {
+							var item = data.objects[i];
+							if (item.nhanthongbaohaykhong !== "khong") {
+								if (self.getApp().currentUser.donvi_id == item.donvicaptren) {
+									var data_str = encodeURIComponent(JSON.stringify(item));
+									var option_elm = $('<option>').attr({ 'value': item.id, 'data-ck': data_str }).html(item.ten)
+									self.$el.find(".multiselect_donvi").append(option_elm);
+								}
+							}
+						}
+						$.fn.selectpicker.Constructor.DEFAULTS.multipleSeparator = ' | ';
+						self.$el.find(".multiselect_donvi").selectpicker('val', self.model.get('todonvi'));
+						self.getDonViVaLoaiCanhBao();
+					},
+					error: function (xhr, status, error) {
+						self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+					},
+				});
+			}
 
+		},
+		//LẤY DANH SÁCH ĐƠN VỊ VÀ DANH SÁCH LOẠI THÔNG BÁO TỪ GIAO DIỆN
+		getDonViVaLoaiCanhBao: function () {
+			var self = this;
+			var danhsachdonviguithongbao = [];
+			var dscanhbao = [];
+
+			danhsachdonviguithongbao = self.$el.find('.multiselect_donvi select').val();
+			self.model.set("todonvi", danhsachdonviguithongbao)
+			dscanhbao = self.$el.find('.multiselect_canhbao select').val();
+			self.sendMail(danhsachdonviguithongbao, dscanhbao);
+			self.sendzalo(danhsachdonviguithongbao, dscanhbao);
+
+			self.$el.find('.multiselect_donvi select').on("change", function () {
+				danhsachdonviguithongbao = self.$el.find('.multiselect_donvi select').val();
+				dscanhbao = self.$el.find('.multiselect_canhbao select').val();
+				self.model.set("todonvi", danhsachdonviguithongbao)
+				self.sendMail(danhsachdonviguithongbao, dscanhbao);
+				self.sendzalo(danhsachdonviguithongbao, dscanhbao);
+			})
+			self.$el.find('.multiselect_canhbao select').on("change", function () {
+				dscanhbao = self.$el.find('.multiselect_canhbao select').val();
+				danhsachdonviguithongbao = self.$el.find('.multiselect_donvi select').val();
+				self.sendMail(danhsachdonviguithongbao, dscanhbao);
+				self.sendzalo(danhsachdonviguithongbao, dscanhbao);
 
 			})
+		},
+		// GỬI TIN QUÁ EMAIL
+		sendMail: function (arrdonvi, arrcanhbao) {
+			var self = this;
+			$.ajax({
+				url: self.getApp().serviceURL + "/api/v1/user",
+				method: "GET",
+				contentType: "application/json",
+				success: function (data) {
+					var arrUser = [];
+					arrdonvi.forEach(function (id_user) {
+						data.objects.forEach(function (dataUser) {
+							if (id_user == dataUser.donvi_id) {
+								arrUser.push(dataUser)
+							}
+						})
+					})
+					var arrGmailkiemDuyet = [];
+					(arrUser).forEach(function (dataUserRole, indexxx) {
+						var dem = 0;
+						(dataUserRole.roles).forEach(function (dsdataUserRole) {
+							arrcanhbao.forEach(function (dataRole) {
+								if (dsdataUserRole.id == dataRole) {
+									dem++;
+								}
+							})
+						})
+
+						if (dem > 0) {
+							arrGmailkiemDuyet.push(dataUserRole.email);
+						}
+					})
+					self.$el.find("#btn-send-gmail").unbind('click').bind("click", function () {
+						arrGmailkiemDuyet.forEach(function (item, index) {
+
+							var content = null;
+							if (self.model.get("tailieu") == null) {
+								content = self.$el.find("#content").val();
+							}
+							else {
+								content = self.$el.find("#content").val() + "\n\n" + "Tài liệu đính kèm:" + self.getApp().serviceURL + self.model.get("tailieu");
+							}
+
+							$.ajax({
+								type: "POST",
+								url: "https://upstart.vn/services/api/email/send",
+								data: JSON.stringify({
+									from: {
+										"id": "kien97ym@gmail.com",
+										"password": "kocopass_1",
+									},
+									"to": item,
+									"message": content,
+									"subject": self.$el.find("#cc").val(),
+								}),
+								success: function (response) {
+									self.getApp().notify({ message: "Đã gưi thành công" });
+
+								},
+								error: function (response) {
+									self.getApp().notify({ message: "Tài khoản hoặc mật khẩu gmail không chính xác" }, { type: "danger", delay: 1000 });
+								}
+							});
+						})
+						var d = new Date();
+						d.getDate();
+						self.model.set("ngayguigmail", moment().unix())
+						self.model.set("canhbao", arrcanhbao)
+						self.model.set("toemail", arrGmailkiemDuyet)
+						self.model.set("user_id", self.getApp().currentUser.id)
+						self.model.save(null, {
+							success: function (model, respose, options) {
+								self.getApp().notify("Lưu thông tin thành công");
+							},
+							error: function (xhr, status, error) {
+								self.getApp().notify({ message: "Lưu thông tin không thành công" }, { type: "danger", delay: 1000 });
+
+							}
+						});
+					})
+				},
+				error: function (xhr, status, error) {
+					self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+				},
+			});
+		},
+		// GỬI TIN QUÁ ZALO
+		sendzalo: function (arrdonvi, arrcanhbao) {
+			var self = this;
+			$.ajax({
+				url: self.getApp().serviceURL + "/api/v1/user",
+				method: "GET",
+				contentType: "application/json",
+				success: function (data) {
+					var arrUser = [];
+					arrdonvi.forEach(function (id_user) {
+						data.objects.forEach(function (dataUser) {
+							if (id_user == dataUser.donvi_id) {
+								arrUser.push(dataUser)
+							}
+						})
+					})
+					var arrZalokiemDuyet = [];
+					(arrUser).forEach(function (dataUserRole, indexxx) {
+						var dem = 0;
+						(dataUserRole.roles).forEach(function (dsdataUserRole) {
+							arrcanhbao.forEach(function (dataRole) {
+								if (dsdataUserRole.id == dataRole) {
+									dem++;
+								}
+							})
+						})
+
+						if (dem > 0) {
+							arrZalokiemDuyet.push(dataUserRole.phone_zalo);
+						}
+					})
+					self.$el.find("#btn-send-zalo").unbind('click').bind("click", function () {
+						arrZalokiemDuyet.forEach(function (item, index) {
+							if (item != null) {
+								var URL = "https://openapi.zalo.me/v2.0/oa/getprofile?access_token=1r2tNP-US4m8LhnSdPXxI0jGlbsUWpqt2ZgeT-7n9XaFQf1VuTuZDdTaasgGq2WQOsVaV93CVMbxTkSKlTjdG2zZf3wv-cXGK63N4xYbRq1G0AWreCup8cv0dL-Qa0LER0ErNPsV3mqGCRz_YO8E8M4Job2IgLiG1c32K9_gG4T-Uk8CxBP9QIDzxG3HrLTFF7dQ3Vtf7qmLM9afqiW0H4TgbXIXxWrZRNdAC-3NS3e5G-fazlDA3pXivaBhz4XN7rpnEl3sNMOcG9eLpCuYPg3zz2IKWtTB&data={'user_id':'" + item + "'}";
+								$.ajax({
+									type: "GET",
+									url: URL,
+									data: "data",
+									dataType: 'json',
+									success: function (response) {
+
+										if (response.data !== undefined) {
+											console.log(response)
+											var content = null;
+											if (self.model.get("tailieu") == null) {
+												content = self.$el.find("#content").val();
+											}
+											else {
+												content = self.$el.find("#content").val() + "\n\n" + "Tài liệu đính kèm:" + self.getApp().serviceURL + self.model.get("tailieu");
+											}
+											$.ajax({
+												type: "POST",
+												url: "https://openapi.zalo.me/v2.0/oa/message?access_token=1r2tNP-US4m8LhnSdPXxI0jGlbsUWpqt2ZgeT-7n9XaFQf1VuTuZDdTaasgGq2WQOsVaV93CVMbxTkSKlTjdG2zZf3wv-cXGK63N4xYbRq1G0AWreCup8cv0dL-Qa0LER0ErNPsV3mqGCRz_YO8E8M4Job2IgLiG1c32K9_gG4T-Uk8CxBP9QIDzxG3HrLTFF7dQ3Vtf7qmLM9afqiW0H4TgbXIXxWrZRNdAC-3NS3e5G-fazlDA3pXivaBhz4XN7rpnEl3sNMOcG9eLpCuYPg3zz2IKWtTB",
+												data: JSON.stringify({
+													"recipient": {
+														"user_id": response.data.user_id
+													},
+													"message": {
+														"text": content
+													},
+												}),
+												success: function (response) {
+													self.getApp().notify({ message: "Da gui " });
+												},
+												error: function (response) {
+													self.getApp().notify({ message: "Tài khoản hoặc mật khẩu gmail không chính xác" }, { type: "danger", delay: 1000 });
+												}
+											});
+										}
+									}, error: function (response) {
+										self.getApp().notify({ message: "lỗi rồi" }, { type: "danger", delay: 1000 });
+									}
+
+								});
+							}
+						})
+						var d = new Date();
+						d.getDate();
+						self.model.set("ngayguizalo", moment().unix())
+						self.model.set("canhbao", arrcanhbao)
+						self.model.set("tozalo", arrZalokiemDuyet)
+						self.model.set("user_id", self.getApp().currentUser.id)
+						self.model.save(null, {
+							success: function (model, respose, options) {
+								self.getApp().notify("Lưu thông tin thành công");
+							},
+							error: function (xhr, status, error) {
+								self.getApp().notify({ message: "Lưu thông tin không thành công" }, { type: "danger", delay: 1000 });
+
+							}
+						});
 
 
-
-
+					})
+				},
+				error: function (xhr, status, error) {
+					self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+				},
+			});
 		},
 
 
