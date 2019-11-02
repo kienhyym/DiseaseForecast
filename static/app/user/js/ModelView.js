@@ -169,7 +169,7 @@ define(function (require) {
 						success: function (response) {
 							if (response) {
 								self.getApp().notify("Đăng ký thành công");
-								self.getApp().getRouter().navigate("login");
+								self.getApp().getRouter().navigate(self.collectionName + "/collection");
 							}
 						}, error: function (xhr, ere) {
 							console.log('xhr', ere);

@@ -330,6 +330,7 @@ define(function (require) {
 							},
 							dataType: 'json',
 							success: function (data, res) {
+								self.getApp().getRouter().refresh();
 							},
 							error: function (xhr, status, error) {
 								self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
@@ -344,11 +345,36 @@ define(function (require) {
 		xoaNguoiDung: function () {
 			var self = this;
 			self.$el.find('.del').each(function (item, index) {
-				self.$el.find(index).unbind('click').bind('click', function () {
-					var userShield2 = self.model.get("user_shield");
-					userShield2.splice(item, 1);
-					$(self.$el.find('.record')[item]).remove();
-					self.model.set("user_shield", userShield2);
+				$(index).unbind('click').bind('click', function () {
+					var userShield = self.model.get("user_shield");
+					userShield.forEach(function (item2,index2) {
+						if(item == index2){
+							var idUser = item2.id;
+							$.ajax({
+								url: self.getApp().serviceURL + "/api/v1/user/" + idUser,
+								method: "PUT",
+								data: JSON.stringify(
+									{
+										donvi:null,
+										donvi_id:null,
+										donvicaptren_id:null
+									}
+								),
+								headers: {
+									'content-type': 'application/json'
+								},
+								dataType: 'json',
+								success: function (data, res) {
+									self.getApp().notify({ message: "Đã xóa người dùng dùng khỏi đơn vị"});
+									self.getApp().getRouter().refresh();
+								},
+								error: function (xhr, status, error) {
+									self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+								},
+							});
+
+						}
+					})
 				})
 			})
 		},
@@ -483,7 +509,6 @@ define(function (require) {
 							arrdonvi.push(item)
 						}
 					})
-					console.log(arrdonvi)
 					self.$el.find('#donvicaptren').combobox({
 						textField: "ten",
 						valueField: "id",
