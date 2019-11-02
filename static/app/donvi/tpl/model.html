@@ -24,6 +24,20 @@
 				</div>
 				<div class="card-body">
 					<form class="needs-validation" novalidate="">
+
+							<div class="row">
+									<div class="col-md-3 mb-3" style="pointer-events:none;opacity: 0.755;">
+										<label>Đơn vị cấp:</label>
+										<input type="text" class="form-control" data-bind="value:captren_id" id="captren"
+											required="">
+									</div>
+									<div class="col-md-9 mb-3" style="pointer-events:none;opacity: 0.755;">
+										<label>Tên đơn vị cấp trên:</label>
+										<input type="text" class="form-control" id="donvicaptren">
+									</div>
+		
+								</div>
+
 						<div class="row">
 
 							<div class="col-md-3 mb-3">
@@ -44,18 +58,7 @@
 							</div>
 
 						</div>
-						<div class="row">
-							<div class="col-md-3 mb-3">
-								<label>Đơn vị cấp:</label>
-								<input type="text" class="form-control" data-bind="value:captren_id" id="captren"
-									required="">
-							</div>
-							<div class="col-md-9 mb-3">
-								<label>Tên đơn vị cấp trên:</label>
-								<input type="text" class="form-control" id="donvicaptren">
-							</div>
-
-						</div>
+						
 						<div class="mb-3">
 							<div class="row">
 								<div class="col-md-4 mb-3">
@@ -72,7 +75,7 @@
 										data-bind="value:sodienthoai" placeholder="..." required="">
 								</div>
 								<div class="col-md-4 mb-3">
-									<label for="nhanthongbaohaykhong">Có nhận cảnh bảo không</label>
+									<label for="nhanthongbaohaykhong">Có nhận cảnh báo không</label>
 									<input type="text" class="form-control" id="nhanthongbaohaykhong"
 										data-bind="value:nhanthongbaohaykhong" placeholder="..." required="">
 								</div>
@@ -82,17 +85,17 @@
 
 
 						<div class="row">
-							<div class="col-md-4 mb-3">
+							<div class="col-md-4 mb-3 tinhthanh">
 								<label for="cc-name">Tỉnh/Thành phố</label>
 								<input type="text" class="form-control" id="tinhthanh" data-bind="dict:tinhthanh"
 									placeholder="..." required="">
 							</div>
-							<div class="col-md-4 mb-3">
+							<div class="col-md-4 mb-3 quanhuyen">
 								<label for="cc-number">Quận/Huyện</label>
 								<input type="text" class="form-control" id="quanhuyen" data-bind="dict:quanhuyen"
 									placeholder="..." required="">
 							</div>
-							<div class="col-md-4 mb-3">
+							<div class="col-md-4 mb-3 xaphuong">
 								<label for="cc-expiration">Xã/Phường</label>
 								<input type="text" class="form-control" id="xaphuong" placeholder="..."
 									data-bind="dict:xaphuong" required="">

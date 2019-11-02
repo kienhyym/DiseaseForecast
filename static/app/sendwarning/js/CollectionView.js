@@ -58,7 +58,6 @@ define(function (require) {
         //             var path = this.collectionName + '/model?id=' + event.rowId;
         //             this.getApp().getRouter().navigate(path);
         //         }
-        //     },                        // console.log(rowData)
 
 
         // },
@@ -77,7 +76,6 @@ define(function (require) {
                         var dem = 0;
                         if (item.tozalo !== null) {
                             (item.tozalo).forEach(function (item2, index2) {
-                                console.log(item2)
 
                                 if (item2 == self.getApp().currentUser.phone_zalo) {
                                     dem++;
@@ -119,7 +117,6 @@ define(function (require) {
                             var dem = 0;
                             if (item.tozalo !== null) {
                                 (item.tozalo).forEach(function (item2, index2) {
-                                    console.log(item2)
 
                                     if (item2 == self.getApp().currentUser.phone_zalo) {
                                         dem++;
@@ -167,7 +164,6 @@ define(function (require) {
 
             var self = this;
             var element;
-            // console.log(stauts, dataSource)
             if (stauts == 0) {
                 element = self.$el.find("#all");
             }

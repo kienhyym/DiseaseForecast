@@ -146,21 +146,87 @@ define(function (require) {
 		},
 		render: function () {
 			var self = this;
-			self.donViCapTren();
+			if (window.location.hash.length < 15) {
+				if (self.getApp().currentUser.captren_stt == 1) {
+					self.model.set("captren_id", 2)
+					self.model.on("change:tinhthanh_id", function () {
+						self.getFieldElement("quanhuyen").data("gonrin").setFilters({ "tinhthanh_id": { "$eq": self.model.get("tinhthanh_id") } });
+					});
+					self.model.on("change:quanhuyen_id", function () {
+						self.getFieldElement("xaphuong").data("gonrin").setFilters({ "quanhuyen_id": { "$eq": self.model.get("quanhuyen_id") } });
+					});
+				}
+				else if (self.getApp().currentUser.captren_stt == 2) {
+					self.model.set("captren_id", 3)
+					self.model.set("tinhthanh", self.getApp().currentUser.tinhthanh)
+					self.$el.find(".tinhthanh").css({ "pointer-events": "none", "opacity": "0.755" })
+					self.model.on("change", function () {
+						self.getFieldElement("quanhuyen").data("gonrin").setFilters({ "tinhthanh_id": { "$eq": self.getApp().currentUser.tinhthanh_id } });
+					})
+					self.model.on("change:quanhuyen_id", function () {
+						self.getFieldElement("xaphuong").data("gonrin").setFilters({ "quanhuyen_id": { "$eq": self.model.get("quanhuyen_id") } });
+					});
+				}
+				else if (self.getApp().currentUser.captren_stt == 3) {
+					self.model.set("captren_id", 4)
+					self.model.set("tinhthanh", self.getApp().currentUser.tinhthanh)
+					self.model.set("quanhuyen", self.getApp().currentUser.quanhuyen)
+					self.$el.find(".tinhthanh").css({ "pointer-events": "none", "opacity": "0.755" })
+					self.$el.find(".quanhuyen").css({ "pointer-events": "none", "opacity": "0.755" })
+					self.model.on("change", function () {
+						self.getFieldElement("xaphuong").data("gonrin").setFilters({ "quanhuyen_id": { "$eq": self.getApp().currentUser.quanhuyen_id } });
+					});
+				}
+				$.ajax({
+					url: self.getApp().serviceURL + "/api/v1/donvi",
+					method: "GET",
+					contentType: "application/json",
+					success: function (data) {
+
+						var arrDonViCapTren = [];
+						data.objects.forEach(function (item, index) {
+							if (self.getApp().currentUser.donvi_id == item.id) {
+								arrDonViCapTren.push(item)
+							}
+
+						})
+						self.$el.find('#donvicaptren').combobox({
+							textField: "ten",
+							valueField: "id",
+							dataSource: arrDonViCapTren,
+							value: self.getApp().currentUser.donvi_id
+						});
+						self.model.set("donvicaptren", self.getApp().currentUser.donvi_id)
+
+					},
+					error: function (xhr, status, error) {
+						self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+					},
+				});
+			}
+
+
+
+
+
+
+
+			// self.donViCapTren();
 
 			var id = this.getApp().getRouter().getParam("id");
 			$.fn.selectpicker.Constructor.DEFAULTS.multipleSeparator = ' | ';
 			self.$el.find("#multiselect_required").selectpicker();
-			if (self.getApp().currentUser.donvi_captren_id == 1) {
-				self.model.set("captren_id", 2)
 
-			}
-			else if (self.getApp().currentUser.donvi_captren_id == 2) {
-				self.model.set("captren_id", 3)
-			}
-			else {
-				self.model.set("captren_id", 4)
-			}
+
+
+
+
+
+
+
+
+
+
 
 			if (id) {
 				this.model.set('id', id);
@@ -168,15 +234,19 @@ define(function (require) {
 					success: function (data) {
 						self.aiDuocChinhSua();
 						self.donViCapTren();
-
 						self.applyBindings();
 						self.danhSachUser();
-						self.model.on("change:tinhthanh_id", function () {
-							self.getFieldElement("quanhuyen").data("gonrin").setFilters({ "tinhthanh_id": { "$eq": self.model.get("tinhthanh_id") } });
-						});
-						self.model.on("change:quanhuyen_id", function () {
-							self.getFieldElement("xaphuong").data("gonrin").setFilters({ "quanhuyen_id": { "$eq": self.model.get("quanhuyen_id") } });
-						});
+						self.$el.find(".tinhthanh").css({ "pointer-events": "none", "opacity": "0.755" })
+						self.$el.find(".quanhuyen").css({ "pointer-events": "none", "opacity": "0.755" })
+						self.$el.find(".xaphuong").css({ "pointer-events": "none", "opacity": "0.755" })
+
+						// self.model.on("change:tinhthanh_id", function () {
+						// 	self.getFieldElement("quanhuyen").data("gonrin").setFilters({ "tinhthanh_id": { "$eq": self.model.get("tinhthanh_id") } });
+						// });
+						// self.model.on("change:quanhuyen_id", function () {
+						// 	self.getFieldElement("xaphuong").data("gonrin").setFilters({ "quanhuyen_id": { "$eq": self.model.get("quanhuyen_id") } });
+						// });
+
 
 					},
 					error: function (xhr, status, error) {
@@ -188,19 +258,19 @@ define(function (require) {
 								self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
 							}
 						} catch (err) {
-							self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+							self.getApp().notify({ message: "Bạn chưa là thành viên của đơn vị nào" }, { type: "danger", delay: 1000 });
 						}
 					}
 				});
 			} else {
 				self.applyBindings();
 				self.danhSachUser();
-				self.model.on("change:tinhthanh_id", function () {
-					self.getFieldElement("quanhuyen").data("gonrin").setFilters({ "tinhthanh_id": { "$eq": self.model.get("tinhthanh_id") } });
-				});
-				self.model.on("change:quanhuyen_id", function () {
-					self.getFieldElement("xaphuong").data("gonrin").setFilters({ "quanhuyen_id": { "$eq": self.model.get("quanhuyen_id") } });
-				});
+				// self.model.on("change:tinhthanh_id", function () {
+				// 	self.getFieldElement("quanhuyen").data("gonrin").setFilters({ "tinhthanh_id": { "$eq": self.model.get("tinhthanh_id") } });
+				// });
+				// self.model.on("change:quanhuyen_id", function () {
+				// 	self.getFieldElement("xaphuong").data("gonrin").setFilters({ "quanhuyen_id": { "$eq": self.model.get("quanhuyen_id") } });
+				// });
 			}
 
 		},
@@ -228,10 +298,10 @@ define(function (require) {
 			var userShield = self.model.get('user_shield');
 			userShield.forEach(function (item, index) {
 				self.$el.find('#danhsach_users').append('<tr class="record"><td class="p-0" style="line-height:40px;font-size:12px;">' + item.name + '</td>' +
-					'<td class="p-1"><select class="selectpicker form-control multiselect_thongbao" multiple data-live-search="true" data-actions-box="true" data-noneSelectedText="Chọn vai trò" title="Chọn vai trò"></select></td>'
-					+ '<td class="p-0" style="line-height:40px;font-size:12px;">' + item.email + '</td><td class="p-0" style="line-height:40px;font-size:12px;">' + item.phone_number + '</td><td class="p-0" style="line-height:40px;font-size:12px;">' + item.phone_zalo + '</td><td class="p-1"><input type="text" class="form-control loaivaitro" ></td><td class="p-0 pt-1"><button class="btn btn-danger del">X</button></td></tr>');
+					'<td class="p-1"><select class="selectpicker form-control multiselect_thongbao" multiple data-live-search="true" data-actions-box="true" data-noneSelectedText="Chọn loại thông báo" title="Chọn loại thông báo"></select></td>'
+					+ '<td class="p-0" style="line-height:40px;font-size:12px;">' + item.email + '</td><td class="p-0" style="line-height:40px;font-size:12px;">' + item.phone_number + '</td><td class="p-0 phonezalo" style="line-height:40px;font-size:12px;">' + item.phone_zalo + '</td><td class="p-1"><input type="text" class="form-control loaivaitro" ></td><td class="p-0 pt-1"><button class="btn btn-danger del">X</button></td></tr>');
 			})
-
+			
 
 			self.$el.find('.loaivaitro').each(function (item, index) {
 				$(index).combobox({
@@ -305,7 +375,7 @@ define(function (require) {
 							method: "GET",
 							contentType: "application/json",
 							success: function (datauser) {
-								datauser.objects.forEach(function (itemuser,indexuser) {
+								datauser.objects.forEach(function (itemuser, indexuser) {
 									if (dsuser == itemuser.id) {
 										(itemuser.roles).forEach(function (itemroles, indexroles) {
 											arrIdRole.push(itemroles.id)
@@ -402,100 +472,32 @@ define(function (require) {
 		},
 		donViCapTren: function () {
 			var self = this;
-			var arrdonvi = [];
-			if (self.model.get("captren_id") == 2) {
-				// arrdonvi = [];
-				$.ajax({
-					url: self.getApp().serviceURL + "/api/v1/donvi",
-					method: "GET",
-					contentType: "application/json",
-					success: function (data) {
-
-
-						data.objects.forEach(function (item, index) {
-
-							if (1 == item.captren_id) {
-								arrdonvi.push(item)
-							}
-						})
-						self.$el.find('#donvicaptren').combobox({
-							textField: "ten",
-							valueField: "id",
-							dataSource: arrdonvi,
-							value: self.model.get("donvicaptren")
-						});
-						self.$el.find('#donvicaptren').on('change.gonrin', function (e) {
-							self.model.set("donvicaptren", self.$el.find('#donvicaptren').data('gonrin').getValue())
-						});
-					},
-					error: function (xhr, status, error) {
-						self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
-					},
-				});
-
-			}
-			else if (self.model.get("captren_id") == 3) {
-				arrdonvi = [];
-				$.ajax({
-					url: self.getApp().serviceURL + "/api/v1/donvi",
-					method: "GET",
-					contentType: "application/json",
-					success: function (data) {
-						data.objects.forEach(function (item, index) {
-
-							if (2 == item.captren_id && item.tinhthanh_id == self.model.get("tinhthanh_id")) {
-								arrdonvi.push(item)
-							}
-						})
-						self.$el.find('#donvicaptren').combobox({
-							textField: "ten",
-							valueField: "id",
-							dataSource: arrdonvi,
-							value: self.model.get("donvicaptren")
-						});
-						self.$el.find('#donvicaptren').on('change.gonrin', function (e) {
-							self.model.set("donvicaptren", self.$el.find('#donvicaptren').data('gonrin').getValue())
-						});
-
-					},
-					error: function (xhr, status, error) {
-						self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
-					},
-				});
-			}
-			else if (self.model.get("captren_id") == 4) {
-				arrdonvi = [];
-				$.ajax({
-					url: self.getApp().serviceURL + "/api/v1/donvi",
-					method: "GET",
-					contentType: "application/json",
-					success: function (data) {
-						data.objects.forEach(function (item, index) {
-
-							if (3 == item.captren_id && item.quanhuyen_id == self.model.get("quanhuyen_id")) {
-								console.log(item)
-								arrdonvi.push(item)
-							}
-						})
-						self.$el.find('#donvicaptren').combobox({
-							textField: "ten",
-							valueField: "id",
-							dataSource: arrdonvi,
-							value: self.model.get("donvicaptren")
-						});
-						self.$el.find('#donvicaptren').on('change.gonrin', function (e) {
-							self.model.set("donvicaptren", self.$el.find('#donvicaptren').data('gonrin').getValue())
-						});
-					},
-					error: function (xhr, status, error) {
-						self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
-					},
-				});
-			}
-
-
-
-
+			$.ajax({
+				url: self.getApp().serviceURL + "/api/v1/donvi",
+				method: "GET",
+				contentType: "application/json",
+				success: function (data) {
+					var arrdonvi = [];
+					data.objects.forEach(function (item, index) {
+						if (self.model.get("donvicaptren") == item.id) {
+							arrdonvi.push(item)
+						}
+					})
+					console.log(arrdonvi)
+					self.$el.find('#donvicaptren').combobox({
+						textField: "ten",
+						valueField: "id",
+						dataSource: arrdonvi,
+						value: self.model.get("donvicaptren")
+					});
+					self.$el.find('#donvicaptren').on('change.gonrin', function (e) {
+						self.model.set("donvicaptren", self.$el.find('#donvicaptren').data('gonrin').getValue())
+					});
+				},
+				error: function (xhr, status, error) {
+					self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+				},
+			});
 		}
 	});
 });

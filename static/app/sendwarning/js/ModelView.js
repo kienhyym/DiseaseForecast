@@ -489,7 +489,6 @@ define(function (require) {
 									success: function (response) {
 
 										if (response.data !== undefined) {
-											console.log(response)
 											var content = null;
 											if (self.model.get("tailieu") == null) {
 												content = self.$el.find("#content").val();

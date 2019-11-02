@@ -46,6 +46,8 @@ define(function(require) {
                     self.getApp().getRouter().navigate("index");
                 },
                 error: function(xhr) {
+                    self.getApp().notify({ message: "Tên đăng nhập hoặc mật khẩu không chính xác" }, { type: "danger", delay: 1000 });
+
                 }
             });
         },

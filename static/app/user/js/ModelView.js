@@ -121,39 +121,63 @@ define(function (require) {
 			var tinhthanhid = null;
 			var quanhuyenid = null;
 			var xaphuongid = null;
+			var donvicaptren_id = null;
 			(self.model).on("change:donvi", function () {
 				iddonvi = self.model.get("donvi").id;
 				captrenid = self.model.get("donvi").captren_id;
 				tinhthanhid = self.model.get("donvi").tinhthanh_id;
 				quanhuyenid = self.model.get("donvi").quanhuyen_id;
 				xaphuongid = self.model.get("donvi").xaphuong_id;
+				donvicaptren_id = self.model.get("donvi").donvicaptren;
 			})
 			self.$el.find(".btn-luu").unbind("click").bind("click", function () {
-				$.ajax({
-					method: "POST",
-					url: self.getApp().serviceURL + "/api/v1/register",
-					data: JSON.stringify({
-						email: self.$el.find("#email").val(),
-						name: self.$el.find("#name").val(),
-						phone_number: self.$el.find("#phone_number").val(),
-						phone_zalo: self.$el.find("#phone_zalo").val(),
-						password: self.$el.find("#password").val(),
-						donvi_id: iddonvi,
-						donvi_captren_id: captrenid,
-						tinhthanh__id: tinhthanhid,
-						quanhuyen_id: quanhuyenid,
-						xaphuong_id: xaphuongid
-					}),
-					success: function (response) {
-						if (response) {
-							self.getApp().notify("Đăng ký thành công");
-							self.getApp().getRouter().navigate("login");
+				if(self.$el.find("#name").val()== null || self.$el.find("#password").val()== ""){
+					self.getApp().notify({ message: "Bạn chưa nhập tên" }, { type: "danger", delay: 1000 });
+				}
+				if(self.$el.find("#email").val()== null || self.$el.find("#password").val()== ""){
+					self.getApp().notify({ message: "Bạn chưa nhập email" }, { type: "danger", delay: 1000 });
+				}
+				if(self.$el.find("#phone_number").val()== null || self.$el.find("#password").val()== ""){
+					self.getApp().notify({ message: "Bạn chưa nhập số điện thoại" }, { type: "danger", delay: 1000 });
+				}
+				// if(self.$el.find("#phone_zalo").val()== null || self.$el.find("#password").val()== ""){
+				// 	self.getApp().notify({ message: "Bạn chưa nhập số đăng ký zalo" }, { type: "danger", delay: 1000 });
+				// }
+				// if(self.$el.find("#donvi").val()== null || self.$el.find("#password").val()== ""){
+				// 	self.getApp().notify({ message: "Bạn chưa nhập đơn vị" }, { type: "danger", delay: 1000 });
+				// }
+				if(self.$el.find("#password").val()== null || self.$el.find("#password").val()== ""){
+					self.getApp().notify({ message: "Bạn chưa nhập mật khẩu" }, { type: "danger", delay: 1000 });
+				}
+				else{
+					$.ajax({
+						method: "POST",
+						url: self.getApp().serviceURL + "/api/v1/register",
+						data: JSON.stringify({
+							email: self.$el.find("#email").val(),
+							name: self.$el.find("#name").val(),
+							phone_number: self.$el.find("#phone_number").val(),
+							phone_zalo: self.$el.find("#phone_zalo").val(),
+							password: self.$el.find("#password").val(),
+							donvi_id: iddonvi,
+							captren_stt: captrenid,
+							tinhthanh_id: tinhthanhid,
+							quanhuyen_id: quanhuyenid,
+							xaphuong_id: xaphuongid,
+							donvicaptren_id:donvicaptren_id
+						}),
+						success: function (response) {
+							if (response) {
+								self.getApp().notify("Đăng ký thành công");
+								self.getApp().getRouter().navigate("login");
+							}
+						}, error: function (xhr, ere) {
+							console.log('xhr', ere);
+	
 						}
-					}, error: function (xhr, ere) {
-						console.log('xhr', ere);
-
-					}
-				})
+					})
+				}
+				
 			});
 			self.$el.find(".btn-back").unbind("click").bind("click", function () {
 				Backbone.history.history.back();
@@ -216,10 +240,14 @@ define(function (require) {
 								success: function (data, res) {
 									
 									var param2 = {
-										donvi_captren_id: data.donvi.captren_id,
-										tinhthanh__id: data.donvi.tinhthanh_id,
+										captren_stt: data.donvi.captren_id,
+										tinhthanh_id: data.donvi.tinhthanh_id,
 										quanhuyen_id: data.donvi.quanhuyen_id,
-										xaphuong_id: data.donvi.xaphuong_id
+										xaphuong_id: data.donvi.xaphuong_id,
+										tinhthanh: data.donvi.tinhthanh,
+										quanhuyen: data.donvi.quanhuyen,
+										xaphuong: data.donvi.xaphuong,
+										donvicaptren_id:data.donvi.donvicaptren
 									}
 									$.ajax({
 										url: self.getApp().serviceURL + "/api/v1/user/" +self.model.get("id"),

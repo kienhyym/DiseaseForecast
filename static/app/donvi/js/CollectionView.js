@@ -67,39 +67,12 @@ define(function (require) {
                 data: { "q": JSON.stringify({ "order_by": [{ "field": "updated_at", "direction": "desc" }] }) },
                 contentType: "application/json",
                 success: function (data) {
-                    
                     var arr = [];
-                    if (self.getApp().currentUser.donvi_captren_id == 1) {
-                        data.objects.forEach(function (item, index) {
-                            if (item.captren_id == 2) {
-                                arr.push(item);
-                            }
-                        });
-
-                    }
-                    if (self.getApp().currentUser.donvi_captren_id == 2) {
-
-                        data.objects.forEach(function (item, index) {
-                            if (item.captren_id == 3) {
-                                if (item.tinhthanh_id == self.getApp().currentUser.tinhthanh__id) {
-                                    arr.push(item);
-                                }
-                            }
-                        });
-
-                    }
-
-                    if (self.getApp().currentUser.donvi_captren_id == 3) {
-                        data.objects.forEach(function (item, index) {
-                            if (item.captren_id == 4) {
-
-                                if (item.quanhuyen_id == self.getApp().currentUser.quanhuyen_id) {
-                                    arr.push(item);
-                                }
-                            }
-                        });
-
-                    }
+                    data.objects.forEach(function (item, index) {
+                        if (item.donvicaptren == self.getApp().currentUser.donvi_id) {
+                            arr.push(item);
+                        }
+                    });             
                     self.render_grid2(arr);
                 },
             })
@@ -109,7 +82,6 @@ define(function (require) {
             var element = self.$el.find("#grid_all");
 
             element.grid({
-                // showSortingIndicator: true,
                 orderByMode: "client",
                 language: {
                     no_records_found: "Chưa có dữ liệu"

@@ -27,7 +27,9 @@ define(function (require) {
 		registerEvent: function () {
             console.log('asdfg')
             var self = this;
-            
+            self.$el.find("#btn-back").unbind("click").bind("click", function () {
+                self.getApp().getRouter().navigate("login");
+            });
             self.$el.find("#btn-register").unbind("click").bind("click", function () {
                 if(self.$el.find("#txtemail").val() === undefined || self.$el.find("#txtemail").val() === ""){
                     self.getApp().notify("Email không được bỏ trống");
@@ -75,10 +77,11 @@ define(function (require) {
                         phone_zalo: null,
                         password: self.$el.find("#txtpass").val(),
                         donvi_id:  null,
-						donvi_captren_id:  null,
-						tinhthanh__id:  null,
+						captren_stt:  null,
+						tinhthanh_id:  null,
 						quanhuyen_id:  null,
-						xaphuong_id:  null,
+                        xaphuong_id:  null,
+                        donvicaptren_id:null,
                     }), 
                     success: function (response) {
                         if (response) {

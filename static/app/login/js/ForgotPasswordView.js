@@ -16,6 +16,9 @@ define(function (require) {
                
                self.processForgotPass();
             });
+            self.$el.find("#btn-back").unbind("click").bind("click", function () {
+                self.getApp().getRouter().navigate("login");
+            });
             return this;
         },
         validateEmail: function (email) {

@@ -50,20 +50,30 @@
     "donvi_id": {
         "type": "string"
     },
-    "donvi_captren_id": {
+    "captren_stt": {
         "type": "number"
     },
-    "tinhthanh__id": {
+    "donvicaptren_id": {
         "type": "string",
-        "length": 150
+        "length": 255
+    },
+    "tinhthanh_id": {
+        "type": "string"
+    },
+    "tinhthanh": {
+        "type": "json"
     },
     "quanhuyen_id": {
-        "type": "string",
-        "length": 150
+        "type": "string"
+    },
+    "quanhuyen": {
+        "type": "json"
     },
     "xaphuong_id": {
-        "type": "string",
-        "length": 150
+        "type": "string"
+    },
+    "xaphuong": {
+        "type": "json"
     },
     "phancapnhanbaocao": {
         "type": "string",

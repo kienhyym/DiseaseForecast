@@ -137,11 +137,11 @@ def register(request):
         new_user.phone_number = data["phone_number"]
         new_user.phone_zalo = data["phone_zalo"]
         new_user.donvi_id = data["donvi_id"]
-        new_user.donvi_captren_id = data["donvi_captren_id"]
-        new_user.tinhthanh__id = data["tinhthanh__id"]
+        new_user.captren_stt = data["captren_stt"]
+        new_user.tinhthanh_id = data["tinhthanh_id"]
         new_user.quanhuyen_id = data["quanhuyen_id"]
         new_user.xaphuong_id = data["xaphuong_id"]
-
+        new_user.donvicaptren_id = data["donvicaptren_id"]
 
         # new_user.user_image = data["user_image"]
         new_user.password = auth.encrypt_password(data["password"])

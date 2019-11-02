@@ -47,38 +47,16 @@ define(function (require) {
                 contentType: "application/json",
                 success: function (data) {
                     var arr = [];
-                    if (self.getApp().currentUser.donvi_captren_id == 1) {
+                    
 
                         data.objects.forEach(function (item, index) {
-                            if (item.donvi_captren_id == 2) {
+                            if (self.getApp().currentUser.donvi_id == item.donvicaptren_id ) {
                                 arr.push(item);
                             }
                         });
 
-                    }
-                    if (self.getApp().currentUser.donvi_captren_id == 2) {
-
-                        data.objects.forEach(function (item, index) {
-                            if (item.donvi_captren_id == 3) {
-                                if (item.tinhthanh__id == self.getApp().currentUser.tinhthanh__id) {
-                                    arr.push(item);
-                                }
-                                
-                            }
-                        });
-
-                    }
-                    if (self.getApp().currentUser.donvi_captren_id == 3) {
-
-                        data.objects.forEach(function (item, index) {
-                            if (item.donvi_captren_id == 4) {
-                                if (item.quanhuyen_id == self.getApp().currentUser.quanhuyen_id) {
-                                    arr.push(item);
-                                }
-                            }
-                        });
-
-                    }
+                 
+                   
                     self.render_grid2(arr);
                 },
             })

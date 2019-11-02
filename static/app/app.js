@@ -106,7 +106,6 @@ require(['jquery', 'gonrin', 'app/router', 'app/nav/NavbarView', 'text!app/base/
 			});
 			$(".mainlogo").unbind('click').bind('click', function () {
 				self.router.navigate('index');
-
 				self.getRouter().refresh();
 
 			});
