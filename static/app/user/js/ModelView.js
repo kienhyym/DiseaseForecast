@@ -86,14 +86,14 @@ define(function (require) {
 					selectionMode: "multiple",
 					dataSource: RoleSelectView
 				},
-				{
-					field: "donvi",
-					uicontrol: "ref",
-					textField: "ten",
-					foreignRemoteField: "id",
-					foreignField: "donvi_id",
-					dataSource: DonViSelectView
-				},
+				// {
+				// 	field: "donvi",
+				// 	uicontrol: "ref",
+				// 	textField: "ten",
+				// 	foreignRemoteField: "id",
+				// 	foreignField: "donvi_id",
+				// 	dataSource: DonViSelectView
+				// },
 
 				// {
 				// 	field: "userconnectionchannels",
@@ -114,97 +114,56 @@ define(function (require) {
 
 		render: function () {
 			var self = this;
-			self.$el.find('.toolTaoMoi').css("display", "none")
+			self.$el.find('.toolTaoMoi').hide();
+			self.setDonVi();
 
-			var iddonvi = null;
-			var captrenid = null;
-			var tinhthanhid = null;
-			var quanhuyenid = null;
-			var xaphuongid = null;
-			var donvicaptren_id = null;
-			(self.model).on("change:donvi", function () {
-				iddonvi = self.model.get("donvi").id;
-				captrenid = self.model.get("donvi").captren_id;
-				tinhthanhid = self.model.get("donvi").tinhthanh_id;
-				quanhuyenid = self.model.get("donvi").quanhuyen_id;
-				xaphuongid = self.model.get("donvi").xaphuong_id;
-				donvicaptren_id = self.model.get("donvi").donvicaptren;
-			})
-			self.$el.find(".btn-luu").unbind("click").bind("click", function () {
-				if(self.$el.find("#name").val()== null || self.$el.find("#password").val()== ""){
-					self.getApp().notify({ message: "Bạn chưa nhập tên" }, { type: "danger", delay: 1000 });
-				}
-				if(self.$el.find("#email").val()== null || self.$el.find("#password").val()== ""){
-					self.getApp().notify({ message: "Bạn chưa nhập email" }, { type: "danger", delay: 1000 });
-				}
-				if(self.$el.find("#phone_number").val()== null || self.$el.find("#password").val()== ""){
-					self.getApp().notify({ message: "Bạn chưa nhập số điện thoại" }, { type: "danger", delay: 1000 });
-				}
-				// if(self.$el.find("#phone_zalo").val()== null || self.$el.find("#password").val()== ""){
-				// 	self.getApp().notify({ message: "Bạn chưa nhập số đăng ký zalo" }, { type: "danger", delay: 1000 });
-				// }
-				// if(self.$el.find("#donvi").val()== null || self.$el.find("#password").val()== ""){
-				// 	self.getApp().notify({ message: "Bạn chưa nhập đơn vị" }, { type: "danger", delay: 1000 });
-				// }
-				if(self.$el.find("#password").val()== null || self.$el.find("#password").val()== ""){
-					self.getApp().notify({ message: "Bạn chưa nhập mật khẩu" }, { type: "danger", delay: 1000 });
-				}
-				else{
-					$.ajax({
-						method: "POST",
-						url: self.getApp().serviceURL + "/api/v1/register",
-						data: JSON.stringify({
-							email: self.$el.find("#email").val(),
-							name: self.$el.find("#name").val(),
-							phone_number: self.$el.find("#phone_number").val(),
-							phone_zalo: self.$el.find("#phone_zalo").val(),
-							password: self.$el.find("#password").val(),
-							donvi_id: iddonvi,
-							captren_stt: captrenid,
-							tinhthanh_id: tinhthanhid,
-							quanhuyen_id: quanhuyenid,
-							xaphuong_id: xaphuongid,
-							donvicaptren_id:donvicaptren_id
-						}),
-						success: function (response) {
-							if (response) {
-								self.getApp().notify("Đăng ký thành công");
-								self.getApp().getRouter().navigate(self.collectionName + "/collection");
-							}
-						}, error: function (xhr, ere) {
-							console.log('xhr', ere);
-	
-						}
-					})
-				}
-				
-			});
+
 			self.$el.find(".btn-back").unbind("click").bind("click", function () {
 				Backbone.history.history.back();
 
 			});
-
+			
 			var id = this.getApp().getRouter().getParam("id");
 			if (id) {
 				this.model.set('id', id);
 				this.model.fetch({
 					success: function (data) {
-						console.log(self.getApp().currentUser.id,self.model.get('id'))
-						if (self.getApp().currentUser.id !== self.model.get('id')) {
-							self.$el.find('.toolTaoMoi').hide();
-						} else {
+
+						if(self.model.get("id") == self.getApp().currentUser.id){
+							self.$el.find("#donvi_selecter").css("pointer-events","none")
+							var arr = [];
+							arr.push(self.model.get("donvi"));
+
+							self.$el.find('#donvi_combobox').combobox({
+								textField: "ten",
+								valueField: "id",
+								dataSource:arr,
+								value: self.model.get("donvi_id")
+							});
+							self.$el.find("#input_gia").val($('#donvi_combobox').data('gonrin').getText());
+
+						}else{
+							self.setDonViID();
+						}
+
+
+
+
+
+						if (self.model.get('id')) {
 							self.$el.find('.toolTaoMoi').show();
 							self.$el.find('.btn-taomoi').hide();
-						}
+
+						} 
 						self.$el.find('.pass').hide();
 
 						self.$el.find(".btn-backid").unbind("click").bind("click", function () {
 							Backbone.history.history.back();
 						});
 						self.$el.find(".btn-xoaid").unbind("click").bind("click", function () {
-							
+
 							$.ajax({
-								url: self.getApp().serviceURL + "/api/v1/user/" +self.model.get("id"),
+								url: self.getApp().serviceURL + "/api/v1/user/" + self.model.get("id"),
 								method: "DELETE",
 								headers: {
 									'content-type': 'application/json'
@@ -220,57 +179,6 @@ define(function (require) {
 							});
 						});
 
-						self.$el.find(".btn-luuid").unbind("click").bind("click", function () {
-							var param = {
-								email:self.model.get("email"),
-								name: self.model.get("name"),
-								phone_number: self.model.get("phone_number"),
-								phone_zalo: self.model.get("phone_zalo"),
-								donvi_id: self.model.get("donvi_id"),
-
-							}
-							$.ajax({
-								url: self.getApp().serviceURL + "/api/v1/user/" +self.model.get("id"),
-								method: "PUT",
-								data: JSON.stringify(param),
-								headers: {
-									'content-type': 'application/json'
-								},
-								dataType: 'json',
-								success: function (data, res) {
-									
-									var param2 = {
-										captren_stt: data.donvi.captren_id,
-										tinhthanh_id: data.donvi.tinhthanh_id,
-										quanhuyen_id: data.donvi.quanhuyen_id,
-										xaphuong_id: data.donvi.xaphuong_id,
-										tinhthanh: data.donvi.tinhthanh,
-										quanhuyen: data.donvi.quanhuyen,
-										xaphuong: data.donvi.xaphuong,
-										donvicaptren_id:data.donvi.donvicaptren
-									}
-									$.ajax({
-										url: self.getApp().serviceURL + "/api/v1/user/" +self.model.get("id"),
-										method: "PUT",
-										data: JSON.stringify(param2),
-										headers: {
-											'content-type': 'application/json'
-										},
-										dataType: 'json',
-										success: function (data, res) {
-											self.getApp().notify({ message: "Cập nhật thành công" });
-											location.reload();
-										},
-										error: function (xhr, status, error) {
-											self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
-										},
-									});
-								},
-								error: function (xhr, status, error) {
-									self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
-								},
-							});
-						});
 						self.applyBindings();
 
 					},
@@ -281,6 +189,367 @@ define(function (require) {
 			} else {
 				self.applyBindings();
 			}
+		},
+		setDonVi: function () {
+			var self = this;
+			$.ajax({
+				url: self.getApp().serviceURL + "/api/v1/donvi?results_per_page=100000&max_results_per_page=1000000",
+				method: "GET",
+				success: function (data) {
+					var dsDonVi = [];
+					var dsDonViTong = [];
+					self.$el.find("#input_gia").on('click', function () {
+						dsDonViTong = [];
+						data.objects.forEach(function (item, index) {
+							if (self.getApp().currentUser.donvi_id == item.donvicaptren) {
+								dsDonViTong.push(item)
+								if (self.$el.find("#input_gia").val() == null || self.$el.find("#input_gia").val() == '') {
+									dsDonVi.push(item)
+								}
+								else {
+									if ((item.ten).indexOf(self.$el.find("#input_gia").val()) !== -1) {
+										dsDonVi.push(item)
+									}
+								}
+
+							}
+						});
+						self.$el.find('#donvi_combobox').combobox({
+							textField: "ten",
+							valueField: "id",
+							dataSource: dsDonVi,
+							refresh: true,
+							value: self.model.get("donvi_id")
+						});
+						self.$el.find("#donvi_selecter div div .dropdown-menu").css("display", "block")
+
+
+						dsDonVi = [];
+					});
+
+
+					self.$el.find("#input_gia").keyup(function () {
+						data.objects.forEach(function (item, index) {
+							if (self.getApp().currentUser.donvi_id == item.donvicaptren) {
+								if ((item.ten).indexOf(self.$el.find("#input_gia").val()) !== -1) {
+									dsDonVi.push(item)
+								}
+							}
+						});
+						self.$el.find('#donvi_combobox').combobox({
+							textField: "ten",
+							valueField: "id",
+							dataSource: dsDonVi,
+							refresh: true
+						});
+
+						self.$el.find("#donvi_selecter div div .dropdown-menu").css("display", "block")
+						dsDonVi = [];
+
+					})
+
+					self.$el.find('#donvi_combobox').on('change.gonrin', function (e) {
+						self.$el.find("#donvi_selecter div div .dropdown-menu").css("display", "block")
+						self.$el.find("#input_gia").val($('#donvi_combobox').data('gonrin').getText());
+						var idDonViDaChon = $('#donvi_combobox').data('gonrin').getValue();
+						var donViDaChon = null;
+
+						dsDonViTong.forEach(function (item) {
+							if (idDonViDaChon == item.id) {
+								donViDaChon = item;
+							}
+						})
+						self.$el.find(".btn-luu").unbind("click").bind("click", function () {
+							if (self.$el.find("#name").val() == null || self.$el.find("#password").val() == "") {
+								self.getApp().notify({ message: "Bạn chưa nhập tên" }, { type: "danger", delay: 1000 });
+							}
+							if (self.$el.find("#email").val() == null || self.$el.find("#password").val() == "") {
+								self.getApp().notify({ message: "Bạn chưa nhập email" }, { type: "danger", delay: 1000 });
+							}
+							if (self.$el.find("#phone_number").val() == null || self.$el.find("#password").val() == "") {
+								self.getApp().notify({ message: "Bạn chưa nhập số điện thoại" }, { type: "danger", delay: 1000 });
+							}
+							if (self.$el.find("#password").val() == null || self.$el.find("#password").val() == "") {
+								self.getApp().notify({ message: "Bạn chưa nhập mật khẩu" }, { type: "danger", delay: 1000 });
+							}
+							else {
+								$.ajax({
+									method: "POST",
+									url: self.getApp().serviceURL + "/api/v1/register",
+									data: JSON.stringify({
+										email: self.$el.find("#email").val(),
+										name: self.$el.find("#name").val(),
+										phone_number: self.$el.find("#phone_number").val(),
+										phone_zalo: self.$el.find("#phone_zalo").val(),
+										password: self.$el.find("#password").val(),
+										donvi_id: idDonViDaChon,
+										captren_stt: donViDaChon.captren_id,
+										tinhthanh_id: donViDaChon.tinhthanh_id,
+										quanhuyen_id: donViDaChon.quanhuyen_id,
+										xaphuong_id: donViDaChon.xaphuong_id,
+										donvicaptren_id: donViDaChon.donvicaptren
+									}),
+									headers: {
+										'content-type': 'application/json'
+									},
+									dataType: 'json',
+									success: function (response) {
+										if (response) {
+											self.getApp().notify("Đăng ký thành công");
+											self.getApp().getRouter().navigate(self.collectionName + "/collection");
+										}
+									}, error: function (xhr, ere) {
+										console.log('xhr', ere);
+
+									}
+								})
+							}
+
+						});
+
+					});
+
+					self.$el.find(".btn-luu").unbind("click").bind("click", function () {
+						if (self.$el.find("#name").val() == null || self.$el.find("#password").val() == "") {
+							self.getApp().notify({ message: "Bạn chưa nhập tên" }, { type: "danger", delay: 1000 });
+						}
+						if (self.$el.find("#email").val() == null || self.$el.find("#password").val() == "") {
+							self.getApp().notify({ message: "Bạn chưa nhập email" }, { type: "danger", delay: 1000 });
+						}
+						if (self.$el.find("#phone_number").val() == null || self.$el.find("#password").val() == "") {
+							self.getApp().notify({ message: "Bạn chưa nhập số điện thoại" }, { type: "danger", delay: 1000 });
+						}
+						if (self.$el.find("#password").val() == null || self.$el.find("#password").val() == "") {
+							self.getApp().notify({ message: "Bạn chưa nhập mật khẩu" }, { type: "danger", delay: 1000 });
+						}
+						else {
+							$.ajax({
+								method: "POST",
+								url: self.getApp().serviceURL + "/api/v1/register",
+								data: JSON.stringify({
+									email: self.$el.find("#email").val(),
+									name: self.$el.find("#name").val(),
+									phone_number: self.$el.find("#phone_number").val(),
+									phone_zalo: self.$el.find("#phone_zalo").val(),
+									password: self.$el.find("#password").val(),
+									donvi_id: null,
+									captren_stt: null,
+									tinhthanh_id: null,
+									quanhuyen_id: null,
+									xaphuong_id: null,
+									donvicaptren_id: null
+								}),
+								headers: {
+									'content-type': 'application/json'
+								},
+								dataType: 'json',
+								success: function (response) {
+									if (response) {
+										self.getApp().notify("Đăng ký thành công");
+										self.getApp().getRouter().navigate(self.collectionName + "/collection");
+									}
+								}, error: function (xhr, ere) {
+									console.log('xhr', ere);
+
+								}
+							})
+						}
+
+					});
+					self.$el.find("#input_gia").focusout(function () {
+						setTimeout(function () {
+							self.$el.find("#donvi_selecter div div .dropdown-menu").css("display", "none")
+						}, 100);
+					});
+				},
+				error: function (xhr, status, error) { }
+			});
+		},
+		setDonViID: function () {
+			var self = this;
+
+			$.ajax({
+				url: self.getApp().serviceURL + "/api/v1/donvi?results_per_page=100000&max_results_per_page=1000000",
+				method: "GET",
+				success: function (data) {
+					if (self.model.get("donvi_id") != null) {
+						var dsDonVi = [];
+						data.objects.forEach(function (item, index) {
+							if (self.getApp().currentUser.donvi_id == item.donvicaptren) {
+								dsDonVi.push(item)
+							}
+						});
+						self.$el.find('#donvi_combobox').combobox({
+							textField: "ten",
+							valueField: "id",
+							dataSource: dsDonVi,
+							refresh: true,
+							value: self.model.get("donvi_id")
+						});
+
+						self.$el.find("#input_gia").val($('#donvi_combobox').data('gonrin').getText());
+
+					}
+					var dsDonVi = [];
+					var dsDonViTong = [];
+					self.$el.find("#input_gia").on('click', function () {
+						dsDonViTong = [];
+						data.objects.forEach(function (item, index) {
+							if (self.getApp().currentUser.donvi_id == item.donvicaptren) {
+								dsDonViTong.push(item)
+								if (self.$el.find("#input_gia").val() == null || self.$el.find("#input_gia").val() == '') {
+									dsDonVi.push(item)
+								}
+								else {
+									if ((item.ten).indexOf(self.$el.find("#input_gia").val()) !== -1) {
+										dsDonVi.push(item)
+									}
+								}
+
+							}
+						});
+						self.$el.find('#donvi_combobox').combobox({
+							textField: "ten",
+							valueField: "id",
+							dataSource: dsDonVi,
+							refresh: true,
+							value: self.model.get("donvi_id")
+						});
+						self.$el.find("#donvi_selecter div div .dropdown-menu").css("display", "block")
+
+
+						dsDonVi = [];
+					});
+
+
+					self.$el.find("#input_gia").keyup(function () {
+						data.objects.forEach(function (item, index) {
+							if (self.getApp().currentUser.donvi_id == item.donvicaptren) {
+								if ((item.ten).indexOf(self.$el.find("#input_gia").val()) !== -1) {
+									dsDonVi.push(item)
+								}
+							}
+						});
+						self.$el.find('#donvi_combobox').combobox({
+							textField: "ten",
+							valueField: "id",
+							dataSource: dsDonVi,
+							refresh: true
+						});
+
+						self.$el.find("#donvi_selecter div div .dropdown-menu").css("display", "block")
+						dsDonVi = [];
+
+					})
+
+					self.$el.find('#donvi_combobox').on('change.gonrin', function (e) {
+						self.$el.find("#donvi_selecter div div .dropdown-menu").css("display", "block")
+						self.$el.find("#input_gia").val($('#donvi_combobox').data('gonrin').getText());
+						var idDonViDaChon = $('#donvi_combobox').data('gonrin').getValue();
+						var donViDaChon = null;
+
+						dsDonViTong.forEach(function (item) {
+							if (idDonViDaChon == item.id) {
+								donViDaChon = item;
+							}
+						})
+						self.$el.find(".btn-luuid").unbind("click").bind("click", function () {
+							if (self.$el.find("#name").val() == null || self.$el.find("#password").val() == "") {
+								self.getApp().notify({ message: "Bạn chưa nhập tên" }, { type: "danger", delay: 1000 });
+							}
+							if (self.$el.find("#email").val() == null || self.$el.find("#password").val() == "") {
+								self.getApp().notify({ message: "Bạn chưa nhập email" }, { type: "danger", delay: 1000 });
+							}
+							if (self.$el.find("#phone_number").val() == null || self.$el.find("#password").val() == "") {
+								self.getApp().notify({ message: "Bạn chưa nhập số điện thoại" }, { type: "danger", delay: 1000 });
+							}
+							if (self.$el.find("#password").val() == null || self.$el.find("#password").val() == "") {
+								self.getApp().notify({ message: "Bạn chưa nhập mật khẩu" }, { type: "danger", delay: 1000 });
+							}
+							else {
+								$.ajax({
+									method: "PUT",
+									url: self.getApp().serviceURL + "/api/v1/user/"+self.model.get('id'),
+									data: JSON.stringify({
+										email: self.$el.find("#email").val(),
+										name: self.$el.find("#name").val(),
+										phone_number: self.$el.find("#phone_number").val(),
+										phone_zalo: self.$el.find("#phone_zalo").val(),
+										password: self.$el.find("#password").val(),
+										donvi_id: idDonViDaChon,
+										captren_stt: donViDaChon.captren_id,
+										tinhthanh_id: donViDaChon.tinhthanh_id,
+										quanhuyen_id: donViDaChon.quanhuyen_id,
+										xaphuong_id: donViDaChon.xaphuong_id,
+										donvicaptren_id: donViDaChon.donvicaptren
+									}),
+									headers: {
+										'content-type': 'application/json'
+									},
+									dataType: 'json',
+									success: function (response) {
+										if (response) {
+											self.getApp().notify("Đăng ký thành công");
+											self.getApp().getRouter().navigate(self.collectionName + "/collection");
+										}
+									}, error: function (xhr, ere) {
+										console.log('xhr', ere);
+
+									}
+								})
+							}
+
+						});
+
+					});
+
+					self.$el.find(".btn-luu").unbind("click").bind("click", function () {
+						if (self.$el.find("#name").val() == null || self.$el.find("#name").val() == "") {
+							self.getApp().notify({ message: "Bạn chưa nhập tên" }, { type: "danger", delay: 1000 });
+						}
+						if (self.$el.find("#email").val() == null || self.$el.find("#email").val() == "") {
+							self.getApp().notify({ message: "Bạn chưa nhập email" }, { type: "danger", delay: 1000 });
+						}
+						if (self.$el.find("#phone_number").val() == null || self.$el.find("#phone_number").val() == "") {
+							self.getApp().notify({ message: "Bạn chưa nhập số điện thoại" }, { type: "danger", delay: 1000 });
+						}
+						
+						else {
+							$.ajax({
+								method: "POST",
+								url: self.getApp().serviceURL + "/api/v1/user/"+get.model.get("id"),
+								data: JSON.stringify({
+									email: self.$el.find("#email").val(),
+									name: self.$el.find("#name").val(),
+									phone_number: self.$el.find("#phone_number").val(),
+									phone_zalo: self.$el.find("#phone_zalo").val(),
+									
+								}),
+								headers: {
+									'content-type': 'application/json'
+								},
+								dataType: 'json',
+								success: function (response) {
+									if (response) {
+										self.getApp().notify("Đăng ký thành công");
+										self.getApp().getRouter().navigate(self.collectionName + "/collection");
+									}
+								}, error: function (xhr, ere) {
+									console.log('xhr', ere);
+
+								}
+							})
+						}
+
+					});
+					self.$el.find("#input_gia").focusout(function () {
+						setTimeout(function () {
+							self.$el.find("#donvi_selecter div div .dropdown-menu").css("display", "none")
+						}, 100);
+					});
+				},
+				error: function (xhr, status, error) { }
+			});
 		},
 	});
 });
