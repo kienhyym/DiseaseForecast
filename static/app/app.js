@@ -96,17 +96,23 @@ require(['jquery', 'gonrin', 'app/router', 'app/nav/NavbarView', 'text!app/base/
 
 			self.bind_event();
 			//			self.router.navigate('lichthanhtra/model');
-			$(".nav-link").bind('click', function () {
-				$("#myacount").attr('href',self.serviceURL+"/?#user/model?id="+self.currentUser.id);
-				$("#mycompany").attr('href',self.serviceURL+"/?#donvi/model?id="+self.currentUser.donvi_id);
+
+			$("#myacount").unbind('click').bind('click', function () {
+			
+				self.getRouter().navigate("user/model?id=" + self.currentUser.id);
 
 			});
+
+			$("#mycompany").unbind('click').bind('click', function () {
+				self.getRouter().navigate("donvi/model?id=" + self.currentUser.donvi_id);
+			});
+
 			$("#changepassword").bind('click', function () {
 				self.router.navigate("changepassword");
 			});
 			$(".mainlogo").unbind('click').bind('click', function () {
 				self.router.navigate('index');
-				self.getRouter().refresh();
+				
 
 			});
 		},

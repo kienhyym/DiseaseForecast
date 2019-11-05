@@ -25,46 +25,21 @@
         "type": "string",
         "primary": true
     },
-    "todonvi": {
+    "data": {
         "type": "json"
     },
-    "toemail": {
+    "category": {
         "type": "json"
     },
-    "tozalo": {
-        "type": "json"
-    },
-    "tophone": {
-        "type": "json"
-    },
-    "canhbao": {
-        "type": "json"
-    },
-    "cc": {
+    "tieude": {
         "type": "string",
         "length": 255
     },
-    "message": {
-        "type": "string"
-    },
-    "message2": {
-        "type": "string"
-    },
-    "tailieu": {
+    "nguoigui": {
         "type": "string",
         "length": 255
     },
-    "ngayguizalo": {
+    "ngaygui": {
         "type": "number"
-    },
-    "ngayguigmail": {
-        "type": "number"
-    },
-    "ngayguiphone": {
-        "type": "number"
-    },
-    "user_id": {
-        "type": "string",
-        "length": 255
     }
 }

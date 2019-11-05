@@ -64,32 +64,81 @@ define(function (require) {
         render: function () {
             var self = this;
             this.khoitao();
+            if (self.getApp().currentUser.captren_stt == 1) {
+                $('#xxx').removeClass('active');
+                $('#yyy').addClass('active');
 
-            $.ajax({
-                url: self.getApp().serviceURL + "/api/v1/sendwarning",
-                method: "GET",
-                data: { "q": JSON.stringify({ "order_by": [{ "field": "updated_at", "direction": "desc" }] }) },
-                contentType: "application/json",
-                success: function (data) {
-                    var arr = [];
-                    data.objects.forEach(function (item, index) {
-                        var dem = 0;
-                        if (item.tozalo !== null) {
-                            (item.tozalo).forEach(function (item2, index2) {
-
-                                if (item2 == self.getApp().currentUser.phone_zalo) {
-                                    dem++;
-                                }
-                            })
-                            if (dem > 0) {
-                                arr.push(item)
+                $.ajax({
+                    url: self.getApp().serviceURL + "/api/v1/sendwarning?results_per_page=100000&max_results_per_page=1000000",
+                    method: "GET",
+                    data: { "q": JSON.stringify({ "order_by": [{ "field": "updated_at", "direction": "desc" }] }) },
+                    contentType: "application/json",
+                    success: function (data) {
+                        var arr = [];
+                        data.objects.forEach(function (item, index) {
+                            if (item.user_id == self.getApp().currentUser.id && (item.ngayguizalo !== null || item.ngayguigmail !== null || item.ngayguiphone !== null)) {
+                                arr.push(item);
                             }
-                        }
+                        })
 
-                    })
-                    self.render_grid2(0, arr);
-                },
-            })
+                        self.render_grid2(2, arr);
+
+                    },
+                })
+            } else {
+                $.ajax({
+                    url: self.getApp().serviceURL + "/api/v1/sendwarning?results_per_page=100000&max_results_per_page=1000000",
+                    method: "GET",
+                    data: { "q": JSON.stringify({ "order_by": [{ "field": "updated_at", "direction": "desc" }] }) },
+                    contentType: "application/json",
+                    success: function (data) {
+                        var arr = [];
+                        data.objects.forEach(function (item, index) {
+                            var dem = 0;
+
+                            if (item.user_id !== self.getApp().currentUser.id) {
+                                if (self.getApp().currentUser.phone_zalo !== "") {
+                                    if (item.tozalo !== null && item.tozalo.length !== 0) {
+                                        (item.tozalo).forEach(function (item2, index2) {
+                                            if (item2 == self.getApp().currentUser.phone_zalo) {
+                                                dem++;
+                                            }
+                                        })
+                                    }
+                                }
+
+                                if ((item.toemail !== null && item.toemail.length !== 0)) {
+                                    
+                                    (item.toemail).forEach(function (item2, index2) {
+                                        
+                                        if (item2 == self.getApp().currentUser.email) {
+                                            dem++;
+                                        }
+                                    });
+                                }
+                                if ((item.tophone !== null && item.tophone.length !== 0)) {
+                                    (item.tophone).forEach(function (item2, index2) {
+                                        if (item2 == self.getApp().currentUser.phone_number) {
+                                            dem++;
+                                        }
+                                    });
+                                }
+                                if (dem > 0) {
+                                    arr.push(item)
+                                }
+
+                            }
+
+
+
+                        })
+
+                        self.render_grid2(1, arr);
+                    },
+                })
+            }
+
+
             this.applyBindings();
 
 
@@ -102,12 +151,14 @@ define(function (require) {
 
 
             self.$el.find("#xxx").on('click', function () {
-                // self.getApp().getRouter().refresh();
-                self.$el.find("#all").css("display","none");
-                self.$el.find("#thudagui").css("display","none");
-                self.$el.find("#hopthuden").css("display","block");
+
+                self.$el.find("#all").css("display", "none");
+                self.$el.find("#thudagui").css("display", "none");
+                self.$el.find("#hopthuden").css("display", "block");
+                self.$el.find("#thunhap").css("display", "none");
+
                 $.ajax({
-                    url: self.getApp().serviceURL + "/api/v1/sendwarning",
+                    url: self.getApp().serviceURL + "/api/v1/sendwarning?results_per_page=100000&max_results_per_page=1000000",
                     method: "GET",
                     data: { "q": JSON.stringify({ "order_by": [{ "field": "updated_at", "direction": "desc" }] }) },
                     contentType: "application/json",
@@ -115,40 +166,65 @@ define(function (require) {
                         var arr = [];
                         data.objects.forEach(function (item, index) {
                             var dem = 0;
-                            if (item.tozalo !== null) {
-                                (item.tozalo).forEach(function (item2, index2) {
 
-                                    if (item2 == self.getApp().currentUser.phone_zalo) {
-                                        dem++;
+                            if (item.user_id !== self.getApp().currentUser.id) {
+                                if (self.getApp().currentUser.phone_zalo !== "") {
+                                    if (item.tozalo !== null && item.tozalo.length !== 0) {
+                                        (item.tozalo).forEach(function (item2, index2) {
+                                            if (item2 == self.getApp().currentUser.phone_zalo) {
+                                                dem++;
+                                            }
+                                        })
                                     }
-                                })
+                                }
+
+                                if ((item.toemail !== null && item.toemail.length !== 0)) {
+                                    
+                                    (item.toemail).forEach(function (item2, index2) {
+                                        
+                                        if (item2 == self.getApp().currentUser.email) {
+                                            dem++;
+                                        }
+                                    });
+                                }
+                                if ((item.tophone !== null && item.tophone.length !== 0)) {
+                                    (item.tophone).forEach(function (item2, index2) {
+                                        if (item2 == self.getApp().currentUser.phone_number) {
+                                            dem++;
+                                        }
+                                    });
+                                }
                                 if (dem > 0) {
                                     arr.push(item)
                                 }
+
                             }
+
+
 
                         })
 
                         self.render_grid2(1, arr);
                     },
                 })
-             
+
             })
             self.$el.find("#yyy").on('click', function () {
 
-                self.$el.find("#all").css("display","none");
-                self.$el.find("#hopthuden").css("display","none");
-                self.$el.find("#thudagui").css("display","block");
+                self.$el.find("#all").css("display", "none");
+                self.$el.find("#hopthuden").css("display", "none");
+                self.$el.find("#thudagui").css("display", "block");
+                self.$el.find("#thunhap").css("display", "none");
 
                 $.ajax({
-                    url: self.getApp().serviceURL + "/api/v1/sendwarning",
+                    url: self.getApp().serviceURL + "/api/v1/sendwarning?results_per_page=100000&max_results_per_page=1000000",
                     method: "GET",
                     data: { "q": JSON.stringify({ "order_by": [{ "field": "updated_at", "direction": "desc" }] }) },
                     contentType: "application/json",
                     success: function (data) {
                         var arr = [];
                         data.objects.forEach(function (item, index) {
-                            if (item.user_id == self.getApp().currentUser.id) {
+                            if (item.user_id == self.getApp().currentUser.id && (item.ngayguizalo !== null || item.ngayguigmail !== null || item.ngayguiphone !== null)) {
                                 arr.push(item);
                             }
                         })
@@ -157,7 +233,32 @@ define(function (require) {
 
                     },
                 })
-               
+
+            })
+            self.$el.find("#zzz").on('click', function () {
+
+                self.$el.find("#all").css("display", "none");
+                self.$el.find("#hopthuden").css("display", "none");
+                self.$el.find("#thudagui").css("display", "none");
+                self.$el.find("#thunhap").css("display", "block");
+                $.ajax({
+                    url: self.getApp().serviceURL + "/api/v1/sendwarning?results_per_page=100000&max_results_per_page=1000000",
+                    method: "GET",
+                    data: { "q": JSON.stringify({ "order_by": [{ "field": "updated_at", "direction": "desc" }] }) },
+                    contentType: "application/json",
+                    success: function (data) {
+                        var arr = [];
+                        data.objects.forEach(function (item, index) {
+                            if (item.user_id == self.getApp().currentUser.id && item.ngayguizalo == null && item.ngayguigmail == null && item.ngayguiphone == null) {
+                                arr.push(item);
+                            }
+                        })
+
+                        self.render_grid2(3, arr);
+
+                    },
+                })
+
             })
         },
         render_grid2: function (stauts, dataSource) {
@@ -170,9 +271,13 @@ define(function (require) {
             else if (stauts == 1) {
                 element = self.$el.find("#hopthuden");
             }
-            else {
+            else if (stauts == 2) {
                 element = self.$el.find("#thudagui");
             }
+            else {
+                element = self.$el.find("#thunhap");
+            }
+
 
             element.grid({
                 // showSortingIndicator: true,

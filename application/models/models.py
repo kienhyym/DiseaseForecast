@@ -20,6 +20,8 @@ class Role(CommonModel):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=default_uuid)
     name = db.Column(db.String(80), unique=True)
     description = db.Column(db.String(255))
+
+
     
 
     
@@ -36,15 +38,12 @@ class User(CommonModel):
     captren_stt = db.Column(Integer())
     donvicaptren_id = db.Column(db.String(255))
     tinhthanh_id = db.Column(String, nullable=True)
-    tinhthanh = db.Column(JSONB)
     quanhuyen_id = db.Column(String, nullable=True)
-    quanhuyen = db.Column(JSONB)
     xaphuong_id = db.Column(String, nullable=True)
-    xaphuong = db.Column(JSONB)
     donvi = db.relationship('DonVi', viewonly=True)
     roles = db.relationship('Role', secondary=roles_users, cascade="save-update")
     phancapnhanbaocao = db.Column(db.String(50))
-
+    id_nguoitao = db.Column(db.String(50))
     def has_role(self, role):
         if isinstance(role, str):
             return role in (role.name for role in self.roles)
@@ -105,7 +104,6 @@ class DonVi(CommonModel):
     quanhuyen = db.Column(JSONB)
     xaphuong_id = db.Column(String, nullable=True)
     xaphuong = db.Column(JSONB)
-    user_shield = db.relationship('User', cascade="all, delete-orphan")
 
 
 class SendWarning(CommonModel):
@@ -117,10 +115,19 @@ class SendWarning(CommonModel):
     tophone = db.Column(JSONB)
     canhbao = db.Column(JSONB)
     cc = db.Column(String(255))
-    message = db.Column(String(255))
+    message = db.Column(Text())
+    message2 = db.Column(Text())
     tailieu = db.Column(String(255))
     ngayguizalo = db.Column(BigInteger())
     ngayguigmail = db.Column(BigInteger())
     ngayguiphone = db.Column(BigInteger())
     user_id = db.Column(String(255))
 
+class DataDMoss(CommonModel):
+    __tablename__ = 'datadmoss'
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=default_uuid)
+    data = db.Column(JSONB)
+    category = db.Column(JSONB)
+    tieude = db.Column(String(255))
+    nguoigui = db.Column(String(255))
+    ngaygui = db.Column(BigInteger())

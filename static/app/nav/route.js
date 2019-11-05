@@ -5,6 +5,16 @@ define(function (require) {
 		Gonrin = require('gonrin');
 	return [
 		{
+			"collectionName": "datadmoss",
+			"route": "datadmoss/collection",
+			"$ref": "app/datadmoss/js/CollectionView",
+		},
+		{
+			"collectionName": "datadmoss",
+			"route": "datadmoss/model(/:id)",
+			"$ref": "app/datadmoss/js/ModelView",
+		},
+		{
 			"collectionName": "user",
 			"route": "user/collection",
 			"$ref": "app/user/js/CollectionView",

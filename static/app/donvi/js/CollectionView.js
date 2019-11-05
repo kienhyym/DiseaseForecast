@@ -62,7 +62,7 @@ define(function (require) {
         khoitao: function () {
             var self = this;
             $.ajax({
-                url: self.getApp().serviceURL + "/api/v1/donvi",
+                url: self.getApp().serviceURL + "/api/v1/donvi?results_per_page=100000&max_results_per_page=1000000",
                 method: "GET",
                 data: { "q": JSON.stringify({ "order_by": [{ "field": "updated_at", "direction": "desc" }] }) },
                 contentType: "application/json",

@@ -28,33 +28,34 @@ define(function (require) {
 							Backbone.history.history.back();
 						}
 					},
-					// {
-					// 	name: "save",
-					// 	type: "button",
-					// 	buttonClass: "btn-success btn-sm",
-					// 	label: "TRANSLATE:SAVE",
-					// 	command: function () {
-					// 		var self = this;
-					// 		self.model.save(null, {
-					// 			success: function (model, respose, options) {
-					// 				self.getApp().notify("Lưu thông tin thành công");
-					// 			},
-					// 			error: function (xhr, status, error) {
-					// 				try {
-					// 					if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED") {
-					// 						self.getApp().notify("Hết phiên làm việc, vui lòng đăng nhập lại!");
-					// 						self.getApp().getRouter().navigate("login");
-					// 					} else {
-					// 						self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
-					// 					}
-					// 				}
-					// 				catch (err) {
-					// 					self.getApp().notify({ message: "Lưu thông tin không thành công" }, { type: "danger", delay: 1000 });
-					// 				}
-					// 			}
-					// 		});
-					// 	}
-					// },
+					{
+						name: "save",
+						type: "button",
+						buttonClass: "btn-success btn-sm btn-luu",
+						label: "TRANSLATE:SAVE",
+						// command: function () {
+							// var self = this;
+							// self.model.set("user_id", self.getApp().currentUser.id)
+							// self.model.save(null, {
+							// 	success: function (model, respose, options) {
+							// 		self.getApp().notify("Lưu thông tin thành công");
+							// 	},
+							// 	error: function (xhr, status, error) {
+							// 		try {
+							// 			if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED") {
+							// 				self.getApp().notify("Hết phiên làm việc, vui lòng đăng nhập lại!");
+							// 				self.getApp().getRouter().navigate("login");
+							// 			} else {
+							// 				self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
+							// 			}
+							// 		}
+							// 		catch (err) {
+							// 			self.getApp().notify({ message: "Lưu thông tin không thành công" }, { type: "danger", delay: 1000 });
+							// 		}
+							// 	}
+							// });
+						// }
+					},
 					{
 						name: "delete",
 						type: "button",
@@ -99,7 +100,13 @@ define(function (require) {
 				self.setDonVi();
 
 			}
+			self.model.set('cc', sessionStorage.getItem('title'))
+			self.model.set('message2', sessionStorage.getItem('noidung'))
 
+			self.$el.find("#content")[0].style.height = sessionStorage.getItem('rows') + 'px';
+			sessionStorage.clear();
+
+			self.$el.find(".send-all-chuyentiep").hide()
 
 
 			self.bindEventSelect();
@@ -108,6 +115,9 @@ define(function (require) {
 				this.model.set('id', id);
 				this.model.fetch({
 					success: function (data) {
+						var x = self.$el.find("#content")[0].scrollHeight;
+						self.$el.find("#content")[0].style.height = x + 'px';
+
 						if (self.model.get("user_id") !== self.getApp().currentUser.id) {
 							self.$el.find('.send-all').css('display', 'none');
 							self.$el.find('.title').html('Tin nhắn đã nhận')
@@ -134,6 +144,12 @@ define(function (require) {
 							self.$el.find("#btn-send-phone").addClass("btn-success");
 							self.$el.find("#btn-send-phone").html('Đã gửi qua phone');
 						}
+						if (self.model.get("user_id") == self.getApp().currentUser.id) {
+							self.$el.find(".send-all-chuyentiep").hide()
+						}
+
+
+
 						self.setCanhBao();
 						self.setDonVi();
 
@@ -221,7 +237,7 @@ define(function (require) {
 				http.send(fd);
 			});
 		},
-				//TẠO DANH SÁCH LOẠI THÔNG BÁO TRONG MUTISELECT_CANHBAO
+		//TẠO DANH SÁCH LOẠI THÔNG BÁO TRONG MUTISELECT_CANHBAO
 
 		setCanhBao: function () {
 			var self = this;
@@ -251,7 +267,7 @@ define(function (require) {
 			}
 			else {
 				$.ajax({
-					url: self.getApp().serviceURL + "/api/v1/role",
+					url: self.getApp().serviceURL + "/api/v1/role?results_per_page=100000&max_results_per_page=1000000",
 					method: "GET",
 					contentType: "application/json",
 					success: function (data) {
@@ -280,7 +296,7 @@ define(function (require) {
 			var self = this;
 			if (self.model.get("todonvi") == null) {
 				$.ajax({
-					url: self.getApp().serviceURL + "/api/v1/donvi",
+					url: self.getApp().serviceURL + "/api/v1/donvi?results_per_page=100000&max_results_per_page=1000000",
 					method: "GET",
 					contentType: "application/json",
 					success: function (data) {
@@ -309,7 +325,7 @@ define(function (require) {
 			}
 			else {
 				$.ajax({
-					url: self.getApp().serviceURL + "/api/v1/donvi",
+					url: self.getApp().serviceURL + "/api/v1/donvi?results_per_page=100000&max_results_per_page=1000000",
 					method: "GET",
 					contentType: "application/json",
 					success: function (data) {
@@ -345,6 +361,7 @@ define(function (require) {
 			dscanhbao = self.$el.find('.multiselect_canhbao select').val();
 			self.sendMail(danhsachdonviguithongbao, dscanhbao);
 			self.sendzalo(danhsachdonviguithongbao, dscanhbao);
+			self.luu(danhsachdonviguithongbao,dscanhbao);
 
 			self.$el.find('.multiselect_donvi select').on("change", function () {
 				danhsachdonviguithongbao = self.$el.find('.multiselect_donvi select').val();
@@ -352,12 +369,14 @@ define(function (require) {
 				self.model.set("todonvi", danhsachdonviguithongbao)
 				self.sendMail(danhsachdonviguithongbao, dscanhbao);
 				self.sendzalo(danhsachdonviguithongbao, dscanhbao);
+				self.luu(danhsachdonviguithongbao,dscanhbao);
 			})
 			self.$el.find('.multiselect_canhbao select').on("change", function () {
 				dscanhbao = self.$el.find('.multiselect_canhbao select').val();
 				danhsachdonviguithongbao = self.$el.find('.multiselect_donvi select').val();
 				self.sendMail(danhsachdonviguithongbao, dscanhbao);
 				self.sendzalo(danhsachdonviguithongbao, dscanhbao);
+				self.luu(danhsachdonviguithongbao,dscanhbao);
 
 			})
 		},
@@ -365,7 +384,7 @@ define(function (require) {
 		sendMail: function (arrdonvi, arrcanhbao) {
 			var self = this;
 			$.ajax({
-				url: self.getApp().serviceURL + "/api/v1/user",
+				url: self.getApp().serviceURL + "/api/v1/user?results_per_page=100000&max_results_per_page=1000000",
 				method: "GET",
 				contentType: "application/json",
 				success: function (data) {
@@ -440,6 +459,68 @@ define(function (require) {
 							}
 						});
 					})
+					
+
+					self.$el.find("#btn-send-gmail-chuyentiep").unbind('click').bind("click", function () {
+						// arrGmailkiemDuyet.forEach(function (item, index) {
+
+						// 	var content = null;
+						// 	if (self.model.get("tailieu") == null) {
+						// 		content = self.$el.find("#content").val();
+						// 	}
+						// 	else {
+						// 		content = self.$el.find("#content").val() + "\n\n" + "Tài liệu đính kèm:" + self.getApp().serviceURL + self.model.get("tailieu");
+						// 	}
+
+						// 	$.ajax({
+						// 		type: "POST",
+						// 		url: "https://upstart.vn/services/api/email/send",
+						// 		data: JSON.stringify({
+						// 			from: {
+						// 				"id": "kien97ym@gmail.com",
+						// 				"password": "kocopass_1",
+						// 			},
+						// 			"to": item,
+						// 			"message": content,
+						// 			"subject": self.$el.find("#cc").val(),
+						// 		}),
+						// 		success: function (response) {
+						// 			self.getApp().notify({ message: "Đã gưi thành công" });
+
+						// 		},
+						// 		error: function (response) {
+						// 			self.getApp().notify({ message: "Tài khoản hoặc mật khẩu gmail không chính xác" }, { type: "danger", delay: 1000 });
+						// 		}
+						// 	});
+						// })
+						console.log(self.$el.find("#cc").val())
+						// var parem = {
+						// 	id:gonrin.uuid(),
+						// 	todonvi : arrdonvi,
+						// 	toemail : arrGmailkiemDuyet,
+						// 	canhbao : arrcanhbao,
+						// 	cc : self.$el.find("#cc").val(),
+						// 	message : self.$el.find("#content").val(),
+						// 	tailieu : self.getApp().serviceURL + self.model.get("tailieu"),
+						// 	ngayguigmail : moment().unix(),
+						// 	user_id : self.getApp().currentUser.id
+						// }
+						// $.ajax({
+						// 	url: self.getApp().serviceURL + "/api/v1/sendwarning",
+						// 	method: "POST",
+						// 	data: JSON.stringify(parem),
+						// 	headers: {
+						// 		'content-type': 'application/json'
+						// 	},
+						// 	dataType: 'json',
+						// 	success: function (data, res) {
+						// 		self.getApp().getRouter().refresh();
+						// 	},
+						// 	error: function (xhr, status, error) {
+						// 		self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+						// 	},
+						// });
+					})
 				},
 				error: function (xhr, status, error) {
 					self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
@@ -450,7 +531,7 @@ define(function (require) {
 		sendzalo: function (arrdonvi, arrcanhbao) {
 			var self = this;
 			$.ajax({
-				url: self.getApp().serviceURL + "/api/v1/user",
+				url: self.getApp().serviceURL + "/api/v1/user?results_per_page=100000&max_results_per_page=1000000",
 				method: "GET",
 				contentType: "application/json",
 				success: function (data) {
@@ -540,12 +621,29 @@ define(function (require) {
 
 
 					})
+					
 				},
 				error: function (xhr, status, error) {
 					self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
 				},
 			});
 		},
+		luu :function(danhsachdonviguithongbao,dscanhbao){
+			var self = this;
+			self.$el.find(".btn-luu").unbind('click').bind("click", function () {
+				self.model.set("canhbao", dscanhbao)
+				self.model.set("user_id", self.getApp().currentUser.id)
+				self.model.save(null, {
+					success: function (model, respose, options) {
+						self.getApp().notify("Lưu thông tin thành công");
+					},
+					error: function (xhr, status, error) {
+						self.getApp().notify({ message: "Lưu thông tin không thành công" }, { type: "danger", delay: 1000 });
+
+					}
+				});
+			})
+		}
 
 
 	});

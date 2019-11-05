@@ -5,6 +5,28 @@ define(function (require) {
 		Gonrin = require('gonrin');
 	return [
 		{
+			"text": "Tin mới từ D-MOSS",
+			"icon": "fa fa-home",
+			"type": "view",
+			"collectionName": "datadmoss",
+			"route": "datadmoss/collection",
+			"$ref": "app/datadmoss/js/CollectionView",
+			"visible": function () {
+				return this.checkTuyendonvi([1]);
+
+			}
+		},
+		{
+
+			"type": "view",
+			"collectionName": "datadmoss",
+			"route": "datadmoss/model",
+			"$ref": "app/datadmoss/js/ModelView",
+			"visible": function () {
+				return false;
+			}
+		},
+		{
 			"text": "Quản lý người dùng",
 			"icon": "fa fa-home",
 			"type": "view",
@@ -12,7 +34,7 @@ define(function (require) {
 			"route": "user/collection",
 			"$ref": "app/user/js/CollectionView",
 			"visible": function () {
-				return true;
+				return this.checkTuyendonvi([1,2,3]);
 			}
 		},
 		{
@@ -27,7 +49,7 @@ define(function (require) {
 			}
 		},
 		{
-			"text": "Danh sách thông báo",
+			"text": "Danh mục thông báo",
 			"icon": "fa fa-home",
 			"type": "view",
 			"collectionName": "role",
@@ -137,7 +159,8 @@ define(function (require) {
 			"route": "donvi/collection",
 			"$ref": "app/donvi/js/CollectionView",
 			"visible": function () {
-				return true;
+				return this.checkTuyendonvi([1,2,3]);
+
 			}
 		},
 		{
@@ -152,7 +175,7 @@ define(function (require) {
 	
 
 		{
-			"text": "Quản lý gửi thông báo",
+			"text": "Quản lý tin cảnh báo",
 			"icon": "fa fa-home",
 			"type": "view",
 			"collectionName": "sendwarning",

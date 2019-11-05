@@ -74,8 +74,5 @@
     },
     "xaphuong": {
         "type": "json"
-    },
-    "user_shield": {
-        "type": "list"
     }
 }

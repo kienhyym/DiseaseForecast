@@ -142,6 +142,7 @@ def register(request):
         new_user.quanhuyen_id = data["quanhuyen_id"]
         new_user.xaphuong_id = data["xaphuong_id"]
         new_user.donvicaptren_id = data["donvicaptren_id"]
+        new_user.id_nguoitao = data["id_nguoitao"]
 
         # new_user.user_image = data["user_image"]
         new_user.password = auth.encrypt_password(data["password"])
@@ -238,3 +239,9 @@ sqlapimanager.create_api(SendWarning, max_results_per_page=1000000,
     url_prefix='/api/v1',
     # preprocess=dict(GET_SINGLE=[auth_func], GET_MANY=[auth_func], POST=[auth_func], PUT_SINGLE=[auth_func]),
     collection_name='sendwarning')
+
+sqlapimanager.create_api(DataDMoss, max_results_per_page=1000000,
+    methods=['GET'],
+    url_prefix='/api/v1',
+    # preprocess=dict(GET_SINGLE=[auth_func], GET_MANY=[auth_func], POST=[auth_func], PUT_SINGLE=[auth_func]),
+    collection_name='datadmoss')

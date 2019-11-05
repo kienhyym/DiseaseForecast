@@ -1,0 +1,22 @@
+{
+	"id": {
+		"type": "string",
+		"primary": true
+	},
+    "loaidichbenh": {
+        "type": "json"
+    },
+    "noicodichbenh": {
+        "type": "string"
+    },
+    "thoigiancodich": {
+        "type": "number"
+    },
+    "mucdobungphat": {
+        "type": "datetime"
+    },
+    "tailieu": {
+        "type": "string"
+    }
+
+}

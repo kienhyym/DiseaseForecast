@@ -168,17 +168,16 @@ def add_danhsach_xaphuong():
 
 @manager.command
 def create_default_models_donvi(): 
-    #add user
-    user1 = User(email='admin@gmail.com', name='admin',phancapnhanbaocao="quanly",captren_stt = 1,  password=auth.encrypt_password('zxc'))
-    db.session.add(user1)
-    db.session.flush()
-
     #add don vi
     donvi1 = DonVi(ten='Cục Y Tế Dự Phòng Cảnh Báo Dịch Bệnh', ma='CYTDP',  captren_id='1')
-    donvi1.user_shield.append(user1)
     db.session.add(donvi1)
     db.session.flush()
 
+    #add user
+    user1 = User(email='admin@gmail.com', name='admin',phancapnhanbaocao="quanly",captren_stt = 1,  password=auth.encrypt_password('zxc'))
+    user1.donvi_id = donvi1.id
+    db.session.add(user1)
+    db.session.flush()
     db.session.commit()
 
 

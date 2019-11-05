@@ -41,7 +41,7 @@ define(function (require) {
         khoitao: function () {
             var self = this;
             $.ajax({
-                url: self.getApp().serviceURL + "/api/v1/user",
+                url: self.getApp().serviceURL + "/api/v1/user?results_per_page=100000&max_results_per_page=1000000",
                 method: "GET",
                 data: { "q": JSON.stringify({ "order_by": [{ "field": "updated_at", "direction": "desc" }] }) },
                 contentType: "application/json",
@@ -50,7 +50,7 @@ define(function (require) {
                     
 
                         data.objects.forEach(function (item, index) {
-                            if (self.getApp().currentUser.donvi_id == item.donvicaptren_id ) {
+                            if (self.getApp().currentUser.id == item.id_nguoitao ) {
                                 arr.push(item);
                             }
                         });

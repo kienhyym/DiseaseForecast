@@ -60,22 +60,17 @@
     "tinhthanh_id": {
         "type": "string"
     },
-    "tinhthanh": {
-        "type": "json"
-    },
     "quanhuyen_id": {
         "type": "string"
-    },
-    "quanhuyen": {
-        "type": "json"
     },
     "xaphuong_id": {
         "type": "string"
     },
-    "xaphuong": {
-        "type": "json"
-    },
     "phancapnhanbaocao": {
+        "type": "string",
+        "length": 50
+    },
+    "id_nguoitao": {
         "type": "string",
         "length": 50
     },
