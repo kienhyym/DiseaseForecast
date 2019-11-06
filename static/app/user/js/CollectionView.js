@@ -82,7 +82,19 @@ define(function (require) {
                     {
                         field: "phone_number", label: "Số điện thoại", width: 250, readonly: true,
                     },
+                    {
+					field: "donvi",
+					label: "đơn vị",
+					template: function (rowData) {
+                        if(rowData.donvi == null){
+                            return "";
+                        }
+						return rowData.donvi.ten;
+					}
+				}
                 ],
+
+
                 dataSource: dataSource,
                 primaryField: "id",
                 selectionMode: false,

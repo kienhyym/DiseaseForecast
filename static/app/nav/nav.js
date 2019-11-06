@@ -27,6 +27,27 @@ define(function (require) {
 			}
 		},
 		{
+			"text": "Danh mục thông báo",
+			"icon": "fa fa-home",
+			"type": "view",
+			"collectionName": "role",
+			"route": "role/collection",
+			"$ref": "app/role/js/CollectionView",
+			"visible": function () {
+				return true;
+			}
+		},
+		{
+			
+			"type": "view",
+			"collectionName": "role",
+			"route": "role/model",
+			"$ref": "app/role/js/ModelView",
+			"visible": function () {
+				return false;
+			}
+		},
+		{
 			"text": "Quản lý người dùng",
 			"icon": "fa fa-home",
 			"type": "view",
@@ -48,27 +69,7 @@ define(function (require) {
 				return false;
 			}
 		},
-		{
-			"text": "Danh mục thông báo",
-			"icon": "fa fa-home",
-			"type": "view",
-			"collectionName": "role",
-			"route": "role/collection",
-			"$ref": "app/role/js/CollectionView",
-			"visible": function () {
-				return true;
-			}
-		},
-		{
-			
-			"type": "view",
-			"collectionName": "role",
-			"route": "role/model",
-			"$ref": "app/role/js/ModelView",
-			"visible": function () {
-				return false;
-			}
-		},
+		
 
 		// {
 		// 	"text": "Danh mục",

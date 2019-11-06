@@ -217,9 +217,9 @@ define(function (require) {
 						self.donViCapTren();
 						self.applyBindings();
 						self.danhSachUser();
-						self.$el.find(".tinhthanh").css({ "pointer-events": "none", "opacity": "0.755" })
-						self.$el.find(".quanhuyen").css({ "pointer-events": "none", "opacity": "0.755" })
-						self.$el.find(".xaphuong").css({ "pointer-events": "none", "opacity": "0.755" })
+						// self.$el.find(".tinhthanh").css({ "pointer-events": "none", "opacity": "0.755" })
+						// self.$el.find(".quanhuyen").css({ "pointer-events": "none", "opacity": "0.755" })
+						// self.$el.find(".xaphuong").css({ "pointer-events": "none", "opacity": "0.755" })
 					},
 					error: function (xhr, status, error) {
 						try {
@@ -492,10 +492,10 @@ define(function (require) {
 		aiDuocChinhSua: function () {
 			var self = this;
 			var currentUser = self.getApp().currentUser;
-			// if (currentUser.phancapnhanbaocao !== "quanly") {
-			// 	self.$el.find(".toolbar").css("display", "none");
+			if (currentUser.phancapnhanbaocao !== "quanly") {
+				self.$el.find(".toolbar").css("display", "none");
 
-			// }
+			}
 
 		},
 		donViCapTren: function () {

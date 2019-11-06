@@ -105,14 +105,12 @@ define(function (require) {
 		},
 		render: function () {
 			var self = this;
-			// self.gridView();
 			var id = this.getApp().getRouter().getParam("id");
 			var currentUser = self.getApp().currentUser;
 			if (id) {
 				this.model.set('id', id);
 				this.model.fetch({
 					success: function (data) {
-						// self.gridView();
 						self.noidung();
 						
 						self.applyBindings();
@@ -205,86 +203,9 @@ define(function (require) {
 				+"-Ghi chú :\n"+self.$el.find('#ghichu').val());
 				
 				window.location="http://0.0.0.0:20202/?#sendwarning/model";
-				// $.ajax({
-				// 	url: self.getApp().serviceURL + "/api/v1/sendwarning",
-				// 	method: "POST",
-				// 	data: JSON.stringify(parem),
-				// 	headers: {
-				// 		'content-type': 'application/json'
-				// 	},
-				// 	dataType: 'json',
-				// 	success: function (data, res) {
-				// 		self.getApp().getRouter().refresh();
-				// 		self.getApp().notify({ message: "Đã sao chép nội dung vào tin nhắn" });
-
-				// 	},
-				// 	error: function (xhr, status, error) {
-				// 		self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
-				// 	},
-				// });
+			
 			})
 		},
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		gridView: function () {
-			var self = this;
-			// var data_default = {
-			//     "id": gonrin.uuid(),
-			//     "loaidichbenh": null,
-			//     "noicodichbenh": null,
-			//     "thoigiancodich": null,
-			//     "mucdobungphat": null,
-			//     "tailieu": null
-			// };
-			// var noidung = self.model.get("noidung");
-			// if (noidung === null || noidung.length === 0) {
-			//     noidung = [];
-			// }
-
-			// var noiDungModel = self.model.get("noidung");
-			var noiDungView = new NoiDungItemView({
-				viewData: {
-					noidung: noiDungModel
-				}
-			});
-			// if (!!data) {
-			//     CongViecView.model.set(JSON.parse(JSON.stringify(data_default)));
-			// }
-
-			noiDungView.render();
-			self.$el.find("#noidung_grid").append(noiDungView.$el);
-
-			var noidungdichbenh = self.model.get("noidung");
-			if (noidungdichbenh === null) {
-				noidungdichbenh = [];
-				noidungdichbenh.push(event.data)
-			}
-			if (noidungdichbenh.id === event.oldData.id) {
-				noidungdichbenh = event.data;
-
-			}
-
-			self.model.set("noidung", noidungdichbenh);
-			self.applyBinding("noidung");
-		}
 
 
 	});
