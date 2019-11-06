@@ -572,7 +572,7 @@ define(function (require) {
 					self.$el.find("#input_gia").focusout(function () {
 						setTimeout(function () {
 							self.$el.find("#donvi_selecter div div .dropdown-menu").css("display", "none")
-						}, 100);
+						}, 500);
 					});
 				},
 				error: function (xhr, status, error) { }
