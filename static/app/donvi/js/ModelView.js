@@ -217,6 +217,17 @@ define(function (require) {
 						self.donViCapTren();
 						self.applyBindings();
 						self.danhSachUser();
+						self.model.on("change:tinhthanh_id", function () {
+
+							self.getFieldElement("quanhuyen").data("gonrin").setFilters({ "tinhthanh_id": { "$eq": self.model.get("tinhthanh_id") } });
+
+						});
+
+						self.model.on("change:quanhuyen_id", function () {
+
+							self.getFieldElement("xaphuong").data("gonrin").setFilters({ "quanhuyen_id": { "$eq": self.model.get("quanhuyen_id") } });
+
+						});
 						// self.$el.find(".tinhthanh").css({ "pointer-events": "none", "opacity": "0.755" })
 						// self.$el.find(".quanhuyen").css({ "pointer-events": "none", "opacity": "0.755" })
 						// self.$el.find(".xaphuong").css({ "pointer-events": "none", "opacity": "0.755" })
@@ -236,11 +247,21 @@ define(function (require) {
 				});
 			} else {
 				self.applyBindings();
-				
+				self.model.on("change:tinhthanh_id", function () {
+
+					self.getFieldElement("quanhuyen").data("gonrin").setFilters({ "tinhthanh_id": { "$eq": self.model.get("tinhthanh_id") } });
+
+				});
+
+				self.model.on("change:quanhuyen_id", function () {
+
+					self.getFieldElement("xaphuong").data("gonrin").setFilters({ "quanhuyen_id": { "$eq": self.model.get("quanhuyen_id") } });
+
+				});
 			}
 
 		},
-		
+
 		danhSachUser: function () {
 			var self = this;
 			var filters = {
@@ -368,12 +389,12 @@ define(function (require) {
 								$.fn.selectpicker.Constructor.DEFAULTS.multipleSeparator = ' | ';
 								var IdRole = [];
 								(item.roles).forEach(function (idrole) {
-								
+
 									IdRole.push(idrole.id)
-									
+
 
 								})
-								$(loaiThongBao).selectpicker('val',IdRole);
+								$(loaiThongBao).selectpicker('val', IdRole);
 
 							},
 							error: function (xhr, status, error) {
@@ -401,7 +422,8 @@ define(function (require) {
 												url: self.getApp().serviceURL + "/api/v1/user/" + item.id,
 												method: "PUT",
 												data: JSON.stringify({
-													roles:mangLoaiThongBao}),
+													roles: mangLoaiThongBao
+												}),
 												headers: {
 													'content-type': 'application/json'
 												},
@@ -435,7 +457,7 @@ define(function (require) {
 
 
 		},
-		
+
 		xoaNguoiDung: function () {
 			var self = this;
 			var filters = {
@@ -456,30 +478,30 @@ define(function (require) {
 
 					data.objects.forEach(function (item, index) {
 						var xoa = self.$el.find('.del')[index]
-							$(xoa).bind("click", function () {
-								$.ajax({
-									url: self.getApp().serviceURL + "/api/v1/user/" + item.id,
-									method: "PUT",
-									data: JSON.stringify({
-										
-										donvi_id: null,
-										donvicaptren_id: null,
-										roles:[],
-										phancapnhanbaocao:null,
-										captren_stt:null,
-									}),
-									headers: {
-										'content-type': 'application/json'
-									},
-									dataType: 'json',
-									success: function (data, res) {
-										self.getApp().getRouter().refresh();
-									},
-									error: function (xhr, status, error) {
-										self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
-									},
-								});
-							
+						$(xoa).bind("click", function () {
+							$.ajax({
+								url: self.getApp().serviceURL + "/api/v1/user/" + item.id,
+								method: "PUT",
+								data: JSON.stringify({
+
+									donvi_id: null,
+									donvicaptren_id: null,
+									roles: [],
+									phancapnhanbaocao: null,
+									captren_stt: null,
+								}),
+								headers: {
+									'content-type': 'application/json'
+								},
+								dataType: 'json',
+								success: function (data, res) {
+									self.getApp().getRouter().refresh();
+								},
+								error: function (xhr, status, error) {
+									self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+								},
+							});
+
 						});
 					})
 				},
