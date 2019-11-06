@@ -505,7 +505,7 @@ define(function (require) {
 					})
 
 					self.$el.find('#donvi_combobox').on('change.gonrin', function (e) {
-						self.$el.find("#donvi_selecter div div .dropdown-menu").css("display", "block")
+						// self.$el.find("#donvi_selecter div div .dropdown-menu").css("display", "block")
 						self.$el.find("#input_gia").val($('#donvi_combobox').data('gonrin').getText());
 						var idDonViDaChon = $('#donvi_combobox').data('gonrin').getValue();
 						var donViDaChon = null;
@@ -569,11 +569,11 @@ define(function (require) {
 						
 					
 					
-					self.$el.find("#input_gia").focusout(function () {
-						setTimeout(function () {
-							self.$el.find("#donvi_selecter div div .dropdown-menu").css("display", "none")
-						}, 1000);
-					});
+					// self.$el.find("#input_gia").focusout(function () {
+					// 	setTimeout(function () {
+					// 		self.$el.find("#donvi_selecter div div .dropdown-menu").css("display", "none")
+					// 	}, 1000);
+					// });
 				},
 				error: function (xhr, status, error) { }
 			});
