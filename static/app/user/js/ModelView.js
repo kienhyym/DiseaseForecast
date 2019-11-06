@@ -231,7 +231,7 @@ define(function (require) {
 								dataType: 'json',
 								success: function (data, res) {
 									self.getApp().notify({ message: "xóa thành công" });
-
+									self.getApp().getRouter().navigate(self.collectionName + "/collection");
 								},
 								error: function (xhr, status, error) {
 									self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
@@ -572,7 +572,7 @@ define(function (require) {
 					self.$el.find("#input_gia").focusout(function () {
 						setTimeout(function () {
 							self.$el.find("#donvi_selecter div div .dropdown-menu").css("display", "none")
-						}, 500);
+						}, 1000);
 					});
 				},
 				error: function (xhr, status, error) { }
