@@ -11,7 +11,7 @@ from application.extensions import auth
 from application.database import db, redisdb
 from application.models.models import *
 
-
+from datetime import time
 from application.server import app
 from gatco_restapi.helpers import to_dict
 from sqlalchemy.sql.expression import except_
@@ -153,9 +153,29 @@ def register(request):
         return json(result)
 
 
+@app.route('api/v1/gettoken', methods=["POST"])
+def gettoken(request):
+    data = request.json
+    if data["appkey"] == "dmoss1" and data["secret"] == "123456abc":
+        return json({"error_code":"0","error_message":"successful","token":"sakdjhskjdkgskjdghskjhdgskjhgskjgskjhgskjdhs"})
+    return json({})
 
-
-
+@app.route('api/v1/dmoss/pushdata', methods=["POST"])
+def gettoken(request):
+    dataheader = request.headers
+    if dataheader["x-auth-token"] == "sakdjhskjdkgskjdghskjhdgskjhgskjgskjhgskjdhs":
+        data = request.json
+        new_datadmoss = DataDMoss()
+        new_datadmoss.ngaygui = time.time()
+        new_datadmoss.nguoigui = data["sender_name"]
+        new_datadmoss.tieude = data["title"]
+        new_datadmoss.category = data["notification_name"]
+        new_datadmoss.data = data["content"]
+        db.session.add(new_datadmoss)
+        db.session.commit()
+    
+        return json({"error_code":"0","error_message":"successful"})
+    return json({})
 
 
 
@@ -245,3 +265,4 @@ sqlapimanager.create_api(DataDMoss, max_results_per_page=1000000,
     url_prefix='/api/v1',
     # preprocess=dict(GET_SINGLE=[auth_func], GET_MANY=[auth_func], POST=[auth_func], PUT_SINGLE=[auth_func]),
     collection_name='datadmoss')
+
