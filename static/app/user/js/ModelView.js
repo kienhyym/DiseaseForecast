@@ -115,7 +115,10 @@ define(function (require) {
 		render: function () {
 			var self = this;
 			self.$el.find('.toolTaoMoi').hide();
-			self.setDonVi();
+			if (window.location.hash.length < 15) {
+				self.setDonVi();
+			}
+
 
 
 			self.$el.find(".btn-back").unbind("click").bind("click", function () {
@@ -154,7 +157,7 @@ define(function (require) {
 				// }
 
 				// else {
-					
+
 				// 	$.ajax({
 				// 		method: "PUT",
 				// 		url: self.getApp().serviceURL + "/api/v1/user/" + self.model.get("id"),
@@ -183,24 +186,27 @@ define(function (require) {
 
 			});
 			var id = this.getApp().getRouter().getParam("id");
-			
 			if (id) {
 				this.model.set('id', id);
 				this.model.fetch({
 					success: function (data) {
-						
+
 						if (self.model.get("id") == self.getApp().currentUser.id) {
 							self.$el.find("#donvi_selecter").css("pointer-events", "none")
+							self.$el.find(".btn-xoaid").hide();
 							var arr = [];
 							arr.push(self.model.get("donvi"));
-
-							self.$el.find('#donvi_combobox').combobox({
-								textField: "ten",
-								valueField: "id",
-								dataSource: arr,
-								value: self.model.get("donvi_id")
-							});
-							self.$el.find("#input_gia").val($('#donvi_combobox').data('gonrin').getText());
+							if(self.model.get("donvi_id") != null){
+							
+								self.$el.find('#donvi_combobox').combobox({
+									textField: "ten",
+									valueField: "id",
+									dataSource: arr,
+									value: self.model.get("donvi_id")
+								});
+								self.$el.find("#input_gia").val($('#donvi_combobox').data('gonrin').getText());
+							}
+							
 
 						} else {
 							self.setDonViID();
@@ -348,7 +354,7 @@ define(function (require) {
 										quanhuyen_id: donViDaChon.quanhuyen_id,
 										xaphuong_id: donViDaChon.xaphuong_id,
 										donvicaptren_id: donViDaChon.donvicaptren,
-										id_nguoitao:self.getApp().currentUser.id
+										id_nguoitao: self.getApp().currentUser.id
 									}),
 									headers: {
 										'content-type': 'application/json'
@@ -399,7 +405,7 @@ define(function (require) {
 									quanhuyen_id: null,
 									xaphuong_id: null,
 									donvicaptren_id: null,
-									id_nguoitao:self.getApp().currentUser.id
+									id_nguoitao: self.getApp().currentUser.id
 								}),
 								headers: {
 									'content-type': 'application/json'
@@ -544,7 +550,7 @@ define(function (require) {
 										quanhuyen_id: donViDaChon.quanhuyen_id,
 										xaphuong_id: donViDaChon.xaphuong_id,
 										donvicaptren_id: donViDaChon.donvicaptren,
-										id_nguoitao:self.model.get("id_nguoitao")
+										id_nguoitao: self.model.get("id_nguoitao")
 									}),
 									headers: {
 										'content-type': 'application/json'
@@ -565,10 +571,10 @@ define(function (require) {
 						});
 
 					});
-					
-						
-					
-					
+
+
+
+
 					// self.$el.find("#input_gia").focusout(function () {
 					// 	setTimeout(function () {
 					// 		self.$el.find("#donvi_selecter div div .dropdown-menu").css("display", "none")
