@@ -12,6 +12,9 @@ define(function (require) {
 
 		render: function () {
 			var self = this;
+			
+			self.$el.find(".backgroundColor").css("width",screen.availWidth);
+			self.$el.find(".backgroundColor").css("height",screen.availHeight);
 			// var id = self.id;
 			// console.log("self.currentUser",self.getApp().currentUser.id)
 			var id = self.getApp().currentUser.id
@@ -23,6 +26,9 @@ define(function (require) {
 		},
 		changepasswordEvent: function (id) {
 			var self = this;
+			self.$el.find("#btn-back").unbind("click").bind("click", function () {
+				window.location=self.getApp().serviceURL;
+            });
 			self.$el.find("#btn-changepassword").unbind("click").bind("click", function () {
 				if (self.$el.find("#txtpass").val() === undefined || self.$el.find("#txtpass").val() === "") {
 					self.getApp().notify("mật khẩu cũ không được bỏ trống");

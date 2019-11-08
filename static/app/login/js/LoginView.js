@@ -8,6 +8,7 @@ define(function(require) {
     return Gonrin.View.extend({
         render: function() {
             var self = this;
+            
             this.$el.html(template);
             self.getApp().currentUser = null;
             $("body").attr({
@@ -23,7 +24,8 @@ define(function(require) {
             $("#forgot-btn").unbind('click').bind('click', function(){
                 self.getApp().getRouter().navigate("forgot");
         	});
-         
+            self.$el.find(".backgroundColor").css("width",screen.availWidth);
+			self.$el.find(".backgroundColor").css("height",screen.availHeight);
 
             return this;
         },
@@ -41,7 +43,7 @@ define(function(require) {
                 type: 'post',
                 data: data,
                 success: function(response) {
-                    console.log("a>>>>>>>>>>>>>>>>>>>>>>",self.getApp() );
+                   
                     self.getApp().postLogin(response);
                     self.getApp().getRouter().navigate("index");
                 },
