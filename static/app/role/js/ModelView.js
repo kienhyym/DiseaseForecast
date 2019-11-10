@@ -33,7 +33,7 @@ define(function (require) {
 					{
 						name: "save",
 						type: "button",
-						buttonClass: "btn-success btn-sm",
+						buttonClass: "btn-success btn-sm btn-luu",
 						label: "TRANSLATE:SAVE",
 						command: function () {
 							var self = this;
@@ -62,7 +62,7 @@ define(function (require) {
 					{
 						name: "delete",
 						type: "button",
-						buttonClass: "btn-danger btn-sm",
+						buttonClass: "btn-danger btn-sm btn-xoa",
 						label: "TRANSLATE:DELETE",
 						command: function () {
 							var self = this;
@@ -91,12 +91,81 @@ define(function (require) {
 			}],
 		render: function () {
 			var self = this;
+			if (self.getApp().currentUser.captren_stt != 1) {
+				self.$el.find(".btn-luu").hide();
+				self.$el.find(".btn-xoa").hide();
+			}
 			var id = this.getApp().getRouter().getParam("id");
 			if (id) {
 				//progresbar quay quay
 				this.model.set('id', id);
 				this.model.fetch({
 					success: function (data) {
+					
+
+						console.log(self.model);
+						self.$el.find(".btn-xoa").unbind("click").bind('click', function () {
+						
+							$.ajax({
+								url: self.getApp().serviceURL + "/api/v1/user?results_per_page=100000&max_results_per_page=1000000",
+								method: "GET",
+								
+								contentType: "application/json",
+								success: function (data) {	
+									var dem = 1;
+									data.objects.forEach(function (item, index) {
+										dem++;
+										if(item.roles.length !=0){
+											var arr = [];
+											item.roles.forEach(function (item2,index2) {
+												if(item2.id != self.model.get("id"))
+													arr.push(item2)
+											})
+											var roles = {
+												roles: arr
+											}
+				
+											
+												$.ajax({
+													url: self.getApp().serviceURL + "/api/v1/user/" + item.id,
+													method: "PUT",
+													data: JSON.stringify(roles),
+													headers: {
+														'content-type': 'application/json'
+													},
+													dataType: 'json',
+													success: function (data, res) {
+														if(dem > index){
+															$.ajax({
+																url: self.getApp().serviceURL + "/api/v1/role/" + self.model.get("id"),
+																method: "DELETE",
+																headers: {
+																	'content-type': 'application/json'
+																},
+																dataType: 'json',
+																success: function (data, res) {
+																	self.getApp().notify({ message: "Xóa thành công" });
+																	self.getApp().getRouter().navigate(self.collectionName + "/collection");
+																},
+																error: function (xhr, status, error) {
+																},
+															});
+														}
+														
+													},
+													error: function (xhr, status, error) {
+														// self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+													},
+												});
+											
+										}
+									})
+								},
+								error: function (xhr, status, error) {
+									self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+								},
+							});
+						})
 
 						self.applyBindings();
 					},

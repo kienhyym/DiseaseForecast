@@ -32,7 +32,10 @@ define(function (require) {
             }
         },
         render: function () {
-            
+            var self =this;
+            if(self.getApp().currentUser.captren_stt != 1){
+                self.$el.find(".btn-success").hide();
+            }
             this.applyBindings();   
             console.log(this);
             return this;
