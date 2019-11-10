@@ -354,7 +354,7 @@ define(function (require) {
 										quanhuyen_id: donViDaChon.quanhuyen_id,
 										xaphuong_id: donViDaChon.xaphuong_id,
 										donvicaptren_id: donViDaChon.donvicaptren,
-										id_nguoitao: self.getApp().currentUser.id
+										id_nguoitao: self.getApp().currentUser.donvi_id
 									}),
 									headers: {
 										'content-type': 'application/json'
@@ -405,7 +405,7 @@ define(function (require) {
 									quanhuyen_id: null,
 									xaphuong_id: null,
 									donvicaptren_id: null,
-									id_nguoitao: self.getApp().currentUser.id
+									id_nguoitao: self.getApp().currentUser.donvi_id
 								}),
 								headers: {
 									'content-type': 'application/json'

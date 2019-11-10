@@ -32,10 +32,12 @@ define(function (require) {
         //     }
         // },
         render: function () {
-
+            var self = this;
             this.applyBindings();
             this.khoitao();
-
+            if(self.getApp().currentUser.phancapnhanbaocao != "quanly"){
+                self.$el.find('.toolbar').hide();
+            }
             return this;
         },
         khoitao: function () {
@@ -50,7 +52,7 @@ define(function (require) {
                     
 
                         data.objects.forEach(function (item, index) {
-                            if (self.getApp().currentUser.id == item.id_nguoitao ) {
+                            if (self.getApp().currentUser.donvi_id == item.id_nguoitao ) {
                                 arr.push(item);
                             }
                         });
