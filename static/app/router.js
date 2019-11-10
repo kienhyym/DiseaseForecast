@@ -1,7 +1,5 @@
 define(function (require) {
-
     "use strict";
-
     var $ = require('jquery'),
         Gonrin = require('gonrin');
     var Login = require('app/login/js/LoginView');
@@ -10,7 +8,6 @@ define(function (require) {
     var RegisterView = require('app/login/js/RegisterView');
     var IndexView = require('app/login/js/IndexView');
     var navdata = require('app/nav/route');
-
     return Gonrin.Router.extend({
         routes: {
             "index": "index",
@@ -43,7 +40,6 @@ define(function (require) {
                 complete: function () {
                     self.navigate("login");
                 }
-
             });
         },
         error_page: function () {
@@ -87,5 +83,4 @@ define(function (require) {
             });
         },
     });
-
 });

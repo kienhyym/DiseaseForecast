@@ -1,7 +1,6 @@
 define('jquery', [], function () {
 	return jQuery;
 });
-
 require.config({
 	baseUrl: static_url + '/js/lib',
 	paths: {
@@ -30,18 +29,14 @@ require.config({
 		}
 	}
 });
-
-
 require(['jquery', 'gonrin', 'app/router', 'app/nav/NavbarView', 'text!app/base/tpl/mobilelayout.html', 'i18n!app/nls/app', 'vendor/store'], function ($, Gonrin, Router, Nav, layout, lang, storejs) {
 	$.ajaxSetup({
 		headers: {
 			'content-type': 'application/json'
 		}
 	});
-
 	var app = new Gonrin.Application({
 		serviceURL: location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : ''),
-
 		// serviceURL: "http://0.0.0.0:9081",
 		// serviceURL: "http://103.74.120.54:9081",
 		router: new Router(),
@@ -51,8 +46,6 @@ require(['jquery', 'gonrin', 'app/router', 'app/nav/NavbarView', 'text!app/base/
 		initialize: function () {
 			this.getRouter().registerAppRoute();
 			this.getCurrentUser();
-
-
 		},
 		getCurrentUser: function () {
 			var self = this;
@@ -88,31 +81,23 @@ require(['jquery', 'gonrin', 'app/router', 'app/nav/NavbarView', 'text!app/base/
 			this.$header = $('body').find(".main-sidebar");
 			this.$content = $('body').find(".content-area");
 			this.$navbar = $('body').find(".main-sidebar .nav-wrapper");
-
 			this.nav = new Nav({ el: this.$navbar });
 			self.nav.render();
-
 			$("span#display_name").html(self.get_displayName(data));
-
 			self.bind_event();
 			//			self.router.navigate('lichthanhtra/model');
-
 			$("#myacount").unbind('click').bind('click', function () {
-			
+
 				self.getRouter().navigate("user/model?id=" + self.currentUser.id);
-
 			});
-
 			$("#mycompany").unbind('click').bind('click', function () {
 				self.getRouter().navigate("donvi/model?id=" + self.currentUser.donvi_id);
 			});
-
 			$("#changepassword").bind('click', function () {
 				self.router.navigate("changepassword");
 			});
 			$(".mainlogo").unbind('click').bind('click', function () {
 				self.router.navigate('index');
-				
 
 			});
 		},
@@ -121,41 +106,32 @@ require(['jquery', 'gonrin', 'app/router', 'app/nav/NavbarView', 'text!app/base/
 			$("#logo").bind('click', function () {
 				self.router.navigate('lichthanhtra/model');
 			});
-
 			$("#logout").unbind('click').bind('click', function () {
 				self.router.navigate("logout");
-
 			});
-
 			//for show/hide notify
 			$.extend($.easing, {
 				easeOutSine: function easeOutSine(x, t, b, c, d) {
 					return c * Math.sin(t / d * (Math.PI / 2)) + b;
 				}
 			});
-
 			var slideConfig = {
 				duration: 270,
 				easing: 'easeOutSine'
 			};
-
 			// Add dropdown animations when toggled.
 			$(':not(.main-sidebar--icons-only) .dropdown').on('show.bs.dropdown', function () {
 				$(this).find('.dropdown-menu').first().stop(true, true).slideDown(slideConfig);
 			});
-
 			$(':not(.main-sidebar--icons-only) .dropdown').on('hide.bs.dropdown', function () {
 				$(this).find('.dropdown-menu').first().stop(true, true).slideUp(slideConfig);
 			});
-
 			/**
 			 * Sidebar toggles
 			 */
 			$('.toggle-sidebar').unbind("click").bind('click', function (e) {
 				$('.main-sidebar').toggleClass('open');
 			});
-
-
 		},
 		get_displayName: function (data) {
 			var displayName = "";
@@ -168,12 +144,9 @@ require(['jquery', 'gonrin', 'app/router', 'app/nav/NavbarView', 'text!app/base/
 				} else if (!!data.email) {
 					displayName = data.email;
 				}
-
 			}
 			return displayName;
 		}
-
 	});
 	Backbone.history.start();
-
 });

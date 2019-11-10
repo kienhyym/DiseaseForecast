@@ -5,6 +5,8 @@ import base64, re
 import binascii
 import aiohttp
 import copy
+import json as json_load
+import requests
 from gatco.response import json, text, html
 from application.extensions import sqlapimanager
 from application.extensions import auth
@@ -12,6 +14,7 @@ from application.database import db, redisdb
 from application.models.models import *
 
 from datetime import time
+import random
 from application.server import app
 from gatco_restapi.helpers import to_dict
 from sqlalchemy.sql.expression import except_
@@ -97,28 +100,15 @@ async def changepassword(request):
 
             db.session.commit()
             return json({})
-# @app.route('/api/v1/changepassword', methods=['POST'])
-# async def changepassword(request):
-#     data = request.json
-#     print("==================data", data)
-#     password = data.get('password', None)
-#     current_uid = auth.current_user(request)
-#     user_id = data['user_id']
-#     password2 = data['password']
-#     print("==================PASSWORD", password)
-#     print("===================current_uid============", current_uid)
-#     print("===================user_id============", user_id)
-#     print("===================password2============", password2)
-
-
-#     if current_uid and password is not None:
-#         user_info = db.session.query(User).filter(User.id == current_uid).first()
-#         print("==============USER INFO", user_info)
-#         if user_info is not None:
-#             user_info.password = auth.encrypt_password(password)
-
-#             db.session.commit()
-#             return json({})
+@app.route('/api/v1/newpassword', methods=['POST'])
+async def changepassword(request):
+    data = request.json
+    id = data['id']
+    password_new = data['password']
+    user_info = db.session.query(User).filter(User.id == id).first()
+    user_info.password = auth.encrypt_password(password_new)
+    db.session.commit()
+    return json({})
 
 @app.route('/api/v1/register', methods=["POST"])
 def register(request):
@@ -176,6 +166,43 @@ def gettoken(request):
     
         return json({"error_code":"0","error_message":"successful"})
     return json({})
+
+
+
+@app.route('api/v1/tokenuser', methods=["POST"])
+def tokenuser(request):
+    token = random.randint(10000, 99999)
+    print ("===========randum============",token)
+    data = request.json
+    email = data['email']
+    user_info = db.session.query(User).filter(User.email == email).first()
+
+    if user_info is not None:
+        print("user_info", to_dict(user_info))
+
+        email_info = {
+            "from": {
+                "id": "kien97ym@gmail.com",
+                "password": "kocopass_1"
+            },
+            "to": "hydinhkien@gmail.com",
+            "message": "Mã token của bạn là" + str(token),
+            "subject": "Yêu cầu đổi mật khẩu"
+        }
+        url = "https://upstart.vn/services/api/email/send"
+
+        re = requests.post(url=url, data=json_load.dumps(email_info))
+
+        info = {
+            "token": str(token),
+            "user": to_dict(user_info)
+        }
+
+    return json({
+        "ok": token,
+        'id':to_dict(user_info)['id']
+    })
+
 
 
 
