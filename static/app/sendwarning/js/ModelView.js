@@ -34,26 +34,26 @@ define(function (require) {
 						buttonClass: "btn-success btn-sm btn-luu",
 						label: "TRANSLATE:SAVE",
 						// command: function () {
-							// var self = this;
-							// self.model.set("user_id", self.getApp().currentUser.id)
-							// self.model.save(null, {
-							// 	success: function (model, respose, options) {
-							// 		self.getApp().notify("Lưu thông tin thành công");
-							// 	},
-							// 	error: function (xhr, status, error) {
-							// 		try {
-							// 			if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED") {
-							// 				self.getApp().notify("Hết phiên làm việc, vui lòng đăng nhập lại!");
-							// 				self.getApp().getRouter().navigate("login");
-							// 			} else {
-							// 				self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
-							// 			}
-							// 		}
-							// 		catch (err) {
-							// 			self.getApp().notify({ message: "Lưu thông tin không thành công" }, { type: "danger", delay: 1000 });
-							// 		}
-							// 	}
-							// });
+						// var self = this;
+						// self.model.set("user_id", self.getApp().currentUser.id)
+						// self.model.save(null, {
+						// 	success: function (model, respose, options) {
+						// 		self.getApp().notify("Lưu thông tin thành công");
+						// 	},
+						// 	error: function (xhr, status, error) {
+						// 		try {
+						// 			if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED") {
+						// 				self.getApp().notify("Hết phiên làm việc, vui lòng đăng nhập lại!");
+						// 				self.getApp().getRouter().navigate("login");
+						// 			} else {
+						// 				self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
+						// 			}
+						// 		}
+						// 		catch (err) {
+						// 			self.getApp().notify({ message: "Lưu thông tin không thành công" }, { type: "danger", delay: 1000 });
+						// 		}
+						// 	}
+						// });
 						// }
 					},
 					{
@@ -115,6 +115,15 @@ define(function (require) {
 				this.model.set('id', id);
 				this.model.fetch({
 					success: function (data) {
+						
+
+						if (self.model.get("user_id") != self.getApp().currentUser.id) {
+							self.$el.find(".toolbar").hide()
+						
+							self.$el.find(".send-all-chuyentiep").show();
+							self.soantinnhanh();
+						}
+
 						var x = self.$el.find("#content")[0].scrollHeight;
 						self.$el.find("#content")[0].style.height = x + 'px';
 
@@ -361,7 +370,7 @@ define(function (require) {
 			dscanhbao = self.$el.find('.multiselect_canhbao select').val();
 			self.sendMail(danhsachdonviguithongbao, dscanhbao);
 			self.sendzalo(danhsachdonviguithongbao, dscanhbao);
-			self.luu(danhsachdonviguithongbao,dscanhbao);
+			self.luu(danhsachdonviguithongbao, dscanhbao);
 
 			self.$el.find('.multiselect_donvi select').on("change", function () {
 				danhsachdonviguithongbao = self.$el.find('.multiselect_donvi select').val();
@@ -369,14 +378,14 @@ define(function (require) {
 				self.model.set("todonvi", danhsachdonviguithongbao)
 				self.sendMail(danhsachdonviguithongbao, dscanhbao);
 				self.sendzalo(danhsachdonviguithongbao, dscanhbao);
-				self.luu(danhsachdonviguithongbao,dscanhbao);
+				self.luu(danhsachdonviguithongbao, dscanhbao);
 			})
 			self.$el.find('.multiselect_canhbao select').on("change", function () {
 				dscanhbao = self.$el.find('.multiselect_canhbao select').val();
 				danhsachdonviguithongbao = self.$el.find('.multiselect_donvi select').val();
 				self.sendMail(danhsachdonviguithongbao, dscanhbao);
 				self.sendzalo(danhsachdonviguithongbao, dscanhbao);
-				self.luu(danhsachdonviguithongbao,dscanhbao);
+				self.luu(danhsachdonviguithongbao, dscanhbao);
 
 			})
 		},
@@ -459,9 +468,9 @@ define(function (require) {
 							}
 						});
 					})
-					
 
-					self.$el.find("#btn-send-gmail-chuyentiep").unbind('click').bind("click", function () {
+
+					// self.$el.find("#btn-send-gmail-chuyentiep").unbind('click').bind("click", function () {
 						// arrGmailkiemDuyet.forEach(function (item, index) {
 
 						// 	var content = null;
@@ -493,7 +502,7 @@ define(function (require) {
 						// 		}
 						// 	});
 						// })
-						console.log(self.$el.find("#cc").val())
+						// console.log(self.$el.find("#cc").val())
 						// var parem = {
 						// 	id:gonrin.uuid(),
 						// 	todonvi : arrdonvi,
@@ -520,7 +529,7 @@ define(function (require) {
 						// 		self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
 						// 	},
 						// });
-					})
+					// })
 				},
 				error: function (xhr, status, error) {
 					self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
@@ -621,14 +630,14 @@ define(function (require) {
 
 
 					})
-					
+
 				},
 				error: function (xhr, status, error) {
 					self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
 				},
 			});
 		},
-		luu :function(danhsachdonviguithongbao,dscanhbao){
+		luu: function (danhsachdonviguithongbao, dscanhbao) {
 			var self = this;
 			self.$el.find(".btn-luu").unbind('click').bind("click", function () {
 				self.model.set("canhbao", dscanhbao)
@@ -643,7 +652,22 @@ define(function (require) {
 					}
 				});
 			})
-		}
+		},
+		soantinnhanh: function () {
+			var self = this;
+
+			var x = self.$el.find("#content")[0].scrollHeight;
+			self.$el.find("#content")[0].style.height = x + 'px';
+			self.$el.find("#btn-send-gmail-chuyentiep").unbind('click').bind('click', function () {
+
+				sessionStorage.setItem('title', self.$el.find('#cc').val())
+				sessionStorage.setItem('rows', x)
+				sessionStorage.setItem('noidung', self.$el.find('#content').val());
+
+				window.location = self.getApp().serviceURL +"/?#sendwarning/model";
+
+			})
+		},
 
 
 	});

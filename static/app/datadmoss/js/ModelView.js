@@ -202,7 +202,7 @@ define(function (require) {
 				+"-Tài liệu, hình ảnh :\n"+self.$el.find('#tailieu').val()+"\n"
 				+"-Ghi chú :\n"+self.$el.find('#ghichu').val());
 				
-				window.location="http://0.0.0.0:20202/?#sendwarning/model";
+				window.location = self.getApp().serviceURL +"/?#sendwarning/model";
 			
 			})
 		},
