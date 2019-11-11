@@ -28,7 +28,9 @@ define(function (require) {
                         self.getApp().notify({ message: "Yêu cầu đã được gửi qua gmail" });
                         self.$el.find("#forgotpassword-form1").hide();
                         self.$el.find("#forgotpassword-form2").show();
-
+                        self.$el.find("#btn-back2").unbind("click").bind("click", function () {
+                            self.getApp().getRouter().navigate("login");
+                        });
                         
                         self.$el.find("#btn_forgot2").unbind("click").bind("click", function () {
                             console.log(parseInt(self.$el.find("#txttoken").val()))
