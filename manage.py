@@ -174,7 +174,7 @@ def create_default_models_donvi():
     db.session.flush()
 
     #add user
-    user1 = User(email='admin@gmail.com', name='admin',phancapnhanbaocao="quanly",captren_stt = 1,  password=auth.encrypt_password('zxc'))
+    user1 = User(email='admin@gmail.com', name='admin',phancapnhanbaocao="quanly",phone_number="",phone_zalo="",captren_stt = 1,  password=auth.encrypt_password('zxc'))
     user1.donvi_id = donvi1.id
     db.session.add(user1)
     db.session.flush()

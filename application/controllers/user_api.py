@@ -185,7 +185,7 @@ def tokenuser(request):
                 "id": "kien97ym@gmail.com",
                 "password": "kocopass_1"
             },
-            "to": "hydinhkien@gmail.com",
+            "to": email,
             "message": "Mã token của bạn là" + str(token),
             "subject": "Yêu cầu đổi mật khẩu"
         }
