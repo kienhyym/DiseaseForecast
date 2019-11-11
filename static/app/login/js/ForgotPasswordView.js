@@ -31,39 +31,46 @@ define(function (require) {
                         self.$el.find("#btn-back2").unbind("click").bind("click", function () {
                             self.getApp().getRouter().navigate("login");
                         });
-                        
+
                         self.$el.find("#btn_forgot2").unbind("click").bind("click", function () {
                             console.log(parseInt(self.$el.find("#txttoken").val()))
                             console.log(data.ok)
-                            if(parseInt(self.$el.find("#txttoken").val()) == data.ok){
-                                $.ajax({
-                                    type: "POST",
-                                    url: self.getApp().serviceURL + "/api/v1/newpassword",
-                                    data: JSON.stringify({
-                                        id: data.id,
-                                        password: self.$el.find("#txtpass1").val()
-                                    }),
-                                    headers: {
-                                        'content-type': 'application/json'
-                                    },
-                                    dataType: 'json',
-                                    success: function (data, res) {
-                                        self.getApp().notify({ message: "Lấy lại mật khẩu thành công" });
+                            if (parseInt(self.$el.find("#txttoken").val()) == data.ok) {
+                                if (self.$el.find("#txtpass2").val() != self.$el.find("#txtpass1").val()) {
+                                    self.getApp().notify({ message: "Mật khẩu chưa khớp nhau" }, { type: "danger", delay: 1000 });
 
-                                        self.getApp().getRouter().navigate("login");
+                                }
+                                else {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: self.getApp().serviceURL + "/api/v1/newpassword",
+                                        data: JSON.stringify({
+                                            id: data.id,
+                                            password: self.$el.find("#txtpass1").val()
+                                        }),
+                                        headers: {
+                                            'content-type': 'application/json'
+                                        },
+                                        dataType: 'json',
+                                        success: function (data, res) {
+                                            self.getApp().notify({ message: "Lấy lại mật khẩu thành công" });
 
-    
-                                    },
-                                    error: function (xhr, status, error) {
-                                        self.getApp().notify({ message: "Tài khoản không có trong hệ thống" }, { type: "danger", delay: 1000 });
-                                    },
-                                });
+                                            self.getApp().getRouter().navigate("login");
+
+
+                                        },
+                                        error: function (xhr, status, error) {
+                                            self.getApp().notify({ message: "Tài khoản không có trong hệ thống" }, { type: "danger", delay: 1000 });
+                                        },
+                                    });
+                                }
+
                             }
-                            else{
+                            else {
                                 self.getApp().notify({ message: "Mã đã hết hạn hoặc không chính xác" }, { type: "danger", delay: 1000 });
- 
+
                             }
-                           
+
                         });
                     },
                     error: function (xhr, status, error) {
