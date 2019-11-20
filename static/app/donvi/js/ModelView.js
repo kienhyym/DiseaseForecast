@@ -147,6 +147,8 @@ define(function (require) {
 		render: function () {
 			var self = this;
 			if (window.location.hash.length < 15) {
+					self.$el.find(".user").hide();
+				
 				if (self.getApp().currentUser.captren_stt == 1) {
 					self.model.set("captren_id", 2)
 					// self.model.on("change:tinhthanh_id", function () {
@@ -209,6 +211,7 @@ define(function (require) {
 			$.fn.selectpicker.Constructor.DEFAULTS.multipleSeparator = ' | ';
 			self.$el.find("#multiselect_required").selectpicker();
 
+			
 			if (id) {
 				this.model.set('id', id);
 				this.model.fetch({
@@ -389,9 +392,7 @@ define(function (require) {
 								$.fn.selectpicker.Constructor.DEFAULTS.multipleSeparator = ' | ';
 								var IdRole = [];
 								(item.roles).forEach(function (idrole) {
-
 									IdRole.push(idrole.id)
-
 
 								})
 								$(loaiThongBao).selectpicker('val', IdRole);
@@ -405,7 +406,29 @@ define(function (require) {
 						// Lưu loại thông báo mới
 						$(loaiThongBao).on("change", function () {
 							var mangLoaiThongBao = [];
+
 							var mangIdLoaiThongBao = $(loaiThongBao).val();
+							if(mangIdLoaiThongBao.length ==0){
+								self.$el.find('.btn-success').bind("click", function () {
+									$.ajax({
+										url: self.getApp().serviceURL + "/api/v1/user/" + item.id,
+										method: "PUT",
+										data: JSON.stringify({
+											roles: mangLoaiThongBao
+										}),
+										headers: {
+											'content-type': 'application/json'
+										},
+										dataType: 'json',
+										success: function (data, res) {
+											self.getApp().getRouter().refresh();
+										},
+										error: function (xhr, status, error) {
+											self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+										},
+									});
+								})
+							}
 							mangIdLoaiThongBao.forEach(function (itemIdRole, indexIdRole) {
 								$.ajax({
 									url: self.getApp().serviceURL + "/api/v1/role",
@@ -416,7 +439,9 @@ define(function (require) {
 											if (itemIdRole == itemrole.id) {
 												mangLoaiThongBao.push(itemrole)
 											}
+											
 										});
+
 										self.$el.find('.btn-success').bind("click", function () {
 											$.ajax({
 												url: self.getApp().serviceURL + "/api/v1/user/" + item.id,
