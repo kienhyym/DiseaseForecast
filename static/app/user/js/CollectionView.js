@@ -76,13 +76,13 @@ define(function (require) {
                 noResultsClass: "alert alert-default no-records-found",
                 fields: [
                     {
-                        field: "name", label: "Tên", width: 250, readonly: true,
+                        field: "name", label: "Tên", width: 200, readonly: true,
                     },
                     {
-                        field: "email", label: "Email", width: 250, readonly: true,
+                        field: "email", label: "Email", width: 200, readonly: true,
                     },
                     {
-                        field: "phone_number", label: "Số điện thoại", width: 250, readonly: true,
+                        field: "phone_number", label: "Số điện thoại", width: 150, readonly: true,
                     },
                     {
 					field: "donvi",
