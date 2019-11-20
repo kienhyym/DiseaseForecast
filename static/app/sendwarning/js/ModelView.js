@@ -151,7 +151,7 @@ define(function (require) {
 						if (self.model.get("ngayguiphone") !== null) {
 							self.$el.find("#btn-send-phone").removeClass("btn-primary");
 							self.$el.find("#btn-send-phone").addClass("btn-success");
-							self.$el.find("#btn-send-phone").html('Đã gửi qua phone');
+							self.$el.find("#btn-send-phone").html('Đã gửi qua sms');
 						}
 						if (self.model.get("user_id") == self.getApp().currentUser.id) {
 							self.$el.find(".send-all-chuyentiep").hide()
@@ -436,8 +436,8 @@ define(function (require) {
 								url: "https://upstart.vn/services/api/email/send",
 								data: JSON.stringify({
 									from: {
-										"id": "kien97ym@gmail.com",
-										"password": "kocopass_1",
+										"id": "canhbaosotxuathuyet@gmail.com",
+										"password": "kocopass",
 									},
 									"to": item,
 									"message": content,
