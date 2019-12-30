@@ -11,7 +11,7 @@ define(function (require) {
 
 
 	return Gonrin.ModelView.extend({
-		template: template,
+		// template: template,
 		modelSchema: schema,
 		urlPrefix: "/api/v1/",
 		collectionName: "user",
@@ -114,23 +114,20 @@ define(function (require) {
 
 		render: function () {
 			var self = this;
+            var translatedTemplate = gonrin.template(template)(LANG);
+            self.$el.html(translatedTemplate);
 			self.$el.find('.toolTaoMoi').hide();
 			if (window.location.hash.length < 15) {
 				self.setDonVi();
 			}
-
-
-
 			self.$el.find(".btn-back").unbind("click").bind("click", function () {
 				Backbone.history.history.back();
-
 			});
 			self.$el.find(".btn-luuid").unbind("click").bind("click", function () {
 				self.model.save(null, {
 					success: function (model, respose, options) {
 						self.getApp().notify("Lưu thông tin thành công");
 						self.getApp().getRouter().navigate(self.collectionName + "/collection");
-
 					},
 					error: function (xhr, status, error) {
 						try {

@@ -3,7 +3,7 @@
 	<div class="page-header row no-gutters py-4">
 		<div class="col-12 col-md-10 col-sm-4 text-center text-sm-left mb-0">
 			<span class="text-uppercase page-subtitle"> </span>
-			<h3 class="page-title text-uppercase">Đơn Vị</h3>
+			<h3 class="page-title text-uppercase">{{DON_VI}}</h3>
 		</div>
 	</div>
 	<!-- End Page Header -->
@@ -13,7 +13,7 @@
 				<div class="card-header  border-bottom">
 					<div class="row">
 						<div class="col-md-7">
-							<h6 class="m-0">Thông tin chi tiết</h6>
+							<h6 class="m-0">{{THONG_TIN_CHI_TIET}}</h6>
 						</div>
 						<div class="col-md-5 text-right">
 							<div block-bind="toolbar"></div>
@@ -27,12 +27,12 @@
 
 							<div class="row">
 									<div class="col-md-3 mb-3" style="pointer-events:none;opacity: 0.755;">
-										<label>Đơn vị cấp:</label>
+										<label>{{CAP_DON_VI}}:</label>
 										<input type="text" class="form-control" data-bind="value:captren_id" id="captren"
 											required="">
 									</div>
 									<div class="col-md-9 mb-3" style="pointer-events:none;opacity: 0.755;">
-										<label>Tên đơn vị cấp trên:</label>
+										<label>{{TEN_DON_VI_CAP_TREN}}:</label>
 										<input type="text" class="form-control" id="donvicaptren">
 									</div>
 		
@@ -41,7 +41,7 @@
 						<div class="row">
 
 							<div class="col-md-3 mb-3">
-								<label>Mã Đơn Vị</label>
+								<label>{{MA_DON_VI}}:</label>
 								<input type="text" class="form-control" data-bind="value:ma"
 									placeholder="Nhập mã đơn vị" value="" required="">
 								<div class="invalid-feedback">
@@ -49,7 +49,7 @@
 								</div>
 							</div>
 							<div class="col-md-9 mb-3">
-								<label>Tên đơn vị</label>
+								<label>{{TEN_DON_VI}}:</label>
 								<input type="text" class="form-control" data-bind="value:ten"
 									placeholder="Nhập tên đơn vị " value="" required="">
 								<div class="invalid-feedback">
@@ -62,7 +62,7 @@
 						<div class="mb-3">
 							<div class="row">
 								<div class="col-md-4 mb-3">
-									<label for="email">Email <span class="text-muted"></span></label>
+									<label for="email">Email:<span class="text-muted"></span></label>
 									<input type="email" class="form-control" id="email" data-bind="value:email"
 										placeholder="...">
 									<div class="invalid-feedback">
@@ -70,12 +70,12 @@
 									</div>
 								</div>
 								<div class="col-md-4 mb-3">
-									<label for="sodienthoai">Số điện thoại</label>
+									<label for="sodienthoai">{{SO_DIEN_THOAI}}:</label>
 									<input type="text" class="form-control" id="sodienthoai"
 										data-bind="value:sodienthoai" placeholder="..." required="">
 								</div>
 								<div class="col-md-4 mb-3">
-									<label for="nhanthongbaohaykhong">Có nhận cảnh báo không</label>
+									<label for="nhanthongbaohaykhong">{{CO_NHAN_THONG_BAO_KHONG}}:</label>
 									<input type="text" class="form-control" id="nhanthongbaohaykhong"
 										data-bind="value:nhanthongbaohaykhong" placeholder="..." required="">
 								</div>
@@ -86,17 +86,17 @@
 
 						<div class="row">
 							<div class="col-md-4 mb-3 tinhthanh">
-								<label for="cc-name">Tỉnh/Thành phố</label>
+								<label for="cc-name">{{TINH_THANH_PHO}}:</label>
 								<input type="text" class="form-control" id="tinhthanh" data-bind="dict:tinhthanh"
 									placeholder="..." required="">
 							</div>
 							<div class="col-md-4 mb-3 quanhuyen">
-								<label for="cc-number">Quận/Huyện</label>
+								<label for="cc-number">{{QUAN_HUYEN}}:</label>
 								<input type="text" class="form-control" id="quanhuyen" data-bind="dict:quanhuyen"
 									placeholder="..." required="">
 							</div>
 							<div class="col-md-4 mb-3 xaphuong">
-								<label for="cc-expiration">Xã/Phường</label>
+								<label for="cc-expiration">{{XA_PHUONG}}:</label>
 								<input type="text" class="form-control" id="xaphuong" placeholder="..."
 									data-bind="dict:xaphuong" required="">
 							</div>
@@ -104,21 +104,21 @@
 
 						</div>
 						<div class="mb-3">
-							<label for="cc-expiration">Địa chỉ</label>
+							<label for="cc-expiration">{{DIA_CHI}}:</label>
 							<textarea rows="3" class="form-control" data-bind="value:diachi" placeholder="..."
 								required=""></textarea>
 						</div>
 						<div class="user">
-						<label>Danh sách người dùng trong đơn vị</label>
+						<label>{{DANH_SACH_NGUOI_DUNG_TRONG_DON_VI}}:</label>
 						<table class="table table-bordered text-center">
 							<tr>
-								<th style="width: 100px;padding-left: 0px;padding-right: 0px;">Tên</th>
-								<th style="width: 100px;padding-left: 0px;padding-right: 0px;">Nhận thông báo loại:</th>
+								<th style="width: 100px;padding-left: 0px;padding-right: 0px;">{{TEN}}</th>
+								<th style="width: 100px;padding-left: 0px;padding-right: 0px;">{{NHAN_LOAI_THONG_BAO}}:</th>
 								<th style="width: 100px;padding-left: 0px;padding-right: 0px;">Email</th>
-								<th style="width: 80px;padding-left: 0px;padding-right: 0px;">Điện thoại</th>
+								<th style="width: 80px;padding-left: 0px;padding-right: 0px;">{{SO_DIEN_THOAI}}</th>
 								<th style="width: 80px;padding-left: 0px;padding-right: 0px;">Zalo ID</th>
-								<th style="width: 150px;padding-left: 0px;padding-right: 0px;">Vai trò</th>
-								<th style="width: 10px;padding-left: 0px;padding-right: 0px;">Xóa</th>
+								<th style="width: 150px;padding-left: 0px;padding-right: 0px;">{{VAI_TRO}}</th>
+								<th style="width: 10px;padding-left: 0px;padding-right: 0px;">{{XOA}}</th>
 							</tr>
 							<tbody id="danhsach_users"></tbody>
 

@@ -9,7 +9,7 @@ define(function (require) {
 
 
 	return Gonrin.ModelView.extend({
-		template: template,
+		// template: template,
 		modelSchema: schema,
 		urlPrefix: "/api/v1/",
 		collectionName: "role",
@@ -91,6 +91,8 @@ define(function (require) {
 			}],
 		render: function () {
 			var self = this;
+			var translatedTemplate = gonrin.template(template)(LANG);
+            self.$el.html(translatedTemplate);
 			if (self.getApp().currentUser.captren_stt != 1) {
 				self.$el.find(".btn-luu").hide();
 				self.$el.find(".btn-xoa").hide();

@@ -8,7 +8,7 @@
 				<div class="card-header  border-bottom">
 					<div class="row">
 						<div class="col-md-7">
-							<h6 class="m-0 title" >Soạn tin mới</h6>
+							<h6 class="m-0">{{SOAN_TIN_NHAN}}</h6>
 						</div>
 						<div class="col-md-5 text-right toolTaoMoi"">
 							<div block-bind="toolbar">
@@ -18,34 +18,34 @@
 			</div>
 			<div class="card-body col-md-12">
 
-				<label>Đơn vị nhận được báo cáo</label>
+				<label>{{DON_VI_NHAN_THONG_BAO}}</label>
 				<!-- <input type="text" class="form-control" id="to"> -->
 				<select class="selectpicker form-control multiselect_donvi" multiple data-live-search="true"
 					data-actions-box="true" data-noneSelectedText="Chọn đơn vị" title="Chọn đơn vị"></select>
 				<br>
-				<label>Chọn loại cảnh báo</label>
+				<label>{{CHON_LOAI_THONG_BAO}}</label>
 				<select class="selectpicker form-control multiselect_canhbao" multiple data-live-search="true"
 					data-actions-box="true" data-noneSelectedText="chọn loại cảnh báo"
 					title="chọn loại cảnh báo"></select>
 				<br>
-				<label>Tiêu đề</label>
+				<label>{{TIEU_DE}}</label>
 				<input type="text" class="form-control" data-bind="value:cc" id="cc">
 
-				<label>nội dung</label>
+				<label>{{NOI_DUNG}}</label>
 				<textarea rows="10" class="form-control" data-bind="value:message2" id="content"></textarea>
 				<div class="row">
 					<div class="form-group col">
-						<label>Tài liệu đính kèm</label>
+						<label>{{TAI_LIEU_DINH_KEM}}</label>
 						<div id="upload-tailieu">
 							<div class="custom-file">
 								<input type="file" class="custom-file-input upload_files btn_ketthuchoanthanh"
 									id="upload_files" data-attr="tailieu" lang="vi">
-								<label class="custom-file-label">Chọn file tải lên</label>
+								<label class="custom-file-label">{{CHON_FILE_TAI_LEN}}</label>
 							</div>
 						</div>
 						<div id="download-tailieu" class="form-group col col-md-12 col-sm-12 linkdownload_and_button">
 							<span class="textDownload" data-bind="text:tailieu" />
-							<a class="linkDownload">Download</a>
+							<a class="linkDownload">{{TAI_XUONG}}</a>
 						</div>
 						<div class="row"> <span class="link col"></span>
 						</div>
@@ -54,18 +54,15 @@
 				<div class="row col-md-12 send-all" >
 					<div class="d-flex justify-content-center mr-1">
 						<button type="button" class="btn btn-primary" id="btn-send-gmail"
-							style="width: 150px;">Gửi
-							qua gmail</button>
+							style="width: 150px;">{{GUI_QUA_GMAIL}}</button>
 					</div>
 					<div class="d-flex justify-content-center mr-1">
 						<button type="button" class="btn btn-primary" id="btn-send-zalo"
-							style="width: 150px">Gửi
-							qua zalo</button>
+							style="width: 150px">{{GUI_QUA_ZALO}}</button>
 					</div>
 					<div class="d-flex justify-content-center mr-1">
 						<button type="button" class="btn btn-primary" id="btn-send-phone"
-							style="width: 150px;">Gửi
-							qua sms</button>
+							style="width: 150px;">{{GUI_QUA_SMS}}</button>
 					</div>
 					
 				</div>

@@ -100,15 +100,7 @@ async def changepassword(request):
 
             db.session.commit()
             return json({})
-@app.route('/api/v1/newpassword', methods=['POST'])
-async def changepassword(request):
-    data = request.json
-    id = data['id']
-    password_new = data['password']
-    user_info = db.session.query(User).filter(User.id == id).first()
-    user_info.password = auth.encrypt_password(password_new)
-    db.session.commit()
-    return json({})
+
 
 @app.route('/api/v1/register', methods=["POST"])
 def register(request):
@@ -169,6 +161,7 @@ def gettoken(request):
 
 
 
+
 @app.route('api/v1/tokenuser', methods=["POST"])
 def tokenuser(request):
     token = random.randint(10000, 99999)
@@ -191,7 +184,7 @@ def tokenuser(request):
         }
         url = "https://upstart.vn/services/api/email/send"
 
-        re = requests.post(url=url, data=json_load.dumps(email_info))
+        # re = requests.post(url=url, data=json_load.dumps(email_info))
 
         info = {
             "token": str(token),
@@ -203,6 +196,15 @@ def tokenuser(request):
         'id':to_dict(user_info)['id']
     })
 
+@app.route('/api/v1/newpassword', methods=['POST'])
+async def changepassword(request):
+    data = request.json
+    id = data['id']
+    password_new = data['password']
+    user_info = db.session.query(User).filter(User.id == id).first()
+    user_info.password = auth.encrypt_password(password_new)
+    db.session.commit()
+    return json({})
 
 
 
@@ -259,7 +261,21 @@ async def predelete_user(request=None, data=None, Model=None, **kw):
         return json({"error_code":"SESSION_EXPIRED","error_message":"Hết phiên làm việc, vui lòng đăng nhập lại!"}, status=520)
     if currentUser.has_role("Giám Đốc") == False:
         return json({"error_code":"PERMISSION_DENY","error_message":"Không có quyền thực hiện hành động này"}, status=520)
+        
+@app.route("/api/v1/user/set-config", methods=["POST", "PUT", "OPTIONS"])
+async def set_user(request):
+    config_data = request.json
+    id = request.args.get("id")
+    user = await motordb.db['user'].find_one({"id": str(id)})
 
+    if user is None:
+        return json(None)
+
+    user['config'] = config_data
+
+    res = await motordb.db['user'].update_one({'_id': ObjectId(user['_id'])}, {'$set': user})
+
+    return json(res)
 
 sqlapimanager.create_api(User, max_results_per_page=1000000,
     methods=['GET', 'POST', 'DELETE', 'PUT'],

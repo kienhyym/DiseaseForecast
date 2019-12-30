@@ -74,6 +74,9 @@
         "type": "string",
         "length": 50
     },
+    "config": {
+        "type": "json"
+    },
     "donvi": {
         "type": "dict"
     },

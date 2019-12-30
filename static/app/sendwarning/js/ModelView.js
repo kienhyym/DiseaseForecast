@@ -7,7 +7,7 @@ define(function (require) {
 		schema = require('json!schema/SendWarningSchema.json');
 
 	return Gonrin.ModelView.extend({
-		template: template,
+		// template: template,
 		modelSchema: schema,
 		urlPrefix: "/api/v1/",
 		collectionName: "sendwarning",
@@ -93,6 +93,8 @@ define(function (require) {
 		},
 		render: function () {
 			var self = this;
+			var translatedTemplate = gonrin.template(template)(LANG);
+            self.$el.html(translatedTemplate);
 			var id = this.getApp().getRouter().getParam("id");
 			var currentUser = self.getApp().currentUser;
 			if (id == null) {

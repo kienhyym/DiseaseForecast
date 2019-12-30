@@ -10,7 +10,7 @@ define(function (require) {
 	var TinhThanhSelectView = require('app/DanhMuc/TinhThanh/view/SelectView');
 
 	return Gonrin.ModelView.extend({
-		template: template,
+		// template: template,
 		modelSchema: schema,
 		urlPrefix: "/api/v1/",
 		collectionName: "donvi",
@@ -146,6 +146,8 @@ define(function (require) {
 		},
 		render: function () {
 			var self = this;
+			var translatedTemplate = gonrin.template(template)(LANG);
+            self.$el.html(translatedTemplate);
 			if (window.location.hash.length < 15) {
 					self.$el.find(".user").hide();
 				

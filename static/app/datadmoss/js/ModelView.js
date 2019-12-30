@@ -8,7 +8,7 @@ define(function (require) {
 	var NoiDungItemView = require('app/datadmoss/js/NoiDungView');
 
 	return Gonrin.ModelView.extend({
-		template: template,
+		// template: template,
 		modelSchema: schema,
 		urlPrefix: "/api/v1/",
 		collectionName: "datadmoss",
@@ -105,6 +105,8 @@ define(function (require) {
 		},
 		render: function () {
 			var self = this;
+			var translatedTemplate = gonrin.template(template)(LANG);
+            self.$el.html(translatedTemplate);
 			var id = this.getApp().getRouter().getParam("id");
 			var currentUser = self.getApp().currentUser;
 			if (id) {
@@ -112,7 +114,6 @@ define(function (require) {
 				this.model.fetch({
 					success: function (data) {
 						self.noidung();
-						
 						self.applyBindings();
 					},
 					error: function (xhr, status, error) {
@@ -129,6 +130,8 @@ define(function (require) {
 					}
 				});
 			} else {
+				var translatedTemplate = gonrin.template(template)(LANG);
+            self.$el.html(translatedTemplate);
 				self.applyBindings();
 			}
 
@@ -144,8 +147,6 @@ define(function (require) {
 				self.$el.find("#tailieu").val(self.model.get("data").attactments);
 				self.$el.find("#ghichu").val(self.model.get("data").detail);
 			}
-
-
 
 			self.$el.find(".noidung").on("change", function () {
 				// noidung = {

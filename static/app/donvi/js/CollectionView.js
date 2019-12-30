@@ -8,52 +8,15 @@ define(function (require) {
         schema = require('json!schema/DonViSchema.json');
     var TemplateHelper = require('app/base/view/TemplateHelper');
     return Gonrin.CollectionView.extend({
-        template: template,
+        // template: template,
         modelSchema: schema,
         urlPrefix: "/api/v1/",
         collectionName: "donvi",
-        // uiControl: {
-        //     fields: [
-        //         { field: "ma", label: "Mã" },
-        //         { field: "ten", label: "Tên" },
-        //         {
-        //             field: "tinhthanh_id",
-        //             label: "Tỉnh thành",
-        //             foreign: "tinhthanh",
-        //             foreignValueField: "id",
-        //             foreignTextField: "ten",
-        //         },
-        //         {
-        //             field: "quanhuyen_id",
-        //             label: "Quận/Huyện",
-        //             foreign: "quanhuyen",
-        //             foreignValueField: "id",
-        //             foreignTextField: "ten",
-        //         },
-        //         {
-        //             field: "xaphuong_id",
-        //             label: "Xã/Phường/Thị trấn",
-        //             foreign: "xaphuong",
-        //             foreignValueField: "id",
-        //             foreignTextField: "ten",
-        //         },
-        //     ],
-
-        //     onRowClick: function (event) {
-        //         if (event.rowId) {
-        //             var path = this.collectionName + '/model?id=' + event.rowId;
-        //             this.getApp().getRouter().navigate(path);
-        //         }
-        //     },
-
-        // },
-        // render: function () {
-
-        //     this.applyBindings();
-        //     return this;
-        // },
+        
         render: function () {
-
+            var self = this;
+            var translatedTemplate = gonrin.template(template)(LANG);
+            self.$el.html(translatedTemplate);
             this.applyBindings();
             this.khoitao();
 
@@ -89,13 +52,13 @@ define(function (require) {
                 noResultsClass: "alert alert-default no-records-found",
                 fields: [
                     {
-                        field: "ten", label: "Tên đơn vị", width: 250, readonly: true,
+                        field: "ten", label: "{{TEN_DON_VI}}", width: 250, readonly: true,
                     },
                     {
                         field: "email", label: "Email", width: 250, readonly: true,
                     },
                     {
-                        field: "sodienthoai", label: "Số điện thoại", width: 250, readonly: true,
+                        field: "sodienthoai", label: "{{SO_DIEN_THOAI}}", width: 250, readonly: true,
                     },
                 ],
                 dataSource: dataSource,
@@ -110,6 +73,14 @@ define(function (require) {
                         self.getApp().getRouter().navigate("donvi/model?id=" + e.rowId);
                     },
                 },
+                onRendered: function (e) {
+                    // this.$el.find("#total_people").html(this.collection.numRows + ' ' + LANG.RECORDS + ' / ' + this.collection.totalPages + ' ' + LANG.PAGES);
+                    var tableHeader = self.$el.find(".grid-header");
+                    var translatedHtml = gonrin.template(tableHeader.html() ? tableHeader.html() : '')(LANG);
+                    tableHeader.html(translatedHtml);
+                    
+                },
+                
             });
         },
 

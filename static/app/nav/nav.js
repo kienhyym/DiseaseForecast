@@ -48,7 +48,7 @@ define(function (require) {
 			}
 		},
 		{
-			"text": "Quản lý người dùng",
+			"text": "{{QUAN_LY_NGUOI_DUNG_CAP_DUOI}}",
 			"icon": "fa fa-home",
 			"type": "view",
 			"collectionName": "user",

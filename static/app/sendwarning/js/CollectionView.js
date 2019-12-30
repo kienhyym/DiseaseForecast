@@ -7,62 +7,15 @@ define(function (require) {
     var template = require('text!app/sendwarning/tpl/collection.html'),
         schema = require('json!schema/SendWarningSchema.json');
     return Gonrin.CollectionView.extend({
-        template: template,
+        // template: template,
         modelSchema: schema,
         urlPrefix: "/api/v1/",
         collectionName: "sendwarning",
-        // uiControl: {
-        //     fields: [
-        //         { field: "cc", label: "Chủ đề", width: 350, readonly: true },
-        //         {
-        //             field: "ngayguizalo", label: "Ngày gửi qua zalo", width: 150, readonly: true,
-        //             template: function (rowData) {
-        //                 if (!!rowData && rowData.ngayguizalo) {
-        //                     var utcTolocal = function (times, format) {
-        //                         return moment(times * 1000).local().format(format);
-        //                     }
-        //                     return utcTolocal(rowData.ngayguizalo, "DD/MM/YYYY");
-        //                 }
-        //                 return "Chưa gửi";
-        //             },
-        //         },
-        //         {
-        //             field: "ngayguigmail", label: "Ngày gửi qua gmail", width: 150, readonly: true,
-        //             template: function (rowData) {
-        //                 if (!!rowData && rowData.ngayguigmail) {
-        //                     var utcTolocal = function (times, format) {
-        //                         return moment(times * 1000).local().format(format);
-        //                     }
-        //                     return utcTolocal(rowData.ngayguigmail, "DD/MM/YYYY");
-        //                 }
-        //                 return "Chưa gửi";
-        //             },
-        //         },
-        //         {
-        //             field: "ngayguiphone", label: "Ngày gửi qua sms", width: 150, readonly: true,
-        //             template: function (rowData) {
-        //                 if (!!rowData && rowData.ngayguiphone) {
-        //                     var utcTolocal = function (times, format) {
-        //                         return moment(times * 1000).local().format(format);
-        //                     }
-        //                     return utcTolocal(rowData.ngayguiphone, "DD/MM/YYYY");
-        //                 }
-        //                 return "Chưa gửi";
-        //             },
-        //         },
-
-
-        //     ],
-        //     onRowClick: function (event) {
-        //         if (event.rowId) {
-        //             var path = this.collectionName + '/model?id=' + event.rowId;
-        //             this.getApp().getRouter().navigate(path);
-        //         }
-
-
-        // },
+        
         render: function () {
             var self = this;
+            var translatedTemplate = gonrin.template(template)(LANG);
+            self.$el.html(translatedTemplate);
             this.khoitao();
             if (self.getApp().currentUser.captren_stt == 1) {
                 $('#xxx').removeClass('active');
@@ -287,9 +240,9 @@ define(function (require) {
                 },
                 noResultsClass: "alert alert-default no-records-found",
                 fields: [
-                    { field: "cc", label: "Chủ đề", width: 350, readonly: true },
+                    { field: "cc", label: "{{CHU_DE}}", width: 350, readonly: true },
                     {
-                        field: "ngayguizalo", label: "Ngày gửi qua zalo", width: 150, readonly: true,
+                        field: "ngayguizalo", label: "{{NGAY_GUI_QUA_ZALO}}", width: 150, readonly: true,
                         template: function (rowData) {
                             if (!!rowData && rowData.ngayguizalo) {
                                 var utcTolocal = function (times, format) {
@@ -301,7 +254,7 @@ define(function (require) {
                         },
                     },
                     {
-                        field: "ngayguigmail", label: "Ngày gửi qua gmail", width: 150, readonly: true,
+                        field: "ngayguigmail", label: "{{NGAY_GUI_QUA_GMAIL}}", width: 150, readonly: true,
                         template: function (rowData) {
                             if (!!rowData && rowData.ngayguigmail) {
                                 var utcTolocal = function (times, format) {
@@ -313,7 +266,7 @@ define(function (require) {
                         },
                     },
                     {
-                        field: "ngayguiphone", label: "Ngày gửi qua sms", width: 150, readonly: true,
+                        field: "ngayguiphone", label: "{{NGAY_GUI_QUA_SMS}}", width: 150, readonly: true,
                         template: function (rowData) {
                             if (!!rowData && rowData.ngayguiphone) {
                                 var utcTolocal = function (times, format) {
@@ -331,6 +284,12 @@ define(function (require) {
                 pagination: {
                     page: 1,
                     pageSize: 100
+                },
+                onRendered: function (e) {
+                    var tableHeader = self.$el.find("table .grid-header");
+                    var translatedHtml = gonrin.template(tableHeader.html() ? tableHeader.html() : '')(LANG);
+                    tableHeader.html(translatedHtml);
+                    
                 },
                 events: {
                     "rowclick": function (e) {

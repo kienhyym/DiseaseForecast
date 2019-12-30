@@ -10,6 +10,7 @@ define({
         "SYNC": "Đồng bộ",
         "NO_RECORDS_FOUND":"Chưa có dữ liệu",
         "no_records_found":"Chưa có dữ liệu",
-        "create_medical":"Đặt Khám"
+        "create_medical":"Đặt Khám",
+        "TIEU_DE":"tíedadsas"
     }
 });

@@ -7,15 +7,16 @@ define(function (require) {
     var template = require('text!app/datadmoss/tpl/collection.html'),
         schema = require('json!schema/DataDMossSchema.json');
     return Gonrin.CollectionView.extend({
-        template: template,
+        // template: null,
         modelSchema: schema,
         urlPrefix: "/api/v1/",
         collectionName: "datadmoss",
         uiControl: {
             fields: [
-                { field: "tieude", label: "Tiêu đề" , width: 550, readonly: true},
+                { field: "tieude", label: "{{TIEU_DE}}" , width: 550, readonly: true},
                 {
-                    field: "ngaygui", label: "Ngày gửi",
+                    field: "ngaygui", 
+                    label: "{{NGAY_GUI}}",
                     template: function (rowData) {
                         if (!!rowData && rowData.ngaygui) {
                     
@@ -28,7 +29,6 @@ define(function (require) {
                         return "";
                     },
                 },
-            
             ],
             onRowClick: function (event) {
                 if (event.rowId) {
@@ -36,13 +36,22 @@ define(function (require) {
                     this.getApp().getRouter().navigate(path);
                 }
             },
+            onRendered: function (e) {
+				this.$el.find("#total_people").html(this.collection.numRows + ' ' + LANG.RECORDS + ' / ' + this.collection.totalPages + ' ' + LANG.PAGES);
+				var tableHeader = this.$el.find("table .grid-header");
+				var translatedHtml = gonrin.template(tableHeader.html() ? tableHeader.html() : '')(LANG);
+				tableHeader.html(translatedHtml);
+				
+			},
         
         },
         render: function () {
-        
+            var self = this;
+            var translatedTemplate = gonrin.template(template)(LANG);
+            self.$el.html(translatedTemplate);
             this.applyBindings();
             return this;
         },
-
+        
     });
 });
