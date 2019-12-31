@@ -71,6 +71,8 @@ define(function (require) {
 					var entry_entries = _.result(entry, 'entries');
 					var entry_viewData = _.result(entry, 'viewData');
 					var _html = '';
+
+					
 					if (entry_type === "category" && entry_text !== undefined) {
 						_html = _html + '<a  class="nav-link" href=" javascript:void(0);">';
 						if (entry_icon) {
@@ -123,8 +125,11 @@ define(function (require) {
 		},
 		render: function () {
 			var self = this;
+			
 			this.$el.empty();
-			this.$el.html(template);
+			var translatedTemplate = gonrin.template(template)(LANG);
+				self.$el.html(translatedTemplate);
+			// this.$el.html(template);
 			var nav_list = this.$el.find('ul#menu-first');
 			this.loadEntries(nav_list, navdata, true);
 			$('ul').parents('li').children("ul").attr("style", "display:none");

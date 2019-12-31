@@ -46,14 +46,16 @@ require(['jquery',
 	'text!app/base/tpl/mobilelayout.html',
 	'i18n!app/nls/app',
 	'json!app/nls/en.json',
+	'json!app/nls/vn.json',
+
 	'vendor/store'],
-	function ($, Gonrin, Router, Nav, layout, lang,EN, storejs) {
+	function ($, Gonrin, Router, Nav, layout, lang, EN,VN, storejs) {
 		$.ajaxSetup({
 			headers: {
 				'content-type': 'application/json'
 			}
 		});
-		window.LANG = EN;
+		window.LANG = VN;
 
 		var app = new Gonrin.Application({
 			serviceURL: location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : ''),
@@ -82,25 +84,16 @@ require(['jquery',
 			},
 			postLogin: function (data) {
 				var self = this;
-				// console.log(data)
 				if (data.config && data.config.lang == "EN") {
 					window.LANG = EN;
 				}
 
-				var tpl = gonrin.template(layout)(LANG);
-				self.trangthai = {
-					"new": "Tạo mới",
-					"send_review_truongphong": "Chờ cấp phòng duyệt",
-					"cancel_reviewed_truongphong": "Phòng từ chối",
-					"send_review_pct": "Chờ PCT duyệt",
-					"cancel_reviewed_pct": "PCT từ chối",
-					"send_approved": "Chờ CT duyệt",
-					"cancel_approved": "CT từ chối",
-					"approved": "CT đã duyệt quyết định",
-					"checked": "Đã kiểm tra",
-					"result_checked": "Đã có kết luận",
-					"completed": "Hoàn thành"
-				};
+				// console.log(self.translate("TIEU_DE"));
+
+				// var translatedTemplate = gonrin.template(layout)(LANG);
+				// $(self).html(translatedTemplate);
+				
+
 				self.currentUser = new Gonrin.User(data);
 				var tpl = gonrin.template(layout)({});
 				$('.content-contain').html(tpl);
@@ -134,7 +127,26 @@ require(['jquery',
 					$.ajax({
 						url: self.serviceURL + "/api/v1/user/" + user.id,
 						data: JSON.stringify({
-							"config":{'lang':'EN'}
+							"config": { 'lang': 'EN' }
+						}),
+						type: "PUT",
+						success: function (response) {
+							location.reload();
+						},
+						error: function () {
+							console.log("ERROR");
+						}
+					});
+				});
+
+				$("#btn_vn").unbind("click").bind("click", function () {
+					var user = clone(self.currentUser);
+					var config = user.config ? user.config : {};
+					config.lang = "VN";
+					$.ajax({
+						url: self.serviceURL + "/api/v1/user/" + user.id,
+						data: JSON.stringify({
+							"config": { 'lang': 'VN' }
 						}),
 						type: "PUT",
 						success: function (response) {

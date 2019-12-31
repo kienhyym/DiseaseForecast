@@ -115,7 +115,11 @@ define(function (require) {
 		render: function () {
 			var self = this;
             var translatedTemplate = gonrin.template(template)(LANG);
-            self.$el.html(translatedTemplate);
+			self.$el.html(translatedTemplate);
+
+			console.log(self.getApp().translate("TIEU_DE"));
+			
+
 			self.$el.find('.toolTaoMoi').hide();
 			if (window.location.hash.length < 15) {
 				self.setDonVi();

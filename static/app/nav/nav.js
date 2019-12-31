@@ -48,7 +48,7 @@ define(function (require) {
 			}
 		},
 		{
-			"text": "{{QUAN_LY_NGUOI_DUNG_CAP_DUOI}}",
+			"text": "TRANSLATE:TIEU_DE",
 			"icon": "fa fa-home",
 			"type": "view",
 			"collectionName": "user",
