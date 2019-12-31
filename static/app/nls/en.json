@@ -22,6 +22,7 @@
     "NHAP_MA_THONG_BAO": "Enter code of notification",
     "DANH_SACH_NGUOI_DUNG":"List of user",
     "QUAN_LY_NGUOI_DUNG_CAP_DUOI": "subordinate user management",
+    "QUAN_LY_DON_VI_CAP_DUOI":"subordinate unit management",
     "TEN": "Name",
     "DON_VI": "Unite",
     "SO_DIEN_THOAI": "Phone number",
@@ -41,6 +42,7 @@
     "DANH_SACH_NGUOI_DUNG_TRONG_DON_VI": "List of user in unit",
     "NHAN_LOAI_THONG_BAO": "Receive type of notification",
     "VAI_TRO": "Role",
+
     "QUAN_LY_TIN_NHAN": "Message management",
     "CHU_DE": "Tittle",
     "NGAY_GUI_QUA_ZALO": "Date sent by Zalo",
@@ -61,12 +63,14 @@
     "DA_GUI_QUA_GMAIL": "Sent by gmail",
     "DA_GUI_QUA_ZALO": "Sent by zalo",
     "DA_GUI_QUA_SMS": "Sent by sms",
+    
     "LUU_THONG_TIN_THANH_CONG": "Save information successfully",
     "XOA_DU_LIEU_THANH_CONG": "Delete data successfully",
-    "THONG_TIN_CA_NHAN": "Private information",
-    "DON_VI_CUA_TOI": "My Unit",
+    "THONG_TIN_CA_NHAN": "<i class='material-icons text-danger'></i>Private information",
+    "DON_VI_CUA_TOI": "<i class='material-icons text-danger'></i>My Unit",
     "THAY_DOI_MAT_KHAU": "Change password",
-    "DANG_XUAT": "Log out",
+    "DOI_MAT_KHAU": "<i class='material-icons text-danger'></i>Change password",
+    "DANG_XUAT": "<i class='material-icons text-danger'></i>Log out",
     "NHAP_MAT_KHAU_CU": "Enter current password",
     "NHAP_MAT_KHAU_MOI": "Enter new password",
     "NHAP_LAI_MAT_KHAU_MOI": "Re-enter new password",
@@ -80,5 +84,11 @@
     "TAI_KHOAN_KHONG_CO_TRONG_HE_THONG": "This account is not in the system",
     "YEU_CAU_DA_DUOC_GUI_VAO_GMAIL": "The request has been sent by emaill",
     "NHAP_MA_TOKEN_DA_GUI_QUA_GMAIL": "Enter Token sent gmail",
-    "XOA":"Delete"
+    "XOA":"Delete",
+    "TAO_MOI":"Create",
+    "SUA":"Edit",
+    "QUAY_LAI":"Back",
+    "TEN_PM":"Dengue Notification Module"
+
+
 }

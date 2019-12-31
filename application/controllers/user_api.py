@@ -175,8 +175,8 @@ def tokenuser(request):
 
         email_info = {
             "from": {
-                "id": "kien97ym@gmail.com",
-                "password": "kocopass_1"
+                "id": "canhbaosotxuathuyet@gmail.com",
+                "password": "kocopass"
             },
             "to": email,
             "message": "Mã token của bạn là" + str(token),

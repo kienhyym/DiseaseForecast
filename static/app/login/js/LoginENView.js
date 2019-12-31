@@ -3,16 +3,13 @@ define(function(require) {
     var $ = require('jquery'),
         _ = require('underscore'),
         Gonrin = require('gonrin'),
-        tpl = require('text!app/login/tpl/login.html');
-
+        tpl = require('text!app/login/tpl/loginEN.html');
     var template = gonrin.template(tpl)({});
-
     return Gonrin.View.extend({
         render: function() {
             var self = this;
-            
+           
             this.$el.html(template);
-
             self.getApp().currentUser = null;
             $("body").attr({
                 'style': 'background-color: #e9ecf3 !important;'
@@ -25,14 +22,13 @@ define(function(require) {
                 self.getApp().getRouter().navigate("register");
             });
             $("#forgot-btn").unbind('click').bind('click', function(){
-                self.getApp().getRouter().navigate("forgot");
+                self.getApp().getRouter().navigate("forgotEN");
         	});
             self.$el.find(".backgroundColor").css("width",screen.availWidth);
 			self.$el.find(".backgroundColor").css("height",screen.availHeight);
-            self.$el.find("#btn_eng").unbind('click').bind('click',function () {
-                localStorage.setItem("language", "EN");
-                self.getApp().getRouter().navigate("loginEN");
-
+            self.$el.find("#btn_vie").unbind('click').bind('click',function () {
+                localStorage.setItem("language", "VN");
+                self.getApp().getRouter().navigate("login");
             })
             if(localStorage.getItem("language") == "EN"){
                 self.getApp().getRouter().navigate("loginEN");

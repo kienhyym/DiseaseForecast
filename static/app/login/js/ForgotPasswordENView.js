@@ -3,7 +3,7 @@ define(function (require) {
     var $ = require('jquery'),
         _ = require('underscore'),
         Gonrin = require('gonrin'),
-        tpl = require('text!app/login/tpl/forgotpassword.html');
+        tpl = require('text!app/login/tpl/forgotpasswordEN.html');
     var template = gonrin.template(tpl)({});
     return Gonrin.View.extend({
         template: template,
@@ -12,9 +12,10 @@ define(function (require) {
         collectionName: "",
         render: function () {
             var self = this;
-            self.$el.find("#btn_eng").unbind('click').bind('click',function () {
-                localStorage.setItem("language", "EN");
-                self.getApp().getRouter().navigate("forgotEN");
+            self.$el.find("#btn_vie").unbind('click').bind('click',function () {
+                localStorage.setItem("language", "VN");
+
+                self.getApp().getRouter().navigate("forgot");
             })
             self.$el.find("#btn_forgot").unbind("click").bind("click", function () {
                 console.log('xxxx')
@@ -85,7 +86,7 @@ define(function (require) {
                 // self.processForgotPass();
             });
             self.$el.find("#btn-back").unbind("click").bind("click", function () {
-                self.getApp().getRouter().navigate("login");
+                self.getApp().getRouter().navigate("loginEN");
             });
             self.$el.find(".backgroundColor").css("width", screen.availWidth);
             self.$el.find(".backgroundColor").css("height", screen.availHeight);

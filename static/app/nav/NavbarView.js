@@ -41,7 +41,6 @@ define(function (require) {
 		},
 		requireRole: function (role) {
 			var user = gonrinApp().currentUser;
-			console.log("user.role====", user.role);
 			if (!!user && user.role === role) {
 				return true;
 			}
@@ -61,6 +60,12 @@ define(function (require) {
 		},
 		loadEntries: function ($el, entries, is_root) {
 			var self = this;
+
+
+			var user = self.getApp().currentUser
+			var config = user.config ? user.config : {};
+
+
 			var check_first = false;
 			if (entries && (entries.length > 0)) {
 				_.each(entries, function (entry, index) {
@@ -70,6 +75,13 @@ define(function (require) {
 					var entry_icon = _.result(entry, 'icon');
 					var entry_entries = _.result(entry, 'entries');
 					var entry_viewData = _.result(entry, 'viewData');
+
+					
+
+					if ((!!entry_text) && (entry_text.startsWith('TRANSLATE:'))) {
+						entry_text = gonrinApp().translate(entry_text);
+					}
+					
 					var _html = '';
 
 					
@@ -127,9 +139,8 @@ define(function (require) {
 			var self = this;
 			
 			this.$el.empty();
-			var translatedTemplate = gonrin.template(template)(LANG);
-				self.$el.html(translatedTemplate);
-			// this.$el.html(template);
+			
+			this.$el.html(template);
 			var nav_list = this.$el.find('ul#menu-first');
 			this.loadEntries(nav_list, navdata, true);
 			$('ul').parents('li').children("ul").attr("style", "display:none");

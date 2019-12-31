@@ -17,6 +17,9 @@ define(function (require) {
             var self = this;
             var translatedTemplate = gonrin.template(template)(LANG);
             self.$el.html(translatedTemplate);
+            self.$el.find('.btn-taomoi').unbind("click").bind("click",function () {
+                self.getApp().getRouter().navigate(self.collectionName + "/model");
+            })
             this.applyBindings();
             this.khoitao();
 

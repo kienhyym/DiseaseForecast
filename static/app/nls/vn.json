@@ -22,6 +22,8 @@
     "NHAP_MA_THONG_BAO": "Nhập mã thông báo",
     "DANH_SACH_NGUOI_DUNG":"Danh sách người dùng",
     "QUAN_LY_NGUOI_DUNG_CAP_DUOI": "Quản lý người dùng cấp dưới",
+    "QUAN_LY_DON_VI_CAP_DUOI":"Quản lý đơn vị cấp dưới",
+
     "TEN": "Tên",
     "DON_VI": "Đơn vị",
     "SO_DIEN_THOAI": "Số điện thoại",
@@ -65,10 +67,8 @@
     
     "LUU_THONG_TIN_THANH_CONG": "Lưu thông tin thành công",
     "XOA_DU_LIEU_THANH_CONG": "Xóa dữ liệu thành công",
-    "THONG_TIN_CA_NHAN": "Thông tin cá nhân",
-    "DON_VI_CUA_TOI": "Đơn vị của tôi",
     "THAY_DOI_MAT_KHAU": "Thay đổi mật khẩu",
-    "DANG_XUAT": "Đăng xuất",
+
     "NHAP_MAT_KHAU_CU": "Nhập mật khẩu cũ",
     "NHAP_MAT_KHAU_MOI": "Nhập mật khẩu mới",
     "NHAP_LAI_MAT_KHAU_MOI": "Nhập lại mật khẩu mới",
@@ -82,5 +82,15 @@
     "TAI_KHOAN_KHONG_CO_TRONG_HE_THONG": "Tài khoản không có trong hệ thống",
     "YEU_CAU_DA_DUOC_GUI_VAO_GMAIL": "Yêu cầu đã được gửi vào gmail",
     "NHAP_MA_TOKEN_DA_GUI_QUA_GMAIL": "Nhập mã token đã gửi qua gmail",
-    "XOA":"Xóa"
+    "XOA":"Xóa",
+    "TAO_MOI":"Tạo mới",
+    "SUA":"Sửa",
+    "QUAY_LAI":"Quay lại",
+
+    "THONG_TIN_CA_NHAN": "<i class='material-icons text-danger'></i>Thông tin cá nhân",
+    "DON_VI_CUA_TOI": "<i class='material-icons text-danger'></i>Đơn vị của tôi",
+    "DOI_MAT_KHAU": "<i class='material-icons text-danger'></i>Thay đổi mật khẩu",
+    "DANG_XUAT": "<i class='material-icons text-danger'></i>Đăng xuất",
+    "TEN_PM":"Dự Báo Sốt Xuất Huyết"
+
 }

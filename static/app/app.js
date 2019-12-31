@@ -63,6 +63,7 @@ require(['jquery',
 			// serviceURL: "http://103.74.120.54:9081",
 			router: new Router(),
 			lang: lang,
+			
 			layout: layout,
 			staticURL: static_url,
 			initialize: function () {
@@ -86,13 +87,18 @@ require(['jquery',
 				var self = this;
 				if (data.config && data.config.lang == "EN") {
 					window.LANG = EN;
+					self.lang = EN;
+				}
+
+				if (data.config && data.config.lang == "VN") {
+					window.LANG = VN;
+					self.lang = VN;
 				}
 
 				// console.log(self.translate("TIEU_DE"));
 
 				// var translatedTemplate = gonrin.template(layout)(LANG);
 				// $(self).html(translatedTemplate);
-				
 
 				self.currentUser = new Gonrin.User(data);
 				var tpl = gonrin.template(layout)({});
@@ -112,13 +118,19 @@ require(['jquery',
 				$("#mycompany").unbind('click').bind('click', function () {
 					self.getRouter().navigate("donvi/model?id=" + self.currentUser.donvi_id);
 				});
+				// console.log("hien tại")
 				$("#changepassword").bind('click', function () {
 					self.router.navigate("changepassword");
 				});
 				$(".mainlogo").unbind('click').bind('click', function () {
 					self.router.navigate('index');
-
 				});
+				$(".dropdown-menu-right a").each(function (index,item) {
+					console.log($(item).html(self.translate($(item).text().trim())))
+				})
+				console.log($(".tit").text())
+				$(".tit").html(self.translate($(".tit").text().trim()))
+
 				$("#btn_en").unbind("click").bind("click", function () {
 					console.log('xxx')
 					var user = clone(self.currentUser);

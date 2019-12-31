@@ -146,8 +146,35 @@ define(function (require) {
 		},
 		render: function () {
 			var self = this;
+
 			var translatedTemplate = gonrin.template(template)(LANG);
-            self.$el.html(translatedTemplate);
+			self.$el.html(translatedTemplate);
+			
+			self.$el.find(".btn-back").unbind("click").bind("click", function () {
+				Backbone.history.history.back();
+			});
+			self.$el.find(".btn-luu").unbind("click").bind("click", function () {
+				self.model.save(null, {
+					success: function (model, respose, options) {
+						self.getApp().notify("Lưu thông tin thành công");
+						self.getApp().getRouter().navigate(self.collectionName + "/collection");
+					},
+					error: function (xhr, status, error) {
+						try {
+							if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED") {
+								self.getApp().notify("Hết phiên làm việc, vui lòng đăng nhập lại!");
+								self.getApp().getRouter().navigate("login");
+							} else {
+								self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
+							}
+						}
+						catch (err) {
+							self.getApp().notify({ message: "Lưu thông tin không thành công" }, { type: "danger", delay: 1000 });
+						}
+					}
+				});
+			});
+
 			if (window.location.hash.length < 15) {
 					self.$el.find(".user").hide();
 				
@@ -236,6 +263,28 @@ define(function (require) {
 						// self.$el.find(".tinhthanh").css({ "pointer-events": "none", "opacity": "0.755" })
 						// self.$el.find(".quanhuyen").css({ "pointer-events": "none", "opacity": "0.755" })
 						// self.$el.find(".xaphuong").css({ "pointer-events": "none", "opacity": "0.755" })
+						self.$el.find(".btn-xoa").unbind("click").bind('click', function () {
+							self.model.destroy({
+								success: function (model, response) {
+									self.getApp().notify('Xoá dữ liệu thành công');
+									self.getApp().getRouter().navigate(self.collectionName + "/collection");
+								},
+								error: function (xhr, status, error) {
+									try {
+										if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED") {
+											self.getApp().notify("Hết phiên làm việc, vui lòng đăng nhập lại!");
+											self.getApp().getRouter().navigate("login");
+										} else {
+											self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
+										}
+									}
+									catch (err) {
+										self.getApp().notify({ message: "Xóa dữ liệu không thành công" }, { type: "danger", delay: 1000 });
+									}
+								}
+							});
+						})
+
 					},
 					error: function (xhr, status, error) {
 						try {

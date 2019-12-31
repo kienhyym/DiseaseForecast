@@ -12,7 +12,7 @@ def default_uuid():
 
 roles_users = db.Table('roles_users',
     db.Column('user_id', UUID(as_uuid=True), db.ForeignKey('user.id', ondelete='cascade'), primary_key=True),
-    db.Column('role_id', UUID(as_uuid=True), db.ForeignKey('role.id', onupdate='cascade'), primary_key=True))
+    db.Column('role_id', UUID(as_uuid=True), db.ForeignKey('role.id', ondelete='cascade'), primary_key=True))
 
 
 class Role(CommonModel):

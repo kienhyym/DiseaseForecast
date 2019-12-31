@@ -3,8 +3,10 @@ define(function (require) {
     var $ = require('jquery'),
         Gonrin = require('gonrin');
     var Login = require('app/login/js/LoginView');
+    var LoginEN = require('app/login/js/LoginENView');
     var ChangePasswordView = require('app/login/js/ChangePasswordView');
     var ForgotPasswordView = require('app/login/js/ForgotPasswordView');
+    var ForgotPasswordENView = require('app/login/js/ForgotPasswordENView');
     var RegisterView = require('app/login/js/RegisterView');
     var IndexView = require('app/login/js/IndexView');
     var navdata = require('app/nav/route');
@@ -12,8 +14,10 @@ define(function (require) {
         routes: {
             "index": "index",
             "login": "login",
+            "loginEN": "loginEN",
             "logout": "logout",
             "forgot": "forgotPassword",
+            "forgotEN": "forgotPasswordEN",
             "changepassword": "changepassword",
             "register": "register",
             "error": "error_page",
@@ -53,9 +57,17 @@ define(function (require) {
             var loginview = new Login({ el: $('.content-contain') });
             loginview.render();
         },
+        loginEN: function () {
+            var loginEnview = new LoginEN({ el: $('.content-contain') });
+            loginEnview.render();
+        },
         forgotPassword: function () {
             var forgotPassView = new ForgotPasswordView({ el: $('.content-contain') });
             forgotPassView.render();
+        },
+        forgotPasswordEN: function () {
+            var forgotPassENView = new ForgotPasswordENView({ el: $('.content-contain') });
+            forgotPassENView.render();
         },
         changepassword: function () {
             var self = this;

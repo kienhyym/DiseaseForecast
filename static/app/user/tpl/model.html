@@ -4,6 +4,7 @@
 		<div class="col-12 col-md-10 col-sm-4 text-center text-sm-left mb-0">
 			<span class="text-uppercase page-subtitle"> </span>
 			<h3 class="page-title text-uppercase">{{THONG_TIN_NGUOI_DUNG}}</h3>
+			<!-- <h4>{% print(gonrinApp().translate("TIEU_DE")) %}</h4> -->
 		</div>
 	</div>
 	<!-- End Page Header -->
@@ -19,13 +20,14 @@
 							<div block-bind=" toolbar"></div>
 					</div> -->
 						<div class="col-md-5 text-right btn-taomoi">
-							<div class="btn-back btn btn-secondary">Quay lại</div>
-							<div class="btn-luu btn btn-success">Lưu</div>
+							<div class="btn-back btn btn-secondary">{{QUAY_LAI}}</div>
+							<div class="btn-luu btn btn-success">{{TAO_MOI}}</div>
+							
 						</div>
 						<div class="col-md-5 text-right toolTaoMoi">
-							<div class="btn-backid btn btn-secondary">Quay lại</div>
-							<div class="btn-luuid btn btn-success">Lưu</div>
-							<div class="btn-xoaid btn btn-danger">Xóa</div>
+							<div class="btn-backid btn btn-secondary">{{QUAY_LAI}}</div>
+							<div class="btn-luuid btn btn-success">{{SUA}}</div>
+							<div class="btn-xoaid btn btn-danger">{{XOA}}</div>
 						</div>
 					</div>
 				</div>

@@ -14,15 +14,12 @@ define(function (require) {
         collectionName: "role",
         uiControl:{
             fields: [
-
                 {
                     field: "name", label: "{{MA_THONG_BAO}}", width: 100, readonly: true,
                 },
                 {
                     field: "description", label: "{{TEN_THONG_BAO}}", width: 250, readonly: true,
                 },
-                
-
             ],
             onRowClick: function (event) {
                 if (event.rowId) {
@@ -45,6 +42,9 @@ define(function (require) {
             if(self.getApp().currentUser.captren_stt != 1){
                 self.$el.find(".btn-success").hide();
             }
+            self.$el.find('.btn-taomoi').unbind("click").bind("click",function () {
+                self.getApp().getRouter().navigate(self.collectionName + "/model");
+            })
 
             this.applyBindings();   
             console.log(this);

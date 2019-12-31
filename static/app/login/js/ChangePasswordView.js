@@ -7,12 +7,13 @@ define(function (require) {
 	var template = require('text!app/login/tpl/changepassword.html')
 
 	return Gonrin.View.extend({
-		template: template,
+		// template: template,
 		modelSchema: {},
 
 		render: function () {
 			var self = this;
-			
+			var translatedTemplate = gonrin.template(template)(LANG);
+            self.$el.html(translatedTemplate);
 			self.$el.find(".backgroundColor").css("width",screen.availWidth);
 			self.$el.find(".backgroundColor").css("height",screen.availHeight);
 			// var id = self.id;

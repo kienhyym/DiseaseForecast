@@ -5,7 +5,7 @@ define(function (require) {
 		Gonrin = require('gonrin');
 	return [
 		{
-			"text": "Tin mới từ D-MOSS",
+			"text": "TRANSLATE:DANH_SACH_THONG_BAO_TU_D_MOSS",
 			"icon": "fa fa-home",
 			"type": "view",
 			"collectionName": "datadmoss",
@@ -27,7 +27,7 @@ define(function (require) {
 			}
 		},
 		{
-			"text": "Danh mục thông báo",
+			"text": "TRANSLATE:DANH_SACH_LOAI_THONG_BAO",
 			"icon": "fa fa-home",
 			"type": "view",
 			"collectionName": "role",
@@ -48,7 +48,7 @@ define(function (require) {
 			}
 		},
 		{
-			"text": "TRANSLATE:TIEU_DE",
+			"text": "TRANSLATE:QUAN_LY_NGUOI_DUNG_CAP_DUOI",
 			"icon": "fa fa-home",
 			"type": "view",
 			"collectionName": "user",
@@ -153,7 +153,7 @@ define(function (require) {
 		// 	]
 		// },
 		{
-			"text": "Quản lý đơn vị cấp dưới",
+			"text": "TRANSLATE:QUAN_LY_DON_VI_CAP_DUOI",
 			"icon": "fa fa-home",
 			"type": "view",
 			"collectionName": "donvi",
@@ -176,7 +176,7 @@ define(function (require) {
 	
 
 		{
-			"text": "Quản lý tin cảnh báo",
+			"text":"TRANSLATE:QUAN_LY_TIN_NHAN",
 			"icon": "fa fa-home",
 			"type": "view",
 			"collectionName": "sendwarning",
