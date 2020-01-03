@@ -73,71 +73,76 @@ define(function (require) {
 		},
 		noidung: function () {
 			var self = this;
-			var noidung = [];
-			if (self.model.get("data") !== null) {
-				self.$el.find("#loaiDichBenh").val(self.model.get("category"));
-				self.$el.find("#noiXuatHien").val(self.model.get("data").local_name);
-				self.$el.find("#thoigianxuathien").val(moment(self.model.get("data").time_affect * 1000).format("DD/MM/YYYY"));
-				self.$el.find("#mucdobungphat").val(self.model.get("data").level);
-				self.$el.find("#tailieu").val(self.model.get("data").attactments);
-				self.$el.find("#ghichu").val(self.model.get("data").detail);
+			if (self.getApp().currentUser.config.lang == "VN") {
+				self.model.get('data').content.forEach(function (item, index) {
+					console.log(item)
+					self.$el.find("#noidung").append("\n" + (index + 1) + ". Tỉnh thành:" + item.local_name + "\nTỷ lệ xuất hiện dịch:" + item.value + "%\nMức độ:" + item.level + "\nThời gian có nguy cơ xuất hiện dịch sốt xuất huyết:" + moment(item.start_time * 1000).format("DD/MM/YYYY") + "\nThời gian kết thúc dịch sốt xuất huyết dự kiến:" + moment(item.start_time * 1000).format("DD/MM/YYYY") + "\nThông tin:" + item.detail + "\ntài liệu đính kèm:\n")
+					item.attactments_url.forEach(function (item2, index2) {
+						self.$el.find("#noidung").append("\t" + item2.name + ":" + item2.url + "\n")
+					});
+					self.$el.find("#noidung").append("Dữ liệu tham chiếu:\n")
+
+					item.reference_material.forEach(function (item3, index3) {
+						self.$el.find("#noidung").append("\tTên chỉ số:" + item3.name +
+							"\n\tKết quả đo:" + item3.value + item3.unit_of_measure +
+							"\n\tNgày bắt đầu đo:" + moment(item3.start_time * 1000).format("DD/MM/YYYY") +
+							"\n\tNgày kết thúc đo:" + moment(item3.end_time * 1000).format("DD/MM/YYYY") +
+							"\n\tThông tin chi tiết:" + item3.description +
+							"\n")
+						self.$el.find("#noidung").append("\tTài liệu đính kèm chỉ số:\n")
+
+						item3.attactments_url.forEach(function (item4, index4) {
+							self.$el.find("#noidung").append("\t\t" + item4.name + ":" + item4.url + "\n")
+						})
+						self.$el.find("#noidung").append("\n")
+
+					});
+				})
+				self.$el.find("#noidung").append("Ghi chú:" + self.model.get('data').note)
+
+			} else {
+				self.model.get('data').content.forEach(function (item, index) {
+					console.log(item)
+					self.$el.find("#noidung").append("\n" + (index + 1) + ". Name of provinces/City:" +
+						item.local_name + "\nLikelihood ratio epidemic appears:" +
+						item.value + "%\nLevel:" + item.level +
+						"\nDengue outbreak time may occur:" +
+						moment(item.start_time * 1000).format("DD/MM/YYYY") +
+						"\nDengue end time:" +
+						moment(item.start_time * 1000).format("DD/MM/YYYY") +
+						"\nDetail:" + item.detail + "\nLink to attached document:\n")
+					item.attactments_url.forEach(function (item2, index2) {
+						self.$el.find("#noidung").append("\t" + item2.name + ":" + item2.url + "\n")
+					});
+					self.$el.find("#noidung").append("Describe the data base index:\n")
+
+					item.reference_material.forEach(function (item3, index3) {
+						self.$el.find("#noidung").append("\tName of indicator:" + item3.name +
+							"\n\tResult:" + item3.value + item3.unit_of_measure +
+							"\n\tStart time of checking the indicator:" + moment(item3.start_time * 1000).format("DD/MM/YYYY") +
+							"\n\tEnd time of checking the indicator:" + moment(item3.end_time * 1000).format("DD/MM/YYYY") +
+							"\n\tDescription:" + item3.description +
+							"\n")
+						self.$el.find("#noidung").append("\tLink to attached document:\n")
+
+						item3.attactments_url.forEach(function (item4, index4) {
+							self.$el.find("#noidung").append("\t\t" + item4.name + ":" + item4.url + "\n")
+						})
+						self.$el.find("#noidung").append("\n")
+
+					});
+				})
+				self.$el.find("#noidung").append("Note:" + self.model.get('data').note)
 			}
 
-			self.$el.find(".noidung").on("change", function () {
-				// noidung = {
-				// 	loaiDichBenh: self.$el.find("#loaiDichBenh").val(),
-				// 	noiXuatHien: self.$el.find("#noiXuatHien").val(),
-				// 	thoigianxuathien: parseInt(self.$el.find("#thoigianxuathien").val()),
-				// 	mucdobungphat: self.$el.find("#mucdobungphat").val(),
-				// 	tailieu: self.$el.find("#tailieu").val(),
-
-				// };
-				// self.model.set("data", noidung)
-			})
-			var x = self.$el.find("#ghichu")[0].scrollHeight;
-			self.$el.find("#ghichu")[0].style.height = x + 'px';
-
-			var y = self.$el.find("#noiXuatHien")[0].scrollHeight;
-			self.$el.find("#noiXuatHien")[0].style.height = y + 'px';
-
-			var z = self.$el.find("#thoigianxuathien")[0].scrollHeight;
-			self.$el.find("#thoigianxuathien")[0].style.height = z + 'px';
-
-			var j = self.$el.find("#mucdobungphat")[0].scrollHeight;
-			self.$el.find("#mucdobungphat")[0].style.height = j + 'px';
-
-			var q = self.$el.find("#tailieu")[0].scrollHeight;
-			self.$el.find("#tailieu")[0].style.height = q + 'px';
-
-			var k = self.$el.find("#loaiDichBenh")[0].scrollHeight;
-			self.$el.find("#loaiDichBenh")[0].style.height = k + 'px';
-			var px = (x + y + z + j + q + k)
-			self.soantinnhanh(px);
+			self.soantinnhanh();
 		},
-		soantinnhanh: function (px) {
+		soantinnhanh: function () {
 			var self = this;
 
 			self.$el.find(".luutin").unbind('click').bind('click', function () {
-				// var parem = {
-				// 	cc:self.$el.find('#tieude').val(),
-				// 	message2:
-				// 	"-Loại dịch bệnh :\n" + self.$el.find('#loaiDichBenh').val()+"\n"
-				// 	+"-Nơi xuất hiện dịch :\n"+self.$el.find('#noiXuatHien').val()+"\n"
-				// 	+"-Thời gian xuất hiện :\n"+self.$el.find('#thoigianxuathien').val()+"\n"
-				// 	+"-Mức độ bùng phát :\n"+self.$el.find('#mucdobungphat').val()+"\n"
-				// 	+"-Tài liệu, hình ảnh :\n"+self.$el.find('#tailieu').val()+"\n"
-				// 	+"-Ghi chú :\n"+self.$el.find('#ghichu').val(),
-				// 	user_id:self.getApp().currentUser.id
-				// }
 				sessionStorage.setItem('title', self.$el.find('#tieude').val())
-				sessionStorage.setItem('rows', px)
-				sessionStorage.setItem('noidung', "-Loại dịch bệnh :\n" + self.$el.find('#loaiDichBenh').val() + "\n"
-					+ "-Nơi xuất hiện dịch :\n" + self.$el.find('#noiXuatHien').val() + "\n"
-					+ "-Thời gian xuất hiện :\n" + self.$el.find('#thoigianxuathien').val() + "\n"
-					+ "-Mức độ bùng phát :\n" + self.$el.find('#mucdobungphat').val() + "\n"
-					+ "-Tài liệu, hình ảnh :\n" + self.$el.find('#tailieu').val() + "\n"
-					+ "-Ghi chú :\n" + self.$el.find('#ghichu').val());
-
+				sessionStorage.setItem('noidung', self.$el.find('#noidung').val());
 				window.location = self.getApp().serviceURL + "/?#sendwarning/model";
 
 			})

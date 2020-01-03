@@ -62,7 +62,7 @@ define(function (require) {
 			self.model.set('cc', sessionStorage.getItem('title'))
 			self.model.set('message2', sessionStorage.getItem('noidung'))
 
-			self.$el.find("#content")[0].style.height = sessionStorage.getItem('rows') + 'px';
+			// self.$el.find("#content")[0].style.height = sessionStorage.getItem('rows') + 'px';
 			sessionStorage.clear();
 
 			self.$el.find(".send-all-chuyentiep").hide()
