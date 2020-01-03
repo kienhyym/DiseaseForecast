@@ -75,7 +75,10 @@
         "length": 50
     },
     "config": {
-        "type": "json"
+        "type": "json",
+        "default": {
+            "lang": "VN"
+        }
     },
     "donvi": {
         "type": "dict"

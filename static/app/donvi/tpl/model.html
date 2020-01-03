@@ -48,15 +48,13 @@
 							<div class="col-md-3 mb-3">
 								<label>{{MA_DON_VI}}:</label>
 								<input type="text" class="form-control" data-bind="value:ma"
-									placeholder="Nhập mã đơn vị" value="" required="">
-								<div class="invalid-feedback">
-									Vui lòng nhập mã đơn vị.
-								</div>
+									placeholder="{{NHAP_MA_DONVI}}"" value="" required="">
+								
 							</div>
 							<div class="col-md-9 mb-3">
 								<label>{{TEN_DON_VI}}:</label>
 								<input type="text" class="form-control" data-bind="value:ten"
-									placeholder="Nhập tên đơn vị " value="" required="">
+									placeholder="{{NHAP_TEN_DONVI}}"" value="" required="">
 								<div class="invalid-feedback">
 									Vui lòng nhập Tên đơn vị.
 								</div>
@@ -69,15 +67,13 @@
 								<div class="col-md-4 mb-3">
 									<label for="email">Email:<span class="text-muted"></span></label>
 									<input type="email" class="form-control" id="email" data-bind="value:email"
-										placeholder="...">
-									<div class="invalid-feedback">
-										Vui lòng nhập email để nhận thông báo.
-									</div>
+										placeholder="{{NHAP_EMAIL}}">
+									
 								</div>
 								<div class="col-md-4 mb-3">
 									<label for="sodienthoai">{{SO_DIEN_THOAI}}:</label>
 									<input type="text" class="form-control" id="sodienthoai"
-										data-bind="value:sodienthoai" placeholder="..." required="">
+										data-bind="value:sodienthoai" placeholder="{{NHAP_PHONE}}" required="">
 								</div>
 								<div class="col-md-4 mb-3">
 									<label for="nhanthongbaohaykhong">{{CO_NHAN_THONG_BAO_KHONG}}:</label>
@@ -110,7 +106,7 @@
 						</div>
 						<div class="mb-3">
 							<label for="cc-expiration">{{DIA_CHI}}:</label>
-							<textarea rows="3" class="form-control" data-bind="value:diachi" placeholder="..."
+							<textarea rows="3" class="form-control" data-bind="value:diachi" placeholder="{{NHAP_DIACHI}}"
 								required=""></textarea>
 						</div>
 						<div class="user">

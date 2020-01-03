@@ -31,10 +31,10 @@ async def kehoach_review(request):
     makehoach = request.json.get("id", None)
     currentUser = await current_user(request)
     if (currentUser is None):
-        return json({"error_code":"SESSION_EXPIRED","error_message":"Hết phiên làm việc, vui lòng đăng nhập lại!"}, status=520)
+        return json({"error_code":"SESSION_EXPIRED","error_message":"End of session, please log in again!"}, status=520)
 
     if (makehoach is None or makehoach == ""):
-        return json({"error_code":"ERROR_PARAMS","error_message":"Tham số không hợp lệ!"}, status=520)
+        return json({"error_code":"ERROR_PARAMS","error_message":"Invalid value, please check again"}, status=520)
     
     
     
@@ -58,22 +58,22 @@ async def kehoach_review(request):
         elif currentUser.has_role("ChuyenVien"):
             kehoach.trangthai = KeHoach_ThanhTra_TrangThai["send_review_truongphong"]
         else:
-            return json({"error_code":"PERMISSION_DENY","error_message":"Không có quyền thực hiện hành động này"}, status=520)
+            return json({"error_code":"PERMISSION_DENY","error_message":"There is no right to perform this action"}, status=520)
 
         db.session.commit()
         return json(to_dict(kehoach))
     else:
-        return json({"error_code":"NOT_FOUND","error_message":"Tham số không hợp lệ!"}, status=520)
+        return json({"error_code":"NOT_FOUND","error_message":"Invalid value, please check again"}, status=520)
             
 @app.route('/api/v1/kehoachthanhtra/cancel', methods=['POST'])
 async def cancel_kehoach(request):
     makehoach = request.json.get("id", None)
     currentUser = await current_user(request)
     if (currentUser is None):
-        return json({"error_code":"SESSION_EXPIRED","error_message":"Hết phiên làm việc, vui lòng đăng nhập lại!"}, status=520)
+        return json({"error_code":"SESSION_EXPIRED","error_message":"End of session, please log in again!"}, status=520)
 
     if (makehoach is None or makehoach == ""):
-        return json({"error_code":"ERROR_PARAMS","error_message":"Tham số không hợp lệ!"}, status=520)
+        return json({"error_code":"ERROR_PARAMS","error_message":"Invalid value, please check again"}, status=520)
     
     
     
@@ -86,23 +86,23 @@ async def cancel_kehoach(request):
         elif currentUser.has_role("TruongPhong"):
             kehoach.trangthai = KeHoach_ThanhTra_TrangThai["cancel_reviewed_truongphong"]
         else:
-            return json({"error_code":"PERMISSION_DENY","error_message":"Không có quyền thực hiện hành động này"}, status=520)
+            return json({"error_code":"PERMISSION_DENY","error_message":"There is no right to perform this action"}, status=520)
 
         db.session.commit()
         return json(to_dict(kehoach))
     else:
-        return json({"error_code":"NOT_FOUND","error_message":"Tham số không hợp lệ!"}, status=520)
+        return json({"error_code":"NOT_FOUND","error_message":"Invalid value, please check again"}, status=520)
             
  
         
 async def pre_post_kehoachthanhtra(request=None, data=None, Model=None, **kw):
     currentUser = await current_user(request)
     if (currentUser is None):
-        return json({"error_code":"SESSION_EXPIRED","error_message":"Hết phiên làm việc, vui lòng đăng nhập lại!"}, status=520)
+        return json({"error_code":"SESSION_EXPIRED","error_message":"End of session, please log in again!"}, status=520)
 
     makehoach = get_makehoach_new()
     if makehoach is None:
-        return json({"error_code":"ERROR_SYSTEM","error_message":"Không lấy được mã đợt thanh tra!"}, status=520)
+        return json({"error_code":"ERROR_SYSTEM","error_message":""}, status=520)
     else:
         data['id'] = makehoach.decode('utf-8')
         data["userid_nguoisoanthao"] = currentUser.id
@@ -121,7 +121,7 @@ async def response_getmany_kehoachthanhtra(request=None, Model=None, result=None
         results_per_page = request.args.get("results_per_page",None)
         currentUser = await current_user(request)
         if currentUser is None:
-            return json({"error_code":"PERMISSION_DENY","error_message":"Hết phiên làm việc!"}, status=520)
+            return json({"error_code":"PERMISSION_DENY","error_message":"End of session, please log in again!!"}, status=520)
             
         if page is not None and results_per_page is not None and int(page) != 1:
             i = i + int(results_per_page)*int(page)

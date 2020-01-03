@@ -38,20 +38,16 @@
 							<div class="col-md-6 ">
 								<label>{{TEN}}</label>
 								<input type="text" id="name" class="form-control" data-bind="value:name"
-									placeholder="Nhập tên " required="">
-								<div class="invalid-feedback">
-									Vui lòng nhập Tên.
-								</div>
+									placeholder="{{NHAP_TEN}}" required="">
+								
 							</div>
 
 
 							<div class="col-md-6">
 								<label for="email">Email<span class="text-muted"></span></label>
 								<input type="email" class="form-control" id="email" data-bind="value:email"
-									placeholder="nhập email">
-								<div class="invalid-feedback">
-									Vui lòng nhập email.
-								</div>
+									placeholder="{{NHAP_EMAIL}}"">
+								
 							</div>
 
 
@@ -60,13 +56,13 @@
 							<div class="col-md-6">
 								<label for="phone_number">{{SO_DIEN_THOAI}}</label>
 								<input type="text" class="form-control" id="phone_number" data-bind="value:phone_number"
-									placeholder="Ví dụ:0984125653" required="">
+									placeholder="{{NHAP_PHONE}}"" required="">
 							</div>
 							<div class="col-md-6">
 								<label for="phone_zalo">{{SO_DIEN_THOAI_DANG_KY_ZALO}} <a
 										href="https://zalo.me/1924532547349265830">{{DANG_KY_NHAN_THONG_BAO}}</a></label>
 								<input type="text" class="form-control" id="phone_zalo" data-bind="value:phone_zalo"
-									placeholder="Ví dụ:0954254635" required="">
+									placeholder="{{NHAP_PHONE_ZALO}}"" required="">
 							</div>
 
 						</div>
@@ -74,7 +70,7 @@
 							<label>{{DON_VI}}</label>
 							<div id="donvi_selecter" style="position: relative">
 								<input type='text' id='donvi_combobox' />
-								<input type="text" id="input_gia" class="form-control" style="position: absolute;top:0px;left:0px;">
+								<input type="text" placeholder="{{CHON_DONVI}}" id="input_gia" class="form-control" style="position: absolute;top:0px;left:0px;">
 								<label for="donvi_combobox" id="cotent-label" class="m-0 p-0">
 								</label>
 							</div>
@@ -95,7 +91,7 @@
 							<div class="col-md-6 pass">
 								<label for="password">{{MAT_KHAU}}</label>
 								<input type="password" class="form-control" id="password" data-bind="value:password"
-									placeholder="Nhập mật khẩu" required>
+									placeholder="{{NHAP_PASS}}" required>
 							</div>
 
 

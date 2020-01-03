@@ -14,84 +14,7 @@ define(function (require) {
 		modelSchema: schema,
 		urlPrefix: "/api/v1/",
 		collectionName: "donvi",
-		tools: [
-			{
-				name: "defaultgr",
-				type: "group",
-				groupClass: "toolbar-group",
-				buttons: [
-					{
-						name: "back",
-						type: "button",
-						buttonClass: "btn-default btn-sm",
-						label: "TRANSLATE:BACK",
-						command: function () {
-							var self = this;
 
-							Backbone.history.history.back();
-						}
-					},
-					{
-						name: "save",
-						type: "button",
-						buttonClass: "btn-success btn-sm",
-						label: "TRANSLATE:SAVE",
-						command: function () {
-							var self = this;
-
-
-							self.model.save(null, {
-								success: function (model, respose, options) {
-									self.getApp().notify("Lưu thông tin thành công");
-									self.getApp().getRouter().navigate(self.collectionName + "/collection");
-
-								},
-								error: function (xhr, status, error) {
-									try {
-										if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED") {
-											self.getApp().notify("Hết phiên làm việc, vui lòng đăng nhập lại!");
-											self.getApp().getRouter().navigate("login");
-										} else {
-											self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
-										}
-									}
-									catch (err) {
-										self.getApp().notify({ message: "Lưu thông tin không thành công" }, { type: "danger", delay: 1000 });
-									}
-								}
-							});
-						}
-					},
-					{
-						name: "delete",
-						type: "button",
-						buttonClass: "btn-danger btn-sm",
-						label: "TRANSLATE:DELETE",
-						command: function () {
-							var self = this;
-							self.model.destroy({
-								success: function (model, response) {
-									self.getApp().notify('Xoá dữ liệu thành công');
-									self.getApp().getRouter().navigate(self.collectionName + "/collection");
-								},
-								error: function (xhr, status, error) {
-									try {
-										if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED") {
-											self.getApp().notify("Hết phiên làm việc, vui lòng đăng nhập lại!");
-											self.getApp().getRouter().navigate("login");
-										} else {
-											self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
-										}
-									}
-									catch (err) {
-										self.getApp().notify({ message: "Xóa dữ liệu không thành công" }, { type: "danger", delay: 1000 });
-									}
-								}
-							});
-						}
-					},
-				],
-			}],
 		uiControl: {
 			fields: [
 				{
@@ -128,56 +51,121 @@ define(function (require) {
 						{ "value": "khong", "text": "Không nhận cảnh bảo" },
 					],
 				},
-				{
-					field: "captren_id",
-					uicontrol: "combobox",
-					textField: "text",
-					valueField: "value",
+				// {
+				// 	field: "captren_id",
+				// 	uicontrol: "combobox",
+				// 	textField: "text",
+				// 	valueField: "value",
 
-					dataSource: [
-						{ "value": 1, "text": "Cấp cục" },
-						{ "value": 2, "text": "Cấp tỉnh" },
-						{ "value": 3, "text": "Cấp huyện" },
-						{ "value": 4, "text": "Cấp xã" },
-					],
-				},
+				// 	dataSource: [
+				// 		{ "value": 1, "text": "Cấp cục" },
+				// 		{ "value": 2, "text": "Cấp tỉnh" },
+				// 		{ "value": 3, "text": "Cấp huyện" },
+				// 		{ "value": 4, "text": "Cấp xã" },
+				// 	],
+				// },
 
 			]
 		},
 		render: function () {
 			var self = this;
-
+			var captrenID = [];
 			var translatedTemplate = gonrin.template(template)(LANG);
 			self.$el.html(translatedTemplate);
+
+			if (self.getApp().currentUser.config.lang == "VN") {
+				self.$el.find('#captren').combobox({
+					textField: "text",
+					valueField: "value",
+					dataSource: [
+						{ "value": 1, "text": "Cấp cục" },
+						{ "value": 2, "text": "Cấp tỉnh" },
+						{ "value": 3, "text": "Cấp huyện" },
+						{ "value": 4, "text": "Cấp xã" },
+					]
+				});
+			} 
+			else {
+				self.$el.find('#captren').combobox({
+					textField: "text",
+					valueField: "value",
+					dataSource: [
+					{ "value": 1, "text": "Department" },
+					{ "value": 2, "text": "Province/city" },
+					{ "value": 3, "text": "District" },
+					{ "value": 4, "text": "Commune" },
+				]
+			});
 			
+			}
+			
+			if (self.getApp().currentUser.config.lang == "VN") {
+				self.$el.find('#captren').combobox({
+					textField: "text",
+					valueField: "value",
+					dataSource: [
+						{ "value": "co", "text": "Nhận cảnh bảo" },
+						{ "value": "khong", "text": "Không nhận cảnh bảo" },
+					]
+				});
+			} 
+			else {
+				self.$el.find('#nhanthongbaohaykhong').combobox({
+					textField: "text",
+					valueField: "value",
+					dataSource: [
+						{ "value": "co", "text": "Get notifications" },
+						{ "value": "khong", "text": "No notification received" },
+				]
+			});
+			
+			}
+
+
+
 			self.$el.find(".btn-back").unbind("click").bind("click", function () {
 				Backbone.history.history.back();
 			});
 			self.$el.find(".btn-luu").unbind("click").bind("click", function () {
 				self.model.save(null, {
 					success: function (model, respose, options) {
-						self.getApp().notify("Lưu thông tin thành công");
+						if (self.getApp().currentUser.config.lang == "VN") {
+							self.getApp().notify("Lưu thông tin thành công");
+						} else {
+							self.getApp().notify("Information saved successfully");
+						}
+
 						self.getApp().getRouter().navigate(self.collectionName + "/collection");
 					},
 					error: function (xhr, status, error) {
 						try {
 							if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED") {
-								self.getApp().notify("Hết phiên làm việc, vui lòng đăng nhập lại!");
+								if (self.getApp().currentUser.config.lang == "VN") {
+									self.getApp().notify({ message: "Hết phiên làm việc, vui lòng đăng nhập lại!" }, { type: "danger", delay: 1000 });
+
+								} else {
+									self.getApp().notify({ message: "Your session has expired. Please log in again to continue." }, { type: "danger", delay: 1000 });
+								}
 								self.getApp().getRouter().navigate("login");
 							} else {
 								self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
 							}
 						}
 						catch (err) {
-							self.getApp().notify({ message: "Lưu thông tin không thành công" }, { type: "danger", delay: 1000 });
+							if (self.getApp().currentUser.config.lang == "VN") {
+								self.getApp().notify({ message: "Lưu thông tin không thành công!" }, { type: "danger", delay: 1000 });
+
+							} else {
+								self.getApp().notify({ message: "Saving information failed" }, { type: "danger", delay: 1000 });
+							}
 						}
 					}
 				});
 			});
 
 			if (window.location.hash.length < 15) {
-					self.$el.find(".user").hide();
-				
+				self.$el.find(".user").hide();
+
 				if (self.getApp().currentUser.captren_stt == 1) {
 					self.model.set("captren_id", 2)
 					// self.model.on("change:tinhthanh_id", function () {
@@ -231,7 +219,12 @@ define(function (require) {
 
 					},
 					error: function (xhr, status, error) {
-						self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+						if (self.getApp().currentUser.config.lang == "VN") {
+							self.getApp().notify({ message: "Lỗi không lấy được dữ liệu!" }, { type: "danger", delay: 1000 });
+
+						} else {
+							self.getApp().notify({ message: "Error!! Could not retrieve data" }, { type: "danger", delay: 1000 });
+						}
 					},
 				});
 			}
@@ -240,7 +233,7 @@ define(function (require) {
 			$.fn.selectpicker.Constructor.DEFAULTS.multipleSeparator = ' | ';
 			self.$el.find("#multiselect_required").selectpicker();
 
-			
+
 			if (id) {
 				this.model.set('id', id);
 				this.model.fetch({
@@ -266,20 +259,34 @@ define(function (require) {
 						self.$el.find(".btn-xoa").unbind("click").bind('click', function () {
 							self.model.destroy({
 								success: function (model, response) {
-									self.getApp().notify('Xoá dữ liệu thành công');
+									if (self.getApp().currentUser.config.lang == "VN") {
+										self.getApp().notify("Xóa thông tin thành công");
+									} else {
+										self.getApp().notify("Information deleted successfully");
+									}
+
 									self.getApp().getRouter().navigate(self.collectionName + "/collection");
 								},
 								error: function (xhr, status, error) {
 									try {
 										if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED") {
-											self.getApp().notify("Hết phiên làm việc, vui lòng đăng nhập lại!");
-											self.getApp().getRouter().navigate("login");
+											if (self.getApp().currentUser.config.lang == "VN") {
+												self.getApp().notify({ message: "Hết phiên làm việc, vui lòng đăng nhập lại!" }, { type: "danger", delay: 1000 });
+
+											} else {
+												self.getApp().notify({ message: "Your session has expired. Please log in again to continue." }, { type: "danger", delay: 1000 });
+											} self.getApp().getRouter().navigate("login");
 										} else {
 											self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
 										}
 									}
 									catch (err) {
-										self.getApp().notify({ message: "Xóa dữ liệu không thành công" }, { type: "danger", delay: 1000 });
+										if (self.getApp().currentUser.config.lang == "VN") {
+											self.getApp().notify({ message: "Xóa dữ liệu không thành công" }, { type: "danger", delay: 1000 });
+
+										} else {
+											self.getApp().notify({ message: "Information deletion failed" }, { type: "danger", delay: 1000 });
+										}
 									}
 								}
 							});
@@ -289,13 +296,23 @@ define(function (require) {
 					error: function (xhr, status, error) {
 						try {
 							if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED") {
-								self.getApp().notify("Hết phiên làm việc, vui lòng đăng nhập lại!");
+								if (self.getApp().currentUser.config.lang == "VN") {
+									self.getApp().notify({ message: "Hết phiên làm việc, vui lòng đăng nhập lại!" }, { type: "danger", delay: 1000 });
+
+								} else {
+									self.getApp().notify({ message: "Your session has expired. Please log in again to continue." }, { type: "danger", delay: 1000 });
+								}
 								self.getApp().getRouter().navigate("login");
 							} else {
 								self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
 							}
 						} catch (err) {
-							self.getApp().notify({ message: "Bạn chưa là thành viên của đơn vị nào" }, { type: "danger", delay: 1000 });
+							if (self.getApp().currentUser.config.lang == "VN") {
+								self.getApp().notify({ message: "Bạn chưa là thành viên của đơn vị nào" }, { type: "danger", delay: 1000 });
+
+							} else {
+								self.getApp().notify({ message: "You are not a member of any units" }, { type: "danger", delay: 1000 });
+							}
 						}
 					}
 				});
@@ -332,17 +349,31 @@ define(function (require) {
 				data: "q=" + JSON.stringify(filters),
 				contentType: "application/json",
 				success: function (data) {
-					data.objects.forEach(function (item, indexrole) {
-						self.$el.find('#danhsach_users').append('<tr class="record"><td class="p-0" style="line-height:40px;font-size:12px;">' + item.name + '</td>' +
-							'<td class="p-1"><select class="selectpicker form-control multiselect_thongbao" multiple data-live-search="true" data-actions-box="true" data-noneSelectedText="Chọn loại thông báo" title="Chọn loại thông báo"></select></td>'
-							+ '<td class="p-0" style="line-height:40px;font-size:12px;">' + item.email + '</td><td class="p-0" style="line-height:40px;font-size:12px;">' + item.phone_number + '</td><td class="p-0 phonezalo" style="line-height:40px;font-size:12px;">' + item.phone_zalo + '</td><td class="p-1"><input type="text" class="form-control loaivaitro" ></td><td class="p-0 pt-1"><button class="btn btn-danger del">X</button></td></tr>');
-					})
+					if (self.getApp().currentUser.config.lang == "VN") {
+						data.objects.forEach(function (item, indexrole) {
+							self.$el.find('#danhsach_users').append('<tr class="record"><td class="p-0" style="line-height:40px;font-size:12px;">' + item.name + '</td>' +
+								'<td class="p-1"><select class="selectpicker form-control multiselect_thongbao" multiple data-live-search="true" data-actions-box="true" data-noneSelectedText="Chọn loại thông báo" title="Chọn loại thông báo"></select></td>'
+								+ '<td class="p-0" style="line-height:40px;font-size:12px;">' + item.email + '</td><td class="p-0" style="line-height:40px;font-size:12px;">' + item.phone_number + '</td><td class="p-0 phonezalo" style="line-height:40px;font-size:12px;">' + item.phone_zalo + '</td><td class="p-1"><input type="text" class="form-control loaivaitro" ></td><td class="p-0 pt-1"><button class="btn btn-danger del">X</button></td></tr>');
+						})
+					} else {
+						data.objects.forEach(function (item, indexrole) {
+							self.$el.find('#danhsach_users').append('<tr class="record"><td class="p-0" style="line-height:40px;font-size:12px;">' + item.name + '</td>' +
+								'<td class="p-1"><select class="selectpicker form-control multiselect_thongbao" multiple data-live-search="true" data-actions-box="true" data-noneSelectedText="Notification type" title="Notification type"></select></td>'
+								+ '<td class="p-0" style="line-height:40px;font-size:12px;">' + item.email + '</td><td class="p-0" style="line-height:40px;font-size:12px;">' + item.phone_number + '</td><td class="p-0 phonezalo" style="line-height:40px;font-size:12px;">' + item.phone_zalo + '</td><td class="p-1"><input type="text" class="form-control loaivaitro" ></td><td class="p-0 pt-1"><button class="btn btn-danger del">X</button></td></tr>');
+						})
+					}
+					
 					self.setvaitro();
 					self.getThongBao();
 					self.xoaNguoiDung();
 				},
 				error: function (xhr, status, error) {
-					self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+					if (self.getApp().currentUser.config.lang == "VN") {
+						self.getApp().notify({ message: "Lỗi không lấy được dữ liệu!" }, { type: "danger", delay: 1000 });
+
+					} else {
+						self.getApp().notify({ message: "Error!! Could not retrieve data" }, { type: "danger", delay: 1000 });
+					}
 				},
 			});
 
@@ -366,14 +397,21 @@ define(function (require) {
 				data: "q=" + JSON.stringify(filters),
 				contentType: "application/json",
 				success: function (data) {
+					var vaitro = [];
+
+					if (self.getApp().currentUser.config.lang == "VN") {
+						vaitro = [{ loaivaitro: "Quản lý", id: 'quanly' },
+						{ loaivaitro: "Nhân viên", id: 'nhanvien' }];
+					} else {
+						vaitro = [{ loaivaitro: "manager", id: 'quanly' },
+						{ loaivaitro: "membership", id: 'nhanvien' }]
+					}
+
 					data.objects.forEach(function (item, index) {
 						$(self.$el.find('.loaivaitro')[index]).combobox({
 							textField: "loaivaitro",
 							valueField: "id",
-							dataSource: [
-								{ loaivaitro: "Quản lý", id: 'quanly' },
-								{ loaivaitro: "Nhân viên", id: 'nhanvien' },
-							],
+							dataSource: vaitro,
 							value: item.phancapnhanbaocao,
 							refresh: true
 						});
@@ -395,7 +433,12 @@ define(function (require) {
 										self.getApp().getRouter().refresh();
 									},
 									error: function (xhr, status, error) {
-										self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+										if (self.getApp().currentUser.config.lang == "VN") {
+											self.getApp().notify({ message: "Lỗi không lấy được dữ liệu!" }, { type: "danger", delay: 1000 });
+
+										} else {
+											self.getApp().notify({ message: "Error!! Could not retrieve data" }, { type: "danger", delay: 1000 });
+										}
 									},
 								});
 							})
@@ -403,7 +446,12 @@ define(function (require) {
 					})
 				},
 				error: function (xhr, status, error) {
-					self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+					if (self.getApp().currentUser.config.lang == "VN") {
+						self.getApp().notify({ message: "Lỗi không lấy được dữ liệu!" }, { type: "danger", delay: 1000 });
+
+					} else {
+						self.getApp().notify({ message: "Error!! Could not retrieve data" }, { type: "danger", delay: 1000 });
+					}
 				},
 			});
 
@@ -450,7 +498,12 @@ define(function (require) {
 
 							},
 							error: function (xhr, status, error) {
-								self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+								if (self.getApp().currentUser.config.lang == "VN") {
+									self.getApp().notify({ message: "Lỗi không lấy được dữ liệu!" }, { type: "danger", delay: 1000 });
+
+								} else {
+									self.getApp().notify({ message: "Error!! Could not retrieve data" }, { type: "danger", delay: 1000 });
+								}
 							},
 						});
 
@@ -459,7 +512,7 @@ define(function (require) {
 							var mangLoaiThongBao = [];
 
 							var mangIdLoaiThongBao = $(loaiThongBao).val();
-							if(mangIdLoaiThongBao.length ==0){
+							if (mangIdLoaiThongBao.length == 0) {
 								self.$el.find('.btn-success').bind("click", function () {
 									$.ajax({
 										url: self.getApp().serviceURL + "/api/v1/user/" + item.id,
@@ -475,7 +528,12 @@ define(function (require) {
 											self.getApp().getRouter().refresh();
 										},
 										error: function (xhr, status, error) {
-											self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+											if (self.getApp().currentUser.config.lang == "VN") {
+												self.getApp().notify({ message: "Lỗi không lấy được dữ liệu!" }, { type: "danger", delay: 1000 });
+
+											} else {
+												self.getApp().notify({ message: "Error!! Could not retrieve data" }, { type: "danger", delay: 1000 });
+											}
 										},
 									});
 								})
@@ -490,7 +548,7 @@ define(function (require) {
 											if (itemIdRole == itemrole.id) {
 												mangLoaiThongBao.push(itemrole)
 											}
-											
+
 										});
 
 										self.$el.find('.btn-success').bind("click", function () {
@@ -508,13 +566,23 @@ define(function (require) {
 													self.getApp().getRouter().refresh();
 												},
 												error: function (xhr, status, error) {
-													self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+													if (self.getApp().currentUser.config.lang == "VN") {
+														self.getApp().notify({ message: "Lỗi không lấy được dữ liệu!" }, { type: "danger", delay: 1000 });
+
+													} else {
+														self.getApp().notify({ message: "Error!! Could not retrieve data" }, { type: "danger", delay: 1000 });
+													}
 												},
 											});
 										})
 									},
 									error: function (xhr, status, error) {
-										self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+										if (self.getApp().currentUser.config.lang == "VN") {
+											self.getApp().notify({ message: "Lỗi không lấy được dữ liệu!" }, { type: "danger", delay: 1000 });
+
+										} else {
+											self.getApp().notify({ message: "Error!! Could not retrieve data" }, { type: "danger", delay: 1000 });
+										}
 									},
 								});
 							})
@@ -527,7 +595,12 @@ define(function (require) {
 					});
 				},
 				error: function (xhr, status, error) {
-					self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+					if (self.getApp().currentUser.config.lang == "VN") {
+						self.getApp().notify({ message: "Lỗi không lấy được dữ liệu!" }, { type: "danger", delay: 1000 });
+
+					} else {
+						self.getApp().notify({ message: "Error!! Could not retrieve data" }, { type: "danger", delay: 1000 });
+					}
 				},
 			});
 
@@ -574,7 +647,12 @@ define(function (require) {
 									self.getApp().getRouter().refresh();
 								},
 								error: function (xhr, status, error) {
-									self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+									if (self.getApp().currentUser.config.lang == "VN") {
+										self.getApp().notify({ message: "Lỗi không lấy được dữ liệu!" }, { type: "danger", delay: 1000 });
+
+									} else {
+										self.getApp().notify({ message: "Error!! Could not retrieve data" }, { type: "danger", delay: 1000 });
+									}
 								},
 							});
 
@@ -582,7 +660,12 @@ define(function (require) {
 					})
 				},
 				error: function (xhr, status, error) {
-					self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+					if (self.getApp().currentUser.config.lang == "VN") {
+						self.getApp().notify({ message: "Lỗi không lấy được dữ liệu!" }, { type: "danger", delay: 1000 });
+
+					} else {
+						self.getApp().notify({ message: "Error!! Could not retrieve data" }, { type: "danger", delay: 1000 });
+					}
 				},
 			});
 		},
@@ -620,7 +703,12 @@ define(function (require) {
 					});
 				},
 				error: function (xhr, status, error) {
-					self.getApp().notify({ message: "Lỗi không lấy được dữ liệu" }, { type: "danger", delay: 1000 });
+					if (self.getApp().currentUser.config.lang == "VN") {
+						self.getApp().notify({ message: "Lỗi không lấy được dữ liệu!" }, { type: "danger", delay: 1000 });
+
+					} else {
+						self.getApp().notify({ message: "Error!! Could not retrieve data" }, { type: "danger", delay: 1000 });
+					}
 				},
 			});
 		},

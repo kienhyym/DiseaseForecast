@@ -22,7 +22,7 @@ async def apply_user_filter(request=None, search_params=None, **kw):
     if currentUser is not None:
         search_params["filters"] = {"user_id": {"$eq": str(currentUser.id)}}
     else:
-        return json({"error_code": "USER_NOT_FOUND", "error_message": ""}, status=520)
+        return json({"error_code": "USER_NOT_FOUND", "error_message": "USER_NOT_FOUND"}, status=520)
 
 
 async def send_notify_single(user_id, notify_data):
@@ -153,7 +153,7 @@ async def test_notify(request):
 
         return json({})
     else:
-        return json({"error_code": "KEY_NOT_SET", "error_message": ""}, status=520)
+        return json({"error_code": "KEY_NOT_SET", "error_message": "KEY_NOT_SET"}, status=520)
 
 
 async def send_firebase_notify(firebase_tokens, body, data):

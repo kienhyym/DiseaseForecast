@@ -21,6 +21,14 @@
     "NHAP_TEN_THONG_BAO": "Nhập tên thông báo",
     "NHAP_MA_THONG_BAO": "Nhập mã thông báo",
     "DANH_SACH_NGUOI_DUNG":"Danh sách người dùng",
+    "NHAP_TEN":"Nhập tên",
+    "NHAP_EMAIL":"Nhập email",
+    "NHAP_PHONE":"Nhập số điện thoại",
+    "NHAP_PHONE_ZALO":"Nhập số điện ",
+    "NHAP_PASS":"Nhập mật khẩu",
+    "CHON_DONVI":"Chọn đơn vị",
+
+
     "QUAN_LY_NGUOI_DUNG_CAP_DUOI": "Quản lý người dùng cấp dưới",
     "QUAN_LY_DON_VI_CAP_DUOI":"Quản lý đơn vị cấp dưới",
 
@@ -35,7 +43,11 @@
     "CAP_DON_VI": "Cấp đơn vị",
     "TEN_DON_VI_CAP_TREN": "Tên đơn vị cấp trên",
     "MA_DON_VI": "Mã đơn vị",
+    "NHAP_TEN_DONVI":"Nhập tên đơn vị",
+    "NHAP_MA_DONVI":"Nhập mã đơn vị",
+    "NHAP_DIACHI":"Nhập địa chỉ",
     "CO_NHAN_THONG_BAO_KHONG": "Có nhận thông báo không?",
+    "CUC":"Cục",
     "TINH_THANH_PHO": "Tỉnh thành phố",
     "QUAN_HUYEN": "Quận huyện",
     "XA_PHUONG": "Xã phường",
@@ -84,7 +96,7 @@
     "NHAP_MA_TOKEN_DA_GUI_QUA_GMAIL": "Nhập mã token đã gửi qua gmail",
     "XOA":"Xóa",
     "TAO_MOI":"Tạo mới",
-    "SUA":"Sửa",
+    "SUA":"Lưu",
     "QUAY_LAI":"Quay lại",
 
     "THONG_TIN_CA_NHAN": "<i class='material-icons text-danger'></i>Thông tin cá nhân",

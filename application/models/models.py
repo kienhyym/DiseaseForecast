@@ -44,7 +44,7 @@ class User(CommonModel):
     roles = db.relationship('Role', secondary=roles_users, cascade="save-update")
     phancapnhanbaocao = db.Column(db.String(50))
     id_nguoitao = db.Column(db.String(50))
-    config = db.Column(JSONB)
+    config = db.Column(JSONB,default={"lang":"VN"})
     def has_role(self, role):
         if isinstance(role, str):
             return role in (role.name for role in self.roles)

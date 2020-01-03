@@ -48,12 +48,18 @@ define(function (require) {
         },
         render_grid2: function (dataSource) {
             var self = this;
+            var no_records = "No data yet";
+
+            if (self.getApp().currentUser.config.lang == "VN") {
+                no_records = "Chưa có dữ liệu";
+            }
+
             var element = self.$el.find("#grid_all");
             element.grid({
                 // showSortingIndicator: true,
                 orderByMode: "client",
                 language: {
-                    no_records_found: "Chưa có dữ liệu",
+                    no_records_found: no_records,
                 },
                
                 noResultsClass: "alert alert-default no-records-found",

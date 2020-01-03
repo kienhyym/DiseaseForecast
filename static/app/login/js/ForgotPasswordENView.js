@@ -18,7 +18,6 @@ define(function (require) {
                 self.getApp().getRouter().navigate("forgot");
             })
             self.$el.find("#btn_forgot").unbind("click").bind("click", function () {
-                console.log('xxxx')
                 $.ajax({
                     type: "POST",
                     url: self.getApp().serviceURL + "/api/v1/tokenuser",
@@ -30,56 +29,55 @@ define(function (require) {
                     },
                     dataType: 'json',
                     success: function (data, res) {
-                        // self.getApp().notify({ message: "Yêu cầu đã được gửi qua gmail" });
-                        // self.$el.find("#forgotpassword-form1").hide();
-                        // self.$el.find("#forgotpassword-form2").show();
-                        // self.$el.find("#btn-back2").unbind("click").bind("click", function () {
-                        //     self.getApp().getRouter().navigate("login");
-                        // });
+                        self.getApp().notify({ message: "Request has been sent via gmail" });
+                        self.$el.find("#forgotpassword-form1").hide();
+                        self.$el.find("#forgotpassword-form2").show();
+                        self.$el.find("#btn-back2").unbind("click").bind("click", function () {
+                            self.getApp().getRouter().navigate("login");
+                        });
 
-                        // self.$el.find("#btn_forgot2").unbind("click").bind("click", function () {
-                        //     console.log(parseInt(self.$el.find("#txttoken").val()))
-                        //     console.log(data.ok)
-                        //     if (parseInt(self.$el.find("#txttoken").val()) == data.ok) {
-                        //         if (self.$el.find("#txtpass2").val() != self.$el.find("#txtpass1").val()) {
-                        //             self.getApp().notify({ message: "Mật khẩu chưa khớp nhau" }, { type: "danger", delay: 1000 });
+                        self.$el.find("#btn_forgot2").unbind("click").bind("click", function () {
+                            console.log(parseInt(self.$el.find("#txttoken").val()))
+                            console.log(data.ok)
+                            if (parseInt(self.$el.find("#txttoken").val()) == data.ok) {
+                                if (self.$el.find("#txtpass2").val() != self.$el.find("#txtpass1").val()) {
+                                    self.getApp().notify({ message: "The newly written password is not the same as above" }, { type: "danger", delay: 1000 });
+                                }
+                                else {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: self.getApp().serviceURL + "/api/v1/newpassword",
+                                        data: JSON.stringify({
+                                            id: data.id,
+                                            password: self.$el.find("#txtpass1").val()
+                                        }),
+                                        headers: {
+                                            'content-type': 'application/json'
+                                        },
+                                        dataType: 'json',
+                                        success: function (data, res) {
+                                            self.getApp().notify({ message: "Password successfully recovered" });
 
-                        //         }
-                        //         else {
-                        //             $.ajax({
-                        //                 type: "POST",
-                        //                 url: self.getApp().serviceURL + "/api/v1/newpassword",
-                        //                 data: JSON.stringify({
-                        //                     id: data.id,
-                        //                     password: self.$el.find("#txtpass1").val()
-                        //                 }),
-                        //                 headers: {
-                        //                     'content-type': 'application/json'
-                        //                 },
-                        //                 dataType: 'json',
-                        //                 success: function (data, res) {
-                        //                     self.getApp().notify({ message: "Lấy lại mật khẩu thành công" });
-
-                        //                     self.getApp().getRouter().navigate("login");
+                                            self.getApp().getRouter().navigate("login");
 
 
-                        //                 },
-                        //                 error: function (xhr, status, error) {
-                        //                     self.getApp().notify({ message: "Tài khoản không có trong hệ thống" }, { type: "danger", delay: 1000 });
-                        //                 },
-                        //             });
-                        //         }
+                                        },
+                                        error: function (xhr, status, error) {
+                                            self.getApp().notify({ message: "Account not in the system" }, { type: "danger", delay: 1000 });
+                                        },
+                                    });
+                                }
 
-                        //     }
-                        //     else {
-                        //         self.getApp().notify({ message: "Mã đã hết hạn hoặc không chính xác" }, { type: "danger", delay: 1000 });
+                            }
+                            else {
+                                self.getApp().notify({ message: "Code expired or incorrect" }, { type: "danger", delay: 1000 });
 
-                        //     }
+                            }
 
-                        // });
+                        });
                     },
                     error: function (xhr, status, error) {
-                        self.getApp().notify({ message: "Tài khoản không có trong hệ thống" }, { type: "danger", delay: 1000 });
+                        self.getApp().notify({ message: "Account not in the system" }, { type: "danger", delay: 1000 });
                     },
                 });
 

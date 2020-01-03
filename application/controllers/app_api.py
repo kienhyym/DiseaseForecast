@@ -34,7 +34,7 @@ def check_token_app(token):
 async def pre_process_post_put_appinfo(request=None, data=None, Model=None, **kw):
     if request.method == "POST" or request.method == "PUT":
         if "secret" not in data or data["secret"] is None or data["secret"] == "":
-            return json({"error_code":"PARAMS_ERROR","error_message":"Vui lòng nhập mật khẩu của ứng dụng!"}, status=520)
+            return json({"error_code":"PARAMS_ERROR","error_message":"Please enter the password of the application!"}, status=520)
  
 
 # sqlapimanager.create_api(AppInfo,
@@ -48,12 +48,12 @@ async def pre_process_post_put_appinfo(request=None, data=None, Model=None, **kw
 @app.route('/app_api/v1/token', methods=['POST'])
 async def get_token(request):
     if not check_content_json(request):
-        return json({'error_code':"ERROR_PARAMS", 'error_message':'Header request không hợp lệ'}, status=200)
+        return json({'error_code':"ERROR_PARAMS", 'error_message':'The request header is invalid'}, status=200)
     
     appkey = request.json.get("appkey", None)
     secret = request.json.get("secret", None)
     if appkey is None or secret is None:
-        return json({'error_code':"ERROR_PARAMS", 'error_message':u'Tài khoản ứng dụng hoặc mật khẩu không đúng, vui lòng kiểm tra lại!'}, status=520)
+        return json({'error_code':"ERROR_PARAMS", 'error_message':u'Username or password incorrect, please check again'}, status=520)
     appInfo = db.session.query(AppInfo).filter(AppInfo.appkey == appkey).first()
     if (appInfo is not None) and (auth.verify_password(secret, appInfo.secret)):
         expired_time = app.config.get('APP_API_EXPIRATION_DELTA', 86400)
@@ -62,5 +62,5 @@ async def get_token(request):
 #         token = jwt.encode(payload)
 #         return json({'token': token})
     else:
-        return json({'error_code':"NOT_FOUND", 'error_message':u'Tài khoản ứng dụng hoặc mật khẩu không đúng, vui lòng kiểm tra lại!'}, status=520)
+        return json({'error_code':"NOT_FOUND", 'error_message':u'Username or password incorrect, please check again'}, status=520)
         

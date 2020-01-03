@@ -42,7 +42,7 @@ async def get_current_user(request):
         user_info = to_dict(currentUser)
         return json(user_info)
     else:
-        error_msg = "Tài khoản không tồn tại"
+        error_msg = "Account not in the system"
     return json({
         "error_code": "USER_NOT_FOUND",
         "error_message":error_msg
@@ -75,7 +75,7 @@ async def login(request):
         result = user_to_dict(user)
         return json(result)
         
-    return json({"error_code":"LOGIN_FAILED","error_message":"Tài khoản hoặc mật khẩu không đúng"}, status=520)
+    return json({"error_code":"LOGIN_FAILED","error_message":"Username or password incorrect"}, status=520)
 
 @app.route('/api/v1/changepassword', methods=['POST'])
 async def changepassword(request):
@@ -110,7 +110,7 @@ def register(request):
     if user is not None:
         return json({
             "error_code": "USER_EXISTED",
-            "error_message": "Email hoặc phone đã tồn tại"
+            "error_message": "Email or phone is already used in another account"
             }, status = 520)
     else:
         new_user = User()
@@ -152,7 +152,7 @@ def gettoken(request):
         new_datadmoss.nguoigui = data["sender_name"]
         new_datadmoss.tieude = data["title"]
         new_datadmoss.category = data["notification_name"]
-        new_datadmoss.data = data["content"]
+        new_datadmoss.data = data
         db.session.add(new_datadmoss)
         db.session.commit()
     
@@ -165,31 +165,44 @@ def gettoken(request):
 @app.route('api/v1/tokenuser', methods=["POST"])
 def tokenuser(request):
     token = random.randint(10000, 99999)
-    print ("===========randum============",token)
     data = request.json
     email = data['email']
     user_info = db.session.query(User).filter(User.email == email).first()
-
     if user_info is not None:
-        print("user_info", to_dict(user_info))
-
-        email_info = {
+        if to_dict(user_info)["config"] is not None:
+            if to_dict(user_info)["config"]["lang"] == 'VN':
+                email_info = {
+                "from": {
+                    "id": "canhbaosotxuathuyet@gmail.com",
+                    "password": "kocopass"
+                },
+                "to": email,
+                "message": "Mã token của bạn là" + str(token),
+                "subject": "Yêu cầu đổi mật khẩu"
+            } 
+            if to_dict(user_info)["config"]["lang"] == 'EN':
+                email_info = {
+                "from": {
+                    "id": "canhbaosotxuathuyet@gmail.com",
+                    "password": "kocopass"
+                },
+                "to": email,
+                "message": "Your token is:" + str(token),
+                "subject": "Password change request"
+                }     
+        else:
+            email_info = {
             "from": {
                 "id": "canhbaosotxuathuyet@gmail.com",
                 "password": "kocopass"
             },
             "to": email,
-            "message": "Mã token của bạn là" + str(token),
-            "subject": "Yêu cầu đổi mật khẩu"
-        }
+            "message": "Your token is:" + str(token),
+            "subject": "Password change request"
+            }
         url = "https://upstart.vn/services/api/email/send"
+        re = requests.post(url=url, data=json_load.dumps(email_info))
 
-        # re = requests.post(url=url, data=json_load.dumps(email_info))
-
-        info = {
-            "token": str(token),
-            "user": to_dict(user_info)
-        }
 
     return json({
         "ok": token,
@@ -211,17 +224,17 @@ async def changepassword(request):
 async def prepost_user(request=None, data=None, Model=None, **kw):
     currentUser = await current_user(request)
     if (currentUser is None):
-        return json({"error_code":"SESSION_EXPIRED","error_message":"Hết phiên làm việc, vui lòng đăng nhập lại!"}, status=520)
+        return json({"error_code":"SESSION_EXPIRED","error_message":"End of session, please log in again!"}, status=520)
 
     if "name" not in data or data['name'] is None or "password" not in data or data['password'] is None:
-        return json({"error_code":"PARAMS_ERROR","error_message":"Tham số không hợp lệ"}, status=520)
+        return json({"error_code":"PARAMS_ERROR","error_message":"Invalid value, please check again"}, status=520)
     if ('phone_number' in data) and ('email' in data) :
         user = db.session.query(User).filter((User.phone_number == data['phone_number']) | (User.email == data['email'])).first()
         if user is not None:
             if user.phone_number == data['phone_number']:
-                return json({"error_code":"USER_EXISTED","error_message":'Số điện thoại đã được sử dụng, vui lòng chọn lại'},status=520)
+                return json({"error_code":"USER_EXISTED","error_message":'Phone number already in use, please select again'},status=520)
             else:
-                return json({"error_code":"USER_EXISTED","error_message":'Email đã được sử dụng trong tài khoản khác'},status=520)
+                return json({"error_code":"USER_EXISTED","error_message":'Email is already used in another account'},status=520)
 
     
     salt = generator_salt()
@@ -233,34 +246,34 @@ async def prepost_user(request=None, data=None, Model=None, **kw):
 async def preput_user(request=None, data=None, Model=None, **kw):
     currentUser = await current_user(request)
     if (currentUser is None):
-        return json({"error_code":"SESSION_EXPIRED","error_message":"Hết phiên làm việc, vui lòng đăng nhập lại!"}, status=520)
+        return json({"error_code":"SESSION_EXPIRED","error_message":"End of session, please log in again!"}, status=520)
     
     if "name" not in data or data['name'] is None or "id" not in data or data['id'] is None:
-        return json({"error_code":"PARAMS_ERROR","error_message":"Tham số không hợp lệ"}, status=520)
+        return json({"error_code":"PARAMS_ERROR","error_message":"Invalid value, please check again"}, status=520)
     if ('phone_number' in data) and ('email' in data) :
         check_user = db.session.query(User).filter((User.phone_number == data['phone_number']) | (User.email == data['email'])).filter(User.id != data['id']).first()
         if check_user is not None:
             if check_user.phone_number == data['phone_number']:
-                return json({"error_code":"USER_EXISTED","error_message":'Số điện thoại đã được sử dụng, vui lòng chọn lại'},status=520)
+                return json({"error_code":"USER_EXISTED","error_message":'Phone number already in use, please select again'},status=520)
             else:
-                return json({"error_code":"USER_EXISTED","error_message":'Email đã được sử dụng trong tài khoản khác'},status=520)
+                return json({"error_code":"USER_EXISTED","error_message":'Email is already used in another account'},status=520)
     
     user = db.session.query(User).filter(User.id == data['id']).first()
     if user is None:
-        return json({"error_code":"NOT_FOUND","error_message":"Không tìm thấy tài khoản người dùng"}, status=520)
+        return json({"error_code":"NOT_FOUND","error_message":"User account not found"}, status=520)
 
     if currentUser.has_role("Giám Đốc") or str(currentUser.id) == data['id']:
         password = data['password']
         data['password'] = auth.encrypt_password(password, user.salt)
     else:
-        return json({"error_code":"PERMISSION_DENY","error_message":"Không có quyền thực hiện hành động này"}, status=520)
+        return json({"error_code":"PERMISSION_DENY","error_message":"There is no right to perform this action"}, status=520)
 
 async def predelete_user(request=None, data=None, Model=None, **kw):
     currentUser = await current_user(request)
     if (currentUser is None):
-        return json({"error_code":"SESSION_EXPIRED","error_message":"Hết phiên làm việc, vui lòng đăng nhập lại!"}, status=520)
+        return json({"error_code":"SESSION_EXPIRED","error_message":"End of session, please log in again!"}, status=520)
     if currentUser.has_role("Giám Đốc") == False:
-        return json({"error_code":"PERMISSION_DENY","error_message":"Không có quyền thực hiện hành động này"}, status=520)
+        return json({"error_code":"PERMISSION_DENY","error_message":"There is no right to perform this action"}, status=520)
         
 @app.route("/api/v1/user/set-config", methods=["POST", "PUT", "OPTIONS"])
 async def set_user(request):

@@ -85,15 +85,15 @@ async def resetpw_email(request):
     if request.method == 'POST':
         email = request.json.get("email", None)
         if ((email is None) or (email == '')):
-            return json({"error_code": "PARRAM_ERROR", "error_message": "tham số không hợp lệ"},status=520) 
+            return json({"error_code": "PARRAM_ERROR", "error_message": "Invalid value, please check again"},status=520) 
             
         checkuser = db.session.query(User).filter(User.email == email).first()
         if(checkuser is not None):
             await send_reset_password_instructions(request, checkuser)
-            return json({"error": 0, "error_message": u"Yêu cầu thành công, mời bạn kiểm tra lại email để thiết lập lại mật khẩu!"})
+            return json({"error": 0, "error_message": u"Success!!, Request has been sent via gmail"})
         else:
-            return json({"error_code": "PARRAM_ERROR", "error_message": "Email không tồn tại trong hệ thống"},status=520) 
-    return json({"error": "ERROR_RESET", "error_message": 'Không có quyền truy cập'}, status=520)
+            return json({"error_code": "PARRAM_ERROR", "error_message": "Email is already used in another account"},status=520) 
+    return json({"error": "ERROR_RESET", "error_message": 'There is no right to perform this action'}, status=520)
 
 @app.route('/api/reset_password', methods=["POST","GET"])
 async def reset_password(request):
@@ -110,11 +110,11 @@ async def reset_password(request):
          
          
         if token is None or password  is None:
-            return json({"error_code": "PARAM_ERROR", "error_message": "Tham số không hợp lệ, vui lòng thực hiện lại"}, status=520)
+            return json({"error_code": "PARAM_ERROR", "error_message": "Invalid value, please check again"}, status=520)
 
         uid_current = redisdb.get("sessions:" + token)
         if uid_current is None:
-            return json({"error_code": "SESSION_EXPIRED", "error_message": "Hết thời gian thay đổi mật khẩu, vui lòng thực hiện lại"}, status=520)
+            return json({"error_code": "SESSION_EXPIRED", "error_message": "Timeout to change password, please select again"}, status=520)
     
          
         
@@ -124,9 +124,9 @@ async def reset_password(request):
             user.password = auth.encrypt_password(password)
             auth.login_user(request, user)
             db.session.commit()
-            return text(u'bạn đã lấy lại mật khẩu thành công. mời bạn đăng nhập lại để sử dụng!')
+            return text(u'Password change was successful.')
         else:
-            return text('Không tìm thấy tài khoản trong hệ thống, vui lòng thử lại sau!')
+            return text('User account not found, please select again!')
 
 
 

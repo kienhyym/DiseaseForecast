@@ -17,12 +17,12 @@ async def prepost_danhmuc(request=None, data=None, Model=None, **kw):
     if "ma" in data and data['ma'] is not None and data['ma'] != "":
         check_existed = db.session.query(Model).filter(Model.ma == data['ma']).count()
         if check_existed >0:
-            return json({"error_code":"PARAMS_ERROR", "error_message":"Mã danh mục đã bị trùng, vui lòng chọn mã khác"}, status=520)
+            return json({"error_code":"PARAMS_ERROR", "error_message":"Notification code already in use, please select again"}, status=520)
 
 async def preput_danhmuc(request=None, data=None, Model=None, **kw):
     check_danhmuc = db.session.query(Model).filter(Model.ma == data["ma"]).filter(Model.id != data['id']).first()
     if (check_danhmuc is not None):
-        return json({"error_code":"PARAMS_ERROR", "error_message":"Mã danh mục đã bị trùng, vui lòng chọn mã khác"}, status=520)
+        return json({"error_code":"PARAMS_ERROR", "error_message":"Notification code already in use, please select again"}, status=520)
             
 
 async def prepost_put_danhmuc(request=None, data=None, Model=None, **kw):

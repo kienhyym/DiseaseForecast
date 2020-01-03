@@ -220,6 +220,12 @@ define(function (require) {
         render_grid2: function (stauts, dataSource) {
 
             var self = this;
+            var no_records = "No data yet";
+
+            if (self.getApp().currentUser.config.lang == "VN") {
+                no_records = "Chưa có dữ liệu";
+            }
+
             var element;
             if (stauts == 0) {
                 element = self.$el.find("#all");
@@ -239,7 +245,7 @@ define(function (require) {
                 // showSortingIndicator: true,
                 orderByMode: "client",
                 language: {
-                    no_records_found: "Chưa có dữ liệu"
+                    no_records_found: no_records
                 },
                 noResultsClass: "alert alert-default no-records-found",
                 fields: [
@@ -253,8 +259,12 @@ define(function (require) {
                                 }
                                 return utcTolocal(rowData.ngayguizalo, "DD/MM/YYYY");
                             }
-                            return "Chưa gửi";
-                        },
+                            if (self.getApp().currentUser.config.lang == "VN") {
+                                return "Chưa gửi";
+
+							} else {
+                                return "Unsent";
+							}                        },
                     },
                     {
                         field: "ngayguigmail", label: "{{NGAY_GUI_QUA_GMAIL}}", width: 150, readonly: true,
@@ -265,7 +275,13 @@ define(function (require) {
                                 }
                                 return utcTolocal(rowData.ngayguigmail, "DD/MM/YYYY");
                             }
-                            return "Chưa gửi";
+                            if (self.getApp().currentUser.config.lang == "VN") {
+                                return "Chưa gửi";
+
+							} else {
+                                return "Unsent";
+							}
+                           
                         },
                     },
                     {
@@ -277,8 +293,12 @@ define(function (require) {
                                 }
                                 return utcTolocal(rowData.ngayguiphone, "DD/MM/YYYY");
                             }
-                            return "Chưa gửi";
-                        },
+                            if (self.getApp().currentUser.config.lang == "VN") {
+                                return "Chưa gửi";
+
+							} else {
+                                return "Unsent";
+							}                        },
                     },
                 ],
                 dataSource: dataSource,
