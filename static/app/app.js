@@ -143,6 +143,8 @@ require(['jquery',
 						}),
 						type: "PUT",
 						success: function (response) {
+							localStorage.setItem("language",response.config.lang)
+
 							location.reload();
 						},
 						error: function () {
@@ -162,6 +164,8 @@ require(['jquery',
 						}),
 						type: "PUT",
 						success: function (response) {
+							localStorage.setItem("language",response.config.lang)
+
 							location.reload();
 						},
 						error: function () {

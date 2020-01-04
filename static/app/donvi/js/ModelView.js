@@ -232,12 +232,72 @@ define(function (require) {
 			var id = this.getApp().getRouter().getParam("id");
 			$.fn.selectpicker.Constructor.DEFAULTS.multipleSeparator = ' | ';
 			self.$el.find("#multiselect_required").selectpicker();
+			if (self.getApp().currentUser.config.lang == "EN") {
+				self.model.on('change:tinhthanh_id',function(){
+					var tinhthanhEN = self.$el.find('.tinhthanh .input-group .ref-form-control').text()
+					var str = tinhthanhEN;
+				str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a"); 
+				str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e"); 
+				str = str.replace(/ì|í|ị|ỉ|ĩ/g,"i"); 
+				str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o"); 
+				str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u"); 
+				str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y"); 
+				str = str.replace(/đ/g,"d");
+				str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g," ");
+				str = str.replace(/ + /g," ");
+				str = str.replace("Tinh",""); 
+				str = str.replace("Thanh pho",""); 
 
+				str = str.trim(); 
+				self.$el.find('.tinhthanh .input-group .ref-form-control').html(str)
+				})
+				
+				self.model.on('change:quanhuyen_id',function(){
+
+				var quanhuyenEN = self.$el.find('.quanhuyen .input-group .ref-form-control').text()
+				var str = quanhuyenEN;
+				str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a"); 
+				str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e"); 
+				str = str.replace(/ì|í|ị|ỉ|ĩ/g,"i"); 
+				str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o"); 
+				str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u"); 
+				str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y"); 
+				str = str.replace(/đ/g,"d");
+				str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g," ");
+				str = str.replace(/ + /g," ");
+				str = str.replace("Quan",""); 
+				str = str.replace("Huyen",""); 
+				str = str.replace("Thi xa",""); 
+
+				str = str.trim(); 
+				self.$el.find('.quanhuyen .input-group .ref-form-control').html(str)
+				})
+				self.model.on('change:xaphuong_id',function(){
+
+				var xaphuongEN = self.$el.find('.xaphuong .input-group .ref-form-control').text()
+				var str = xaphuongEN;
+				str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a"); 
+				str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e"); 
+				str = str.replace(/ì|í|ị|ỉ|ĩ/g,"i"); 
+				str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o"); 
+				str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u"); 
+				str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y"); 
+				str = str.replace(/đ/g,"d");
+				str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g," ");
+				str = str.replace(/ + /g," ");
+				str = str.replace("Xa",""); 
+				str = str.replace("Phuong",""); 
+
+				str = str.trim(); 
+				self.$el.find('.xaphuong .input-group .ref-form-control').html(str)
+				})
+			} 
 
 			if (id) {
 				this.model.set('id', id);
 				this.model.fetch({
 					success: function (data) {
+
 						self.aiDuocChinhSua();
 						self.donViCapTren();
 						self.applyBindings();
@@ -291,6 +351,61 @@ define(function (require) {
 								}
 							});
 						})
+						if (self.getApp().currentUser.config.lang == "EN") {
+							var tinhthanhEN = self.$el.find('.tinhthanh .input-group .ref-form-control').text()
+							var str = tinhthanhEN;
+							str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a"); 
+							str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e"); 
+							str = str.replace(/ì|í|ị|ỉ|ĩ/g,"i"); 
+							str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o"); 
+							str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u"); 
+							str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y"); 
+							str = str.replace(/đ/g,"d");
+							str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g," ");
+							str = str.replace(/ + /g," ");
+							str = str.replace("Tinh",""); 
+							str = str.replace("Thanh pho",""); 
+
+							str = str.trim(); 
+							self.$el.find('.tinhthanh .input-group .ref-form-control').html(str)
+
+							var quanhuyenEN = self.$el.find('.quanhuyen .input-group .ref-form-control').text()
+							var str = quanhuyenEN;
+							str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a"); 
+							str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e"); 
+							str = str.replace(/ì|í|ị|ỉ|ĩ/g,"i"); 
+							str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o"); 
+							str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u"); 
+							str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y"); 
+							str = str.replace(/đ/g,"d");
+							str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g," ");
+							str = str.replace(/ + /g," ");
+							str = str.replace("Quan",""); 
+							str = str.replace("Huyen",""); 
+							str = str.replace("Thi xa",""); 
+
+							str = str.trim(); 
+							self.$el.find('.quanhuyen .input-group .ref-form-control').html(str)
+
+
+							var xaphuongEN = self.$el.find('.xaphuong .input-group .ref-form-control').text()
+							var str = xaphuongEN;
+							str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a"); 
+							str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e"); 
+							str = str.replace(/ì|í|ị|ỉ|ĩ/g,"i"); 
+							str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o"); 
+							str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u"); 
+							str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y"); 
+							str = str.replace(/đ/g,"d");
+							str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g," ");
+							str = str.replace(/ + /g," ");
+							str = str.replace("Xa",""); 
+							str = str.replace("Phuong",""); 
+
+							str = str.trim(); 
+							self.$el.find('.xaphuong .input-group .ref-form-control').html(str)
+						} 
+						
 
 					},
 					error: function (xhr, status, error) {

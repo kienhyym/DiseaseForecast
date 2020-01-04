@@ -58,6 +58,7 @@ define(function(require) {
                 success: function(response) {
                    
                     self.getApp().postLogin(response);
+                    localStorage.setItem("language",response.config.lang)
                     self.getApp().getRouter().navigate("index");
                 },
                 error: function(xhr) {
