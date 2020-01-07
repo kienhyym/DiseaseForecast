@@ -1,5 +1,5 @@
 {
-    "DANH_SACH_THONG_BAO_TU_D_MOSS": "Danh sách thông báo từ D-MOSS",
+    "DANH_SACH_THONG_BAO_TU_D_MOSS": "Thông báo từ D-MOSS",
     "TIEU_DE": "Tiêu đề",
     "NGAY_GUI": "Ngày gửi",
     "NOI_DUNG_THONG_BAO": "Nội dung thông báo",
@@ -29,8 +29,8 @@
     "CHON_DONVI":"Chọn đơn vị",
 
 
-    "QUAN_LY_NGUOI_DUNG_CAP_DUOI": "Quản lý người dùng cấp dưới",
-    "QUAN_LY_DON_VI_CAP_DUOI":"Quản lý đơn vị cấp dưới",
+    "QUAN_LY_NGUOI_DUNG_CAP_DUOI": "Quản lý người dùng",
+    "QUAN_LY_DON_VI_CAP_DUOI":"Quản lý đơn vị",
 
     "TEN": "Tên",
     "DON_VI": "Đơn vị",

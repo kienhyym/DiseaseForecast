@@ -1,5 +1,5 @@
 {
-    "DANH_SACH_THONG_BAO_TU_D_MOSS": "List of notification from D-MOSS",
+    "DANH_SACH_THONG_BAO_TU_D_MOSS": "Notification from D-MOSS",
     "TIEU_DE": "Tittle",
     "NGAY_GUI": "Sent date",
     "NOI_DUNG_THONG_BAO": "Notification content",
@@ -28,8 +28,8 @@
     "CHON_DONVI":"Choose unit ",
 
     "DANH_SACH_NGUOI_DUNG":"List of user",
-    "QUAN_LY_NGUOI_DUNG_CAP_DUOI": "subordinate user management",
-    "QUAN_LY_DON_VI_CAP_DUOI":"subordinate unit management",
+    "QUAN_LY_NGUOI_DUNG_CAP_DUOI": "User management",
+    "QUAN_LY_DON_VI_CAP_DUOI":"Unit management",
     "TEN": "Name",
     "DON_VI": "Unite",
     "SO_DIEN_THOAI": "Phone number",
