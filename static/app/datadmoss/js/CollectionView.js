@@ -47,9 +47,10 @@ define(function (require) {
         },
         render: function () {
             var self = this;
+            self.uiControl.orderBy = [{"field": "ngaygui", "direction": "desc"}];
+
             var translatedTemplate = gonrin.template(template)(LANG);
             self.$el.html(translatedTemplate);
-            self.uiControl.orderBy = [{"field": "ngaygui", "direction": "desc"}];
 
             this.applyBindings();
             return this;
