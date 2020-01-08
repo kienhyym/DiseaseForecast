@@ -58,9 +58,15 @@ define(function (require) {
 								str = str.replace(/đ/g,"d");
 								str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g," ");
 								str = str.replace(/ + /g," ");
-								str = str.replace("Xa",""); 
-								str = str.replace("Phuong",""); 
-	
+								if( str.indexOf("Phuong ") !== -1){
+									str = str +" Ward";
+								}
+								if( str.indexOf("Xa ") !== -1){
+									str = str +" Commune";
+								}
+								str = str.replace("Xa ",""); 
+								str = str.replace("Phuong ",""); 
+								
 								str = str.trim(); 
 								return str;
 							}
@@ -90,7 +96,7 @@ define(function (require) {
 		},
 		render: function () {
 			var self = this;
-			self.$el.find(".close").unbind('click').bind('click', function () {
+						self.$el.find(".close").unbind('click').bind('click', function () {
 				console.log("xxxxxxxxx")
 				self.$el.find("#grid_search input").val("")
 			})

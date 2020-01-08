@@ -69,6 +69,7 @@ define(function (require) {
 		},
 		render: function () {
 			var self = this;
+
 			var captrenID = [];
 			var translatedTemplate = gonrin.template(template)(LANG);
 			self.$el.html(translatedTemplate);
@@ -245,6 +246,12 @@ define(function (require) {
 				str = str.replace(/đ/g,"d");
 				str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g," ");
 				str = str.replace(/ + /g," ");
+				if( str.indexOf("Tinh ") !== -1){
+					str = str +" Province";
+				}
+				if( str.indexOf("Thanh pho ") !== -1){
+					str = str +" City";
+				}
 				str = str.replace("Tinh",""); 
 				str = str.replace("Thanh pho",""); 
 
@@ -265,6 +272,15 @@ define(function (require) {
 				str = str.replace(/đ/g,"d");
 				str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g," ");
 				str = str.replace(/ + /g," ");
+				if( str.indexOf("Quan ") !== -1){
+					str = str +" District";
+				}
+				if( str.indexOf("Huyen ") !== -1){
+					str = str +" District";
+				}
+				if( str.indexOf("Thi xa ") !== -1){
+					str = str +" Town";
+				}
 				str = str.replace("Quan",""); 
 				str = str.replace("Huyen",""); 
 				str = str.replace("Thi xa",""); 
@@ -285,6 +301,12 @@ define(function (require) {
 				str = str.replace(/đ/g,"d");
 				str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g," ");
 				str = str.replace(/ + /g," ");
+				if( str.indexOf("Phuong ") !== -1){
+					str = str +" Ward";
+				}
+				if( str.indexOf("Xa ") !== -1){
+					str = str +" Commune";
+				}
 				str = str.replace("Xa",""); 
 				str = str.replace("Phuong",""); 
 
@@ -363,6 +385,12 @@ define(function (require) {
 							str = str.replace(/đ/g,"d");
 							str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g," ");
 							str = str.replace(/ + /g," ");
+							if( str.indexOf("Tinh ") !== -1){
+								str = str +" Province";
+							}
+							if( str.indexOf("Thanh pho ") !== -1){
+								str = str +" City";
+							}
 							str = str.replace("Tinh",""); 
 							str = str.replace("Thanh pho",""); 
 
@@ -380,6 +408,15 @@ define(function (require) {
 							str = str.replace(/đ/g,"d");
 							str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g," ");
 							str = str.replace(/ + /g," ");
+							if( str.indexOf("Quan ") !== -1){
+								str = str +" District";
+							}
+							if( str.indexOf("Huyen ") !== -1){
+								str = str +" District";
+							}
+							if( str.indexOf("Thi xa ") !== -1){
+								str = str +" Town";
+							}
 							str = str.replace("Quan",""); 
 							str = str.replace("Huyen",""); 
 							str = str.replace("Thi xa",""); 
@@ -399,6 +436,12 @@ define(function (require) {
 							str = str.replace(/đ/g,"d");
 							str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g," ");
 							str = str.replace(/ + /g," ");
+							if( str.indexOf("Phuong ") !== -1){
+								str = str +" Ward";
+							}
+							if( str.indexOf("Xa ") !== -1){
+								str = str +" Commune";
+							}
 							str = str.replace("Xa",""); 
 							str = str.replace("Phuong",""); 
 

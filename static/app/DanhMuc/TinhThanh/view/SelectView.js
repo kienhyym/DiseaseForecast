@@ -62,7 +62,13 @@ define(function (require) {
 								str = str.replace(/đ/g,"d");
 								str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g," ");
 								str = str.replace(/ + /g," ");
-								str = str.replace("Tinh",""); 
+								if( str.indexOf("Tinh ") !== -1){
+									str = str +" Province";
+								}
+								if( str.indexOf("Thanh pho ") !== -1){
+									str = str +" City";
+								}
+								str = str.replace("Tinh ",""); 
 								str = str.replace("Thanh pho",""); 
 	
 								str = str.trim(); 

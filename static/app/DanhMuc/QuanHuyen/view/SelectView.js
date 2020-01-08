@@ -48,7 +48,6 @@ define(function (require) {
 									var x = rowData.ten
 									var str = x;
 									// str = str.toLowerCase();
-		
 									str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a"); 
 									str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e"); 
 									str = str.replace(/ì|í|ị|ỉ|ĩ/g,"i"); 
@@ -58,9 +57,20 @@ define(function (require) {
 									str = str.replace(/đ/g,"d");
 									str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g," ");
 									str = str.replace(/ + /g," ");
-									str = str.replace("Quan",""); 
-									str = str.replace("Huyen",""); 
-									str = str.replace("Thi xa",""); 
+									
+
+									if( str.indexOf("Quan ") !== -1){
+										str = str +" District";
+									}
+									if( str.indexOf("Huyen ") !== -1){
+										str = str +" District";
+									}
+									if( str.indexOf("Thi xa ") !== -1){
+										str = str +" Town";
+									}
+									str = str.replace("Quan ",""); 
+									str = str.replace("Huyen ",""); 
+									str = str.replace("Thi xa ",""); 
 
 									str = str.trim(); 
 									return str;
