@@ -53,6 +53,7 @@
     "DANH_SACH_NGUOI_DUNG_TRONG_DON_VI": "List of user in unit",
     "NHAN_LOAI_THONG_BAO": "Receive type of notification",
     "VAI_TRO": "Role",
+    "CHUYEN_TIEP":"forwarding",
 
     "QUAN_LY_TIN_NHAN": "Message management",
     "CHU_DE": "Tittle",
