@@ -66,8 +66,13 @@ define(function (require) {
 			sessionStorage.clear();
 
 			self.$el.find(".send-all-chuyentiep").hide()
+			if (self.getApp().currentUser.config.lang == "VN") {
+				self.$el.find('.upload_files').attr('lang','vi')
+			} else {
+				self.$el.find('.upload_files').attr('lang','en')
 
 
+			}
 			self.bindEventSelect();
 			self.applyBindings();
 			if (id) {
