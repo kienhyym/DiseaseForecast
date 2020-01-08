@@ -43,7 +43,8 @@ define(function (require) {
     	},
 	    render:function(){
 	    	var self = this;
-	    	 self.uiControl.orderBy = [{"field": "ten", "direction": "desc"}];
+			 self.uiControl.orderBy = [{"field": "ten", "direction": "desc"}];
+			 
 	    	 this.applyBindings();
 	    	 return this;
     	},

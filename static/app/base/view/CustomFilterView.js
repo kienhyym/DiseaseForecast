@@ -11,7 +11,6 @@ define(function (require) {
 	};
 
 	return Gonrin.FilterView.extend({
-		template: `<input type="text" filter-bind="value:text" placeholder="Tìm kiếm..."/>`,
 		modelSchema: filterschema,
 		urlPrefix: "/api/v1/",
 		collectionName: "filter",
@@ -25,6 +24,14 @@ define(function (require) {
 
 		render: function () {
 			var self = this;
+			if (self.getApp().currentUser.config.lang == "VN") {
+				var translatedTemplate = gonrin.template(`<input type="text" filter-bind="value:text" placeholder="Tìm Kiếm..."/>`,)
+				self.$el.html(translatedTemplate);
+			} else {
+				var translatedTemplate = gonrin.template(`<input type="text" filter-bind="value:text" placeholder="Search..."/>`,)
+				self.$el.html(translatedTemplate);
+			}
+			
 			//session here
 			this.getDataFromSession();
 			this.applyBindings();

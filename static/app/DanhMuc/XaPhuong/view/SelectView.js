@@ -38,10 +38,10 @@ define(function (require) {
 		],
 		uiControl: {
 			fields: [
-				{ field: "ma", label: "Mã", width: 150 },
+				{ field: "ma", label: "Mã(Code)", width: 150 },
 				{
 					field: "ten",
-					label: "Name",
+					label: "Tên(Name)",
 					template: function (rowData) {
 						if (localStorage.getItem("language") == "EN"){
 							if (!!rowData && rowData.ten) {
