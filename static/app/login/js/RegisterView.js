@@ -20,8 +20,8 @@ define(function (require) {
 
         render: function () {
             var self = this;
-           
-            self.$el.find("#btn_eng").unbind('click').bind('click',function () {
+
+            self.$el.find("#btn_eng").unbind('click').bind('click', function () {
                 localStorage.setItem("language", "EN");
                 self.getApp().getRouter().navigate("registerEN");
             })
@@ -59,10 +59,10 @@ define(function (require) {
                         self.$el.find("#donvi_selecter div div .dropdown-menu").css("display", "block")
                         dsDonVi = [];
                     })
-                    self.$el.find('#customCheck2').click(function(){
+                    self.$el.find('#customCheck2').click(function () {
                         self.$el.find('.zalo-note').toggle();
-                      });
-                   
+                    });
+
                     self.$el.find('#txtDonVi').on('change.gonrin', function (e) {
                         self.$el.find("#donvi_selecter div div .dropdown-menu").css("display", "block")
                         self.$el.find("#input_gia").val($('#txtDonVi').data('gonrin').getText());
@@ -72,16 +72,16 @@ define(function (require) {
                         var thongbaoZalo = "no";
                         var thongbaoSms = "no";
                         self.$el.find("#btn_register").unbind("click").bind("click", function () {
-                            if(self.$el.find('#customCheck1').prop('checked') === true){
+                            if (self.$el.find('#customCheck1').prop('checked') === true) {
                                 thongbaoEmail = "yes";
                             }
-                            if(self.$el.find('#customCheck2').prop('checked') === true){
+                            if (self.$el.find('#customCheck2').prop('checked') === true) {
                                 thongbaoZalo = "yes";
                             }
-                            if(self.$el.find('#customCheck3').prop('checked') === true){
+                            if (self.$el.find('#customCheck3').prop('checked') === true) {
                                 thongbaoSms = "yes"
                             }
-                            console.log(thongbaoEmail,thongbaoZalo,thongbaoSms)
+                            console.log(thongbaoEmail, thongbaoZalo, thongbaoSms)
 
                             $.ajax({
                                 method: "POST",
@@ -99,9 +99,9 @@ define(function (require) {
                                     xaphuong_id: null,
                                     donvicaptren_id: null,
                                     id_nguoitao: null,
-                                    thongbaoemail:thongbaoEmail,
-                                    thongbaozalo:thongbaoZalo,
-                                    thongbaosms:thongbaoSms,
+                                    thongbaoemail: thongbaoEmail,
+                                    thongbaozalo: thongbaoZalo,
+                                    thongbaosms: thongbaoSms,
                                 }),
                                 headers: {
                                     'content-type': 'application/json'
@@ -109,7 +109,7 @@ define(function (require) {
                                 dataType: 'json',
                                 success: function (response) {
                                     if (response) {
-                                            self.getApp().notify("Đăng ký thành công");
+                                        self.getApp().notify("Đăng ký thành công");
                                     }
                                 }, error: function (xhr, ere) {
                                     console.log('xhr', ere);
