@@ -455,8 +455,19 @@ define(function (require) {
 		// GỬI TIN QUÁ EMAIL
 		sendMail: function (arrdonvi, arrcanhbao) {
 			var self = this;
+			var filters = {
+				filters: {
+					"$and": [
+						{ "thongbaoemail": { "$eq": 'yes' } },
+						{ "kiemduyet": { "$eq": 'daduyet' } }
+
+					]
+				},
+				order_by: [{ "field": "created_at", "direction": "asc" }]
+			}
 			$.ajax({
 				url: self.getApp().serviceURL + "/api/v1/user?results_per_page=100000&max_results_per_page=1000000",
+				data: "q=" + JSON.stringify(filters),
 				method: "GET",
 				contentType: "application/json",
 				success: function (data) {
@@ -567,9 +578,20 @@ define(function (require) {
 		// GỬI TIN QUÁ ZALO
 		sendzalo: function (arrdonvi, arrcanhbao) {
 			var self = this;
+			var filters = {
+				filters: {
+					"$and": [
+						{ "thongbaozalo": { "$eq": 'yes' } },
+						{ "kiemduyet": { "$eq": 'daduyet' } }
+
+					]
+				},
+				order_by: [{ "field": "created_at", "direction": "asc" }]
+			}
 			$.ajax({
 				url: self.getApp().serviceURL + "/api/v1/user?results_per_page=100000&max_results_per_page=1000000",
 				method: "GET",
+				data: "q=" + JSON.stringify(filters),
 				contentType: "application/json",
 				success: function (data) {
 					var arrUser = [];

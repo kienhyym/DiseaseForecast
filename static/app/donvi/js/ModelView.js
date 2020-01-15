@@ -620,7 +620,6 @@ define(function (require) {
 		},
 		getThongBao: function () {
 			var self = this;
-			var self = this;
 			var filters = {
 				filters: {
 					"$and": [

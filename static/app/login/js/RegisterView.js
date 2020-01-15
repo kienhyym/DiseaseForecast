@@ -59,6 +59,10 @@ define(function (require) {
                         self.$el.find("#donvi_selecter div div .dropdown-menu").css("display", "block")
                         dsDonVi = [];
                     })
+                    self.$el.find('#customCheck2').click(function(){
+                        self.$el.find('.zalo-note').toggle();
+                      });
+                   
                     self.$el.find('#txtDonVi').on('change.gonrin', function (e) {
                         self.$el.find("#donvi_selecter div div .dropdown-menu").css("display", "block")
                         self.$el.find("#input_gia").val($('#txtDonVi').data('gonrin').getText());
