@@ -8,6 +8,7 @@ define(function (require) {
     var ForgotPasswordView = require('app/login/js/ForgotPasswordView');
     var ForgotPasswordENView = require('app/login/js/ForgotPasswordENView');
     var RegisterView = require('app/login/js/RegisterView');
+    var RegisterENView = require('app/login/js/RegisterViewEN');
     var IndexView = require('app/login/js/IndexView');
     var navdata = require('app/nav/route');
     return Gonrin.Router.extend({
@@ -20,6 +21,7 @@ define(function (require) {
             "forgotEN": "forgotPasswordEN",
             "changepassword": "changepassword",
             "register": "register",
+            "registerEN": "registerENG",
             "error": "error_page",
             "*path": "defaultRoute"
         },
@@ -81,6 +83,10 @@ define(function (require) {
         register: function () {
             var registerView = new RegisterView({ el: $('.content-contain') });
             registerView.render();
+        },
+        registerENG: function () {
+            var registerViewEn = new RegisterENView({ el: $('.content-contain') });
+            registerViewEn.render();
         },
         registerAppRoute: function () {
             var self = this;

@@ -17,78 +17,86 @@ define(function (require) {
 		collectionName: "user",
 		bindings: "data-bind",
 		state: null,
-		tools: [
-			{
-				name: "defaultgr",
-				type: "group",
-				groupClass: "toolbar-group",
-				buttons: [
-					{
-						name: "back",
-						type: "button",
-						buttonClass: "btn-default btn-sm",
-						label: "TRANSLATE:BACK",
-						command: function () {
-							var self = this;
-							Backbone.history.history.back();
-						}
-					},
-					{
-						name: "save",
-						type: "button",
-						buttonClass: "btn-success btn-sm",
-						label: "TRANSLATE:SAVE",
-						command: function () {
+		// tools: [
+		// 	{
+		// 		name: "defaultgr",
+		// 		type: "group",
+		// 		groupClass: "toolbar-group",
+		// 		buttons: [
+		// 			{
+		// 				name: "back",
+		// 				type: "button",
+		// 				buttonClass: "btn-default btn-sm",
+		// 				label: "TRANSLATE:BACK",
+		// 				command: function () {
+		// 					var self = this;
+		// 					Backbone.history.history.back();
+		// 				}
+		// 			},
+		// 			{
+		// 				name: "save",
+		// 				type: "button",
+		// 				buttonClass: "btn-success btn-sm",
+		// 				label: "TRANSLATE:SAVE",
+		// 				command: function () {
 
-						}
-					},
-					{
-						name: "delete",
-						type: "button",
-						buttonClass: "btn-danger btn-sm",
-						label: "TRANSLATE:DELETE",
-						visible: function () {
-							return this.getApp().getRouter().getParam("id") !== null;
-						},
-						command: function () {
-							var self = this;
-							self.model.destroy({
-								success: function (model, response) {
-									if (self.getApp().currentUser.config.lang == "VN") {
-										self.getApp().notify("Xóa thông tin thành công");
-									} else {
-										self.getApp().notify("Information deleted successfully");
-									} self.getApp().getRouter().navigate(self.collectionName + "/collection");
-								},
-								error: function (xhr, status, error) {
-									try {
-										if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED") {
-											if (self.getApp().currentUser.config.lang == "VN") {
-												self.getApp().notify({ message: "Hết phiên làm việc, vui lòng đăng nhập lại!" }, { type: "danger", delay: 1000 });
+		// 				}
+		// 			},
+		// 			{
+		// 				name: "delete",
+		// 				type: "button",
+		// 				buttonClass: "btn-danger btn-sm",
+		// 				label: "TRANSLATE:DELETE",
+		// 				visible: function () {
+		// 					return this.getApp().getRouter().getParam("id") !== null;
+		// 				},
+		// 				command: function () {
+		// 					var self = this;
+		// 					self.model.destroy({
+		// 						success: function (model, response) {
+		// 							if (self.getApp().currentUser.config.lang == "VN") {
+		// 								self.getApp().notify("Xóa thông tin thành công");
+		// 							} else {
+		// 								self.getApp().notify("Information deleted successfully");
+		// 							} self.getApp().getRouter().navigate(self.collectionName + "/collection");
+		// 						},
+		// 						error: function (xhr, status, error) {
+		// 							try {
+		// 								if (($.parseJSON(error.xhr.responseText).error_code) === "SESSION_EXPIRED") {
+		// 									if (self.getApp().currentUser.config.lang == "VN") {
+		// 										self.getApp().notify({ message: "Hết phiên làm việc, vui lòng đăng nhập lại!" }, { type: "danger", delay: 1000 });
 
-											} else {
-												self.getApp().notify({ message: "Your session has expired. Please log in again to continue." }, { type: "danger", delay: 1000 });
-											} self.getApp().getRouter().navigate("login");
-										} else {
-											self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
-										}
-									}
-									catch (err) {
-										if (self.getApp().currentUser.config.lang == "VN") {
-											self.getApp().notify({ message: "Xóa dữ liệu không thành công" }, { type: "danger", delay: 1000 });
+		// 									} else {
+		// 										self.getApp().notify({ message: "Your session has expired. Please log in again to continue." }, { type: "danger", delay: 1000 });
+		// 									} self.getApp().getRouter().navigate("login");
+		// 								} else {
+		// 									self.getApp().notify({ message: $.parseJSON(error.xhr.responseText).error_message }, { type: "danger", delay: 1000 });
+		// 								}
+		// 							}
+		// 							catch (err) {
+		// 								if (self.getApp().currentUser.config.lang == "VN") {
+		// 									self.getApp().notify({ message: "Xóa dữ liệu không thành công" }, { type: "danger", delay: 1000 });
 
-										} else {
-											self.getApp().notify({ message: "Information deletion failed" }, { type: "danger", delay: 1000 });
-										}
-									}
-								}
-							});
-						}
-					},
-				],
-			}],
+		// 								} else {
+		// 									self.getApp().notify({ message: "Information deletion failed" }, { type: "danger", delay: 1000 });
+		// 								}
+		// 							}
+		// 						}
+		// 					});
+		// 				}
+		// 			},
+		// 		],
+		// 	}],
 		uiControl: {
 			fields: [
+				{
+					field:"donvi",
+					uicontrol:"ref",
+					textField: "ten",
+					foreignRemoteField: "id",
+					foreignField: "donvi_id",
+					dataSource: DonViSelectView
+				},
 				{
 					field: "kiemduyet",
 					uicontrol: "combobox",
@@ -150,17 +158,13 @@ define(function (require) {
 
 		render: function () {
 			var self = this;
-		
 			var translatedTemplate = gonrin.template(template)(LANG);
 			self.$el.html(translatedTemplate);
-
-			console.log(self.getApp().translate("TIEU_DE"));
-
-			self.$el.find('.toolTaoMoi').hide();
+			// console.log(self.getApp().translate("TIEU_DE"));
 			if (window.location.hash.length < 15) {
-				self.setDonVi();
+				// self.setDonVi();
 			}
-			self.$el.find(".btn-back").unbind("click").bind("click", function () {
+			self.$el.find(".btn-backid").unbind("click").bind("click", function () {
 				Backbone.history.history.back();
 			});
 			self.$el.find(".btn-luuid").unbind("click").bind("click", function () {
@@ -201,61 +205,55 @@ define(function (require) {
 				this.model.set('id', id);
 				this.model.fetch({
 					success: function (data) {
-						if (self.model.get("id") == self.getApp().currentUser.id) {
-							self.$el.find("#donvi_selecter").css("pointer-events", "none")
-							self.$el.find(".btn-xoaid").hide();
-							var arr = [];
-							arr.push(self.model.get("donvi"));
-							if (self.model.get("donvi_id") != null) {
-								self.$el.find('#donvi_combobox').combobox({
-									textField: "ten",
-									valueField: "id",
-									dataSource: arr,
-									value: self.model.get("donvi_id")
-								});
-								self.$el.find("#input_gia").val($('#donvi_combobox').data('gonrin').getText());
-							}
-						} else {
-							self.setDonViID();
-						}
+						// if (self.model.get("id") == self.getApp().currentUser.id) {
+						// 	self.$el.find("#donvi_selecter").css("pointer-events", "none")
+						// 	var arr = [];
+						// 	arr.push(self.model.get("donvi"));
+						// 	if (self.model.get("donvi_id") != null) {
+						// 		self.$el.find('#donvi_combobox').combobox({
+						// 			textField: "ten",
+						// 			valueField: "id",
+						// 			dataSource: arr,
+						// 			value: self.model.get("donvi_id")
+						// 		});
+						// 		self.$el.find("#input_gia").val($('#donvi_combobox').data('gonrin').getText());
+						// 	}
+						// } else {
+						// 	self.setDonViID();
+						// }
 
 
 
 
 
-						if (self.model.get('id')) {
-							self.$el.find('.toolTaoMoi').show();
-							self.$el.find('.btn-taomoi').hide();
-						}
-						self.$el.find(".btn-backid").unbind("click").bind("click", function () {
-							Backbone.history.history.back();
-						});
-						self.$el.find(".btn-xoaid").unbind("click").bind("click", function () {
+						
+						
+						// self.$el.find(".btn-xoaid").unbind("click").bind("click", function () {
 
-							$.ajax({
-								url: self.getApp().serviceURL + "/api/v1/user/" + self.model.get("id"),
-								method: "DELETE",
-								headers: {
-									'content-type': 'application/json'
-								},
-								dataType: 'json',
-								success: function (data, res) {
-									if (self.getApp().currentUser.config.lang == "VN") {
-										self.getApp().notify("Xóa thông tin thành công");
-									} else {
-										self.getApp().notify("Information deleted successfully");
-									} self.getApp().getRouter().navigate(self.collectionName + "/collection");
-								},
-								error: function (xhr, status, error) {
-									if (self.getApp().currentUser.config.lang == "VN") {
-										self.getApp().notify({ message: "Lỗi không lấy được dữ liệu!" }, { type: "danger", delay: 1000 });
+						// 	$.ajax({
+						// 		url: self.getApp().serviceURL + "/api/v1/user/" + self.model.get("id"),
+						// 		method: "DELETE",
+						// 		headers: {
+						// 			'content-type': 'application/json'
+						// 		},
+						// 		dataType: 'json',
+						// 		success: function (data, res) {
+						// 			if (self.getApp().currentUser.config.lang == "VN") {
+						// 				self.getApp().notify("Xóa thông tin thành công");
+						// 			} else {
+						// 				self.getApp().notify("Information deleted successfully");
+						// 			} self.getApp().getRouter().navigate(self.collectionName + "/collection");
+						// 		},
+						// 		error: function (xhr, status, error) {
+						// 			if (self.getApp().currentUser.config.lang == "VN") {
+						// 				self.getApp().notify({ message: "Lỗi không lấy được dữ liệu!" }, { type: "danger", delay: 1000 });
 
-									} else {
-										self.getApp().notify({ message: "Error!! Could not retrieve data" }, { type: "danger", delay: 1000 });
-									}
-								},
-							});
-						});
+						// 			} else {
+						// 				self.getApp().notify({ message: "Error!! Could not retrieve data" }, { type: "danger", delay: 1000 });
+						// 			}
+						// 		},
+						// 	});
+						// });
 
 						self.applyBindings();
 

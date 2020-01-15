@@ -20,6 +20,11 @@ define(function (require) {
 
         render: function () {
             var self = this;
+           
+            self.$el.find("#btn_eng").unbind('click').bind('click',function () {
+                localStorage.setItem("language", "EN");
+                self.getApp().getRouter().navigate("registerEN");
+            })
             self.applyBindings();
             var self = this;
             $.ajax({
@@ -101,7 +106,6 @@ define(function (require) {
                                 success: function (response) {
                                     if (response) {
                                             self.getApp().notify("Đăng ký thành công");
-                                            self.getApp().notify("You have signed up successfully.");
                                     }
                                 }, error: function (xhr, ere) {
                                     console.log('xhr', ere);
@@ -210,9 +214,7 @@ define(function (require) {
                 },
                 error: function (xhr, status, error) { }
             });
-
-
-            self.registerEvent();
+            // self.registerEvent();
         },
 
         registerEvent: function () {

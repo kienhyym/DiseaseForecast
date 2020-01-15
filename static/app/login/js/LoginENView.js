@@ -19,7 +19,7 @@ define(function(require) {
                 return false;
             });
             $("#register-btn").unbind('click').bind('click', function(){
-                self.getApp().getRouter().navigate("register");
+                self.getApp().getRouter().navigate("registerEN");
             });
             $("#forgot-btn").unbind('click').bind('click', function(){
                 self.getApp().getRouter().navigate("forgotEN");
