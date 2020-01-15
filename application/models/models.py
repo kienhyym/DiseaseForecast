@@ -45,6 +45,11 @@ class User(CommonModel):
     phancapnhanbaocao = db.Column(db.String(50))
     id_nguoitao = db.Column(db.String(50))
     config = db.Column(JSONB,default={"lang":"VN"})
+    kiemduyet = db.Column(db.String(25),default='chuaduyet')
+    thongbaoemail = db.Column(db.String(5),default='no')
+    thongbaozalo = db.Column(db.String(5),default='no')
+    thongbaosms = db.Column(db.String(5),default='no')
+
     def has_role(self, role):
         if isinstance(role, str):
             return role in (role.name for role in self.roles)

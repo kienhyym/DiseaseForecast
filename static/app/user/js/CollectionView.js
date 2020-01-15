@@ -28,22 +28,83 @@ define(function (require) {
         },
         khoitao: function () {
             var self = this;
+            var filters = {
+                filters: {
+                    "$and": [
+                        { "kiemduyet": { "$eq": "daduyet" } }
+                    ]
+                },
+                order_by: [{ "field": "created_at", "direction": "asc" }]
+            }
             $.ajax({
                 url: self.getApp().serviceURL + "/api/v1/user?results_per_page=100000&max_results_per_page=1000000",
                 method: "GET",
-                data: { "q": JSON.stringify({ "order_by": [{ "field": "updated_at", "direction": "desc" }] }) },
+                data: "q=" + JSON.stringify(filters),
                 contentType: "application/json",
                 success: function (data) {
-                    var arr = [];
-                    
 
-                        data.objects.forEach(function (item, index) {
-                            if (self.getApp().currentUser.donvi_id == item.id_nguoitao ) {
-                                arr.push(item);
-                            }
-                        });
-                    self.render_grid2(arr);
+                    self.render_grid2(data.objects);
                 },
+            })
+            self.$el.find("#btn_chuaduyet").on('click', function () {
+                var filters = {
+                    filters: {
+                        "$and": [
+                            { "kiemduyet": { "$eq": "chuaduyet" } }
+                        ]
+                    },
+                    order_by: [{ "field": "created_at", "direction": "asc" }]
+                }
+                $.ajax({
+                    url: self.getApp().serviceURL + "/api/v1/user?results_per_page=100000&max_results_per_page=1000000",
+                    method: "GET",
+                    data: "q=" + JSON.stringify(filters),
+                    contentType: "application/json",
+                    success: function (data) {
+                        self.render_grid2(data.objects);
+                    },
+                })
+
+            })
+            self.$el.find("#btn_daduyet").on('click', function () {
+                var filters = {
+                    filters: {
+                        "$and": [
+                            { "kiemduyet": { "$eq": "daduyet" } }
+                        ]
+                    },
+                    order_by: [{ "field": "created_at", "direction": "asc" }]
+                }
+                $.ajax({
+                    url: self.getApp().serviceURL + "/api/v1/user?results_per_page=100000&max_results_per_page=1000000",
+                    method: "GET",
+                    data: "q=" + JSON.stringify(filters),
+                    contentType: "application/json",
+                    success: function (data) {
+                        self.render_grid2(data.objects);
+                    },
+                })
+
+            })
+            self.$el.find("#btn_khongduyet").on('click', function () {
+                var filters = {
+                    filters: {
+                        "$and": [
+                            { "kiemduyet": { "$eq": "khongduyet" } }
+                        ]
+                    },
+                    order_by: [{ "field": "created_at", "direction": "asc" }]
+                }
+                $.ajax({
+                    url: self.getApp().serviceURL + "/api/v1/user?results_per_page=100000&max_results_per_page=1000000",
+                    method: "GET",
+                    data: "q=" + JSON.stringify(filters),
+                    contentType: "application/json",
+                    success: function (data) {
+                        self.render_grid2(data.objects);
+                    },
+                })
+
             })
         },
         render_grid2: function (dataSource) {
@@ -53,15 +114,23 @@ define(function (require) {
             if (self.getApp().currentUser.config.lang == "VN") {
                 no_records = "Chưa có dữ liệu";
             }
-
-            var element = self.$el.find("#grid_all");
+            // var element;
+            // if (status == 0) {
+            //     element = self.$el.find("#all");
+            // }
+            // else if (status == 1) {
+            //     element = self.$el.find("#all");
+            // }
+            // else if (status == 2) {
+            //     element = self.$el.find("#all");
+            // }
+            var element = self.$el.find("#all");
             element.grid({
                 // showSortingIndicator: true,
                 orderByMode: "client",
                 language: {
                     no_records_found: no_records,
                 },
-               
                 noResultsClass: "alert alert-default no-records-found",
                 fields: [
                     {
@@ -88,6 +157,7 @@ define(function (require) {
                 dataSource: dataSource,
                 primaryField: "id",
                 selectionMode: false,
+                refresh: true,
                 pagination: {
                     page: 1,
                     pageSize: 100

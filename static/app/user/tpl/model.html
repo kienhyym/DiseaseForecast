@@ -22,7 +22,7 @@
 						<div class="col-md-5 text-right btn-taomoi">
 							<div class="btn-back btn btn-secondary">{{QUAY_LAI}}</div>
 							<div class="btn-luu btn btn-success">{{TAO_MOI}}</div>
-							
+
 						</div>
 						<div class="col-md-5 text-right toolTaoMoi">
 							<div class="btn-backid btn btn-secondary">{{QUAY_LAI}}</div>
@@ -39,7 +39,7 @@
 								<label>{{TEN}}</label>
 								<input type="text" id="name" class="form-control" data-bind="value:name"
 									placeholder="{{NHAP_TEN}}" required="">
-								
+
 							</div>
 
 
@@ -52,51 +52,72 @@
 
 
 						</div>
-						<div class="row mb-3">
-							<div class="col-md-6">
-								<label for="phone_number">{{SO_DIEN_THOAI}}</label>
-								<input type="text" class="form-control" id="phone_number" data-bind="value:phone_number"
-									placeholder="{{NHAP_PHONE}}"" required="">
+						<div class=" row mb-3">
+								<div class="col-md-6">
+									<label for="phone_number">{{SO_DIEN_THOAI}}</label>
+									<input type="text" class="form-control" id="phone_number"
+										data-bind="value:phone_number" placeholder="{{NHAP_PHONE}}"" required="">
 							</div>
-							<div class="col-md-6">
-								<label for="phone_zalo">{{SO_DIEN_THOAI_DANG_KY_ZALO}} <a
-										href="https://zalo.me/1924532547349265830">{{DANG_KY_NHAN_THONG_BAO}}</a></label>
-								<input type="text" class="form-control" id="phone_zalo" data-bind="value:phone_zalo"
-									placeholder="{{NHAP_PHONE_ZALO}}"" required="">
+							<div class=" col-md-6">
+									<label for="phone_zalo">{{SO_DIEN_THOAI_DANG_KY_ZALO}} <a
+											href="https://zalo.me/1924532547349265830">{{DANG_KY_NHAN_THONG_BAO}}</a></label>
+									<input type="text" class="form-control" id="phone_zalo" data-bind="value:phone_zalo"
+										placeholder="{{NHAP_PHONE_ZALO}}"" required="">
 							</div>
 
 						</div>
 						<div class="mb-3">
 							<label>{{DON_VI}}</label>
-							<div id="donvi_selecter" style="position: relative">
-								<input type='text' id='donvi_combobox' />
-								<input type="text" placeholder="{{CHON_DONVI}}" id="input_gia" class="form-control" style="position: absolute;top:0px;left:0px;">
-								<label for="donvi_combobox" id="cotent-label" class="m-0 p-0">
-								</label>
+							<div id=" donvi_selecter" style="position: relative">
+									<input autofocus="" type="text" autocomplete="off" id='donvi_combobox' />
+									<input type="text" autofocus="" autocomplete="off" placeholder="{{CHON_DONVI}}"
+										id="input_gia" class="form-control"
+										style="position: absolute;top:0px;left:0px;">
+									<label for="donvi_combobox" id="cotent-label" class="m-0 p-0">
+									</label>
+								</div>
 							</div>
-						</div>
-						<!-- <div class="row mb-3">
+							<!-- <div class="row mb-3">
 							<div class="col-md-12">
 								<label>Đơn vị<span class="text-muted"></span></label>
 								<input id="donvi" type="text" data-bind="dict:donvi" />
 							</div>
 
 						</div> -->
-						<div class="row mb-3">
-							<!-- <div class="col-md-6" style="pointer-events: none; opacity: 0.52;">
-								<label>Nhận các loại thông báo <span class="text-muted"></span></label>
-								<input type="text" data-bind="list:roles" />
-							</div> -->
-
-							<div class="col-md-6 pass">
+							<!-- <div class="row mb-3">
+								<div class="col-md-6 pass">
 								<label for="password">{{MAT_KHAU}}</label>
 								<input type="password" class="form-control" id="password" data-bind="value:password"
 									placeholder="{{NHAP_PASS}}" required>
 							</div>
+						</div> -->
 
 
-						</div>
-						
+							<div class="row mb-3">
+								
+								<div class="col-md-6">
+									<label>Nhận thông báo qua kênh<span class="text-muted"></span></label>
+									<div class="row">
+										<div class="col-md-4">
+											<label>Email</label>
+											<input type='text' data-bind="value:thongbaoemail" />
+										</div>
+										<div class="col-md-4">
+											<label>Zalo</label>
+											<input type='text' data-bind="value:thongbaozalo" />
+										</div>
+										<div class="col-md-4">
+											<label>Sms</label>
+											<input type='text' data-bind="value:thongbaosms" />
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<label for="trangthai">Trạng thái</label>
+									<input type="text" class="form-control" id="trangthai" data-bind="value:kiemduyet"
+										placeholder="Trạng thái" required>
+								</div>
+							</div>
 
 					</form>
 				</div>

@@ -10,18 +10,25 @@
     <div class="col">
         <div class="card  card-small mb-4">
             <div class="card-header">
-                <!-- <div block-bind="toolbar"></div> -->
                 <div>
                     <div class="btn-taomoi btn btn-success">{{TAO_MOI}}</div>
                 </div>
             </div>
-            <!-- <div class="card-body">
-                <div id="grid" data-bind='collection:$collection'></div>
-            </div> -->
             <div class="card-body">
-                <div id="grid_all"></div>
-            </div>
-            
+				<div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
+					
+					<label class="btn btn-outline-primary active" id="btn_daduyet" >
+						<input type="radio" name="options" id="option2" autocomplete="off" checked>Đã duyệt
+					</label>
+					<label class="btn btn-outline-primary" id="btn_chuaduyet">
+						<input type="radio" name="options" id="option3" autocomplete="off">Chờ duyệt
+                    </label>
+                    <label class="btn btn-outline-primary" id="btn_khongduyet">
+						<input type="radio" name="options" id="option3" autocomplete="off">không duyệt
+					</label>
+				</div>
+				<div id="all" class="all"></div>
+			</div>
         </div>
     </div>
 </div>

@@ -125,6 +125,10 @@ def register(request):
         new_user.xaphuong_id = data["xaphuong_id"]
         new_user.donvicaptren_id = data["donvicaptren_id"]
         new_user.id_nguoitao = data["id_nguoitao"]
+        new_user.thongbaoemail = data["thongbaoemail"]
+        new_user.thongbaozalo = data["thongbaozalo"]
+        new_user.thongbaosms = data["thongbaosms"]
+
 
         # new_user.user_image = data["user_image"]
         new_user.password = auth.encrypt_password(data["password"])

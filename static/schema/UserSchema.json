@@ -80,6 +80,26 @@
             "lang": "VN"
         }
     },
+    "kiemduyet": {
+        "type": "string",
+        "length": 25,
+        "default": "chuaduyet"
+    },
+    "thongbaoemail": {
+        "type": "string",
+        "length": 5,
+        "default": "no"
+    },
+    "thongbaozalo": {
+        "type": "string",
+        "length": 5,
+        "default": "no"
+    },
+    "thongbaosms": {
+        "type": "string",
+        "length": 5,
+        "default": "no"
+    },
     "donvi": {
         "type": "dict"
     },

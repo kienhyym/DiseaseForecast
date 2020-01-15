@@ -89,17 +89,72 @@ define(function (require) {
 			}],
 		uiControl: {
 			fields: [
-
+				{
+					field: "kiemduyet",
+					uicontrol: "combobox",
+					textField: "text",
+					valueField: "value",
+					dataSource: [
+						{ "value": "daduyet", "text": "Đã duyệt" },
+						{ "value": "chuaduyet", "text": "Chưa duyệt" },
+						{ "value": "khongduyet", "text": "Không duyệt" },
+					],
+				},
+				{
+					field: "thongbaoemail",
+					uicontrol: "checkbox",
+					checkedField: "key",
+					valueField: "value",
+					dataSource: [{
+						"value": "yes",
+						"key": true
+					},
+					{
+						"value": "no",
+						"key": false
+					},
+					],
+				},
+				{
+					field: "thongbaosms",
+					uicontrol: "checkbox",
+					checkedField: "key",
+					valueField: "value",
+					dataSource: [{
+						"value": "yes",
+						"key": true
+					},
+					{
+						"value": "no",
+						"key": false
+					},
+					],
+				},
+				{
+					field: "thongbaozalo",
+					uicontrol: "checkbox",
+					checkedField: "key",
+					valueField: "value",
+					dataSource: [{
+						"value": "yes",
+						"key": true
+					},
+					{
+						"value": "no",
+						"key": false
+					},
+					],
+				},
 			]
 		},
 
 		render: function () {
 			var self = this;
+		
 			var translatedTemplate = gonrin.template(template)(LANG);
 			self.$el.html(translatedTemplate);
 
 			console.log(self.getApp().translate("TIEU_DE"));
-
 
 			self.$el.find('.toolTaoMoi').hide();
 			if (window.location.hash.length < 15) {
@@ -140,22 +195,18 @@ define(function (require) {
 						}
 					}
 				});
-
-
 			});
 			var id = this.getApp().getRouter().getParam("id");
 			if (id) {
 				this.model.set('id', id);
 				this.model.fetch({
 					success: function (data) {
-
 						if (self.model.get("id") == self.getApp().currentUser.id) {
 							self.$el.find("#donvi_selecter").css("pointer-events", "none")
 							self.$el.find(".btn-xoaid").hide();
 							var arr = [];
 							arr.push(self.model.get("donvi"));
 							if (self.model.get("donvi_id") != null) {
-
 								self.$el.find('#donvi_combobox').combobox({
 									textField: "ten",
 									valueField: "id",
@@ -164,8 +215,6 @@ define(function (require) {
 								});
 								self.$el.find("#input_gia").val($('#donvi_combobox').data('gonrin').getText());
 							}
-
-
 						} else {
 							self.setDonViID();
 						}
@@ -177,10 +226,7 @@ define(function (require) {
 						if (self.model.get('id')) {
 							self.$el.find('.toolTaoMoi').show();
 							self.$el.find('.btn-taomoi').hide();
-
 						}
-						self.$el.find('.pass').hide();
-
 						self.$el.find(".btn-backid").unbind("click").bind("click", function () {
 							Backbone.history.history.back();
 						});
@@ -229,6 +275,10 @@ define(function (require) {
 		},
 		setDonVi: function () {
 			var self = this;
+			self.$el.find('#trangthai').on('change.gonrin', function (e) {
+				var idDonViDaChon = $('#trangthai').data('gonrin').getValue();
+				console.log(idDonViDaChon)
+			})
 			$.ajax({
 				url: self.getApp().serviceURL + "/api/v1/donvi?results_per_page=100000&max_results_per_page=1000000",
 				method: "GET",
@@ -297,6 +347,7 @@ define(function (require) {
 							}
 						})
 						self.$el.find(".btn-luu").unbind("click").bind("click", function () {
+							
 							if (self.$el.find("#name").val() == null || self.$el.find("#name").val() == "") {
 								if (self.getApp().currentUser.config.lang == "VN") {
 									self.getApp().notify({ message: "Hãy điền tên của bạn." }, { type: "danger", delay: 1000 });
@@ -322,14 +373,7 @@ define(function (require) {
 									self.getApp().notify({ message: "please ! Please enter your phone number." }, { type: "danger", delay: 1000 });
 								}
 							}
-							if (self.$el.find("#password").val() == null || self.$el.find("#password").val() == "") {
-								if (self.getApp().currentUser.config.lang == "VN") {
-									self.getApp().notify({ message: "Hãy điền mật khẩu của bạn." }, { type: "danger", delay: 1000 });
-
-								} else {
-									self.getApp().notify({ message: "please ! Please enter your password." }, { type: "danger", delay: 1000 });
-								}
-							}
+							
 							else {
 								$.ajax({
 									method: "POST",
@@ -339,7 +383,7 @@ define(function (require) {
 										name: self.$el.find("#name").val(),
 										phone_number: self.$el.find("#phone_number").val(),
 										phone_zalo: self.$el.find("#phone_zalo").val(),
-										password: self.$el.find("#password").val(),
+										password: 'asdasdc',
 										donvi_id: idDonViDaChon,
 										captren_stt: donViDaChon.captren_id,
 										tinhthanh_id: donViDaChon.tinhthanh_id,
@@ -399,14 +443,7 @@ define(function (require) {
 								self.getApp().notify({ message: "please ! Please enter your phone number." }, { type: "danger", delay: 1000 });
 							}
 						}
-						if (self.$el.find("#password").val() == null || self.$el.find("#password").val() == "") {
-							if (self.getApp().currentUser.config.lang == "VN") {
-								self.getApp().notify({ message: "Hãy điền mật khẩu của bạn." }, { type: "danger", delay: 1000 });
-
-							} else {
-								self.getApp().notify({ message: "please ! Please enter your password." }, { type: "danger", delay: 1000 });
-							}
-						}
+						
 						else {
 							$.ajax({
 								method: "POST",
@@ -416,7 +453,7 @@ define(function (require) {
 									name: self.$el.find("#name").val(),
 									phone_number: self.$el.find("#phone_number").val(),
 									phone_zalo: self.$el.find("#phone_zalo").val(),
-									password: self.$el.find("#password").val(),
+									password: 'asdsavdfad',
 									donvi_id: null,
 									captren_stt: null,
 									tinhthanh_id: null,
@@ -568,14 +605,7 @@ define(function (require) {
 									self.getApp().notify({ message: "please ! Please enter your phone number." }, { type: "danger", delay: 1000 });
 								}
 							}
-							if (self.$el.find("#password").val() == null || self.$el.find("#password").val() == "") {
-								if (self.getApp().currentUser.config.lang == "VN") {
-									self.getApp().notify({ message: "Hãy điền mật khẩu của bạn." }, { type: "danger", delay: 1000 });
-
-								} else {
-									self.getApp().notify({ message: "please ! Please enter your password." }, { type: "danger", delay: 1000 });
-								}
-							}
+							
 							else {
 								$.ajax({
 									method: "PUT",
@@ -585,7 +615,7 @@ define(function (require) {
 										name: self.$el.find("#name").val(),
 										phone_number: self.$el.find("#phone_number").val(),
 										phone_zalo: self.$el.find("#phone_zalo").val(),
-										password: self.$el.find("#password").val(),
+										password: 'asvervac',
 										donvi_id: idDonViDaChon,
 										captren_stt: donViDaChon.captren_id,
 										tinhthanh_id: donViDaChon.tinhthanh_id,
@@ -623,7 +653,8 @@ define(function (require) {
 					self.$el.find("#input_gia").focusout(function () {
 						setTimeout(function () {
 							self.$el.find("#donvi_selecter div div .dropdown-menu").css("display", "none")
-						}, 300);
+						}, 300);				console.log(idDonViDaChon)
+
 					});
 				},
 				error: function (xhr, status, error) { }
