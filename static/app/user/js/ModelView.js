@@ -167,13 +167,78 @@ define(function (require) {
 			self.$el.find(".btn-backid").unbind("click").bind("click", function () {
 				Backbone.history.history.back();
 			});
+			var truoc = self.model.get('kiemduyet')
 			self.$el.find(".btn-luuid").unbind("click").bind("click", function () {
+				var sau = self.model.get('kiemduyet')
+				
 				self.model.save(null, {
 					success: function (model, respose, options) {
 						if (self.getApp().currentUser.config.lang == "VN") {
 							self.getApp().notify("Lưu thông tin thành công");
+							if(truoc == "chuaduyet" && sau == 'daduyet'){
+								$.ajax({
+									type: "POST",
+									url: "https://upstart.vn/services/api/email/send",
+									data: JSON.stringify({
+										from: {
+											"id": "canhbaosotxuathuyet@gmail.com",
+											"password": "kocopass",
+										},
+										"to": self.model.get('email'),
+										"message": 'Thông tin của bạn đã được phê duyệt, Bây giờ bạn có thể nhận được thông báo sốt xuất huyết',
+										"subject": 'Thông báo từ hệ thống cảnh báo dịch sốt xuất huyết',
+									}),
+									success: function (response) {
+										if (self.getApp().currentUser.config.lang == "VN") {
+											self.getApp().notify("Đã gưi thành công");
+										} else {
+											self.getApp().notify("sent successfully");
+										}
+	
+									},
+									error: function (response) {
+										if (self.getApp().currentUser.config.lang == "VN") {
+											self.getApp().notify({ message: "Tài khoản hoặc mật khẩu gmail không chính xác" }, { type: "danger", delay: 1000 });
+	
+										} else {
+											self.getApp().notify({ message: "incorrect email account or password" }, { type: "danger", delay: 1000 });
+										}
+									}
+								});
+							}
 						} else {
 							self.getApp().notify("Information saved successfully");
+							if(truoc == "chuaduyet" && sau == 'daduyet'){
+								$.ajax({
+									type: "POST",
+									url: "https://upstart.vn/services/api/email/send",
+									data: JSON.stringify({
+										from: {
+											"id": "canhbaosotxuathuyet@gmail.com",
+											"password": "kocopass",
+										},
+										"to": self.model.get('email'),
+										"message": 'Your information has been approved, You can now receive dengue alerts',
+										"subject": 'Notice from the system',
+									}),
+									success: function (response) {
+										// if (self.getApp().currentUser.config.lang == "VN") {
+										// 	self.getApp().notify("Đã gưi thành công");
+										// } else {
+										// 	self.getApp().notify("sent successfully");
+										// }
+	
+									},
+									error: function (response) {
+										// if (self.getApp().currentUser.config.lang == "VN") {
+										// 	self.getApp().notify({ message: "Tài khoản hoặc mật khẩu gmail không chính xác" }, { type: "danger", delay: 1000 });
+	
+										// } else {
+										// 	self.getApp().notify({ message: "incorrect email account or password" }, { type: "danger", delay: 1000 });
+										// }
+									}
+								});
+							}
 						} self.getApp().getRouter().navigate(self.collectionName + "/collection");
 					},
 					error: function (xhr, status, error) {
@@ -228,32 +293,32 @@ define(function (require) {
 
 						
 						
-						// self.$el.find(".btn-xoaid").unbind("click").bind("click", function () {
+						self.$el.find(".btn-xoaid").unbind("click").bind("click", function () {
 
-						// 	$.ajax({
-						// 		url: self.getApp().serviceURL + "/api/v1/user/" + self.model.get("id"),
-						// 		method: "DELETE",
-						// 		headers: {
-						// 			'content-type': 'application/json'
-						// 		},
-						// 		dataType: 'json',
-						// 		success: function (data, res) {
-						// 			if (self.getApp().currentUser.config.lang == "VN") {
-						// 				self.getApp().notify("Xóa thông tin thành công");
-						// 			} else {
-						// 				self.getApp().notify("Information deleted successfully");
-						// 			} self.getApp().getRouter().navigate(self.collectionName + "/collection");
-						// 		},
-						// 		error: function (xhr, status, error) {
-						// 			if (self.getApp().currentUser.config.lang == "VN") {
-						// 				self.getApp().notify({ message: "Lỗi không lấy được dữ liệu!" }, { type: "danger", delay: 1000 });
+							$.ajax({
+								url: self.getApp().serviceURL + "/api/v1/user/" + self.model.get("id"),
+								method: "DELETE",
+								headers: {
+									'content-type': 'application/json'
+								},
+								dataType: 'json',
+								success: function (data, res) {
+									if (self.getApp().currentUser.config.lang == "VN") {
+										self.getApp().notify("Xóa thông tin thành công");
+									} else {
+										self.getApp().notify("Information deleted successfully");
+									} self.getApp().getRouter().navigate(self.collectionName + "/collection");
+								},
+								error: function (xhr, status, error) {
+									if (self.getApp().currentUser.config.lang == "VN") {
+										self.getApp().notify({ message: "Lỗi không lấy được dữ liệu!" }, { type: "danger", delay: 1000 });
 
-						// 			} else {
-						// 				self.getApp().notify({ message: "Error!! Could not retrieve data" }, { type: "danger", delay: 1000 });
-						// 			}
-						// 		},
-						// 	});
-						// });
+									} else {
+										self.getApp().notify({ message: "Error!! Could not retrieve data" }, { type: "danger", delay: 1000 });
+									}
+								},
+							});
+						});
 
 						self.applyBindings();
 

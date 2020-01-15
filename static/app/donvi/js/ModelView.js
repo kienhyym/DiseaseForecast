@@ -496,7 +496,9 @@ define(function (require) {
 			var filters = {
 				filters: {
 					"$and": [
-						{ "donvi_id": { "$eq": self.model.get("id") } }
+						{ "donvi_id": { "$eq": self.model.get("id") } },
+						{ "kiemduyet": { "$eq": 'daduyet' } }
+
 					]
 				},
 				order_by: [{ "field": "created_at", "direction": "asc" }]
@@ -544,7 +546,9 @@ define(function (require) {
 			var filters = {
 				filters: {
 					"$and": [
-						{ "donvi_id": { "$eq": self.model.get("id") } }
+						{ "donvi_id": { "$eq": self.model.get("id") } },
+						{ "kiemduyet": { "$eq": 'daduyet' } }
+
 					]
 				},
 				order_by: [{ "field": "created_at", "direction": "asc" }]
@@ -620,7 +624,9 @@ define(function (require) {
 			var filters = {
 				filters: {
 					"$and": [
-						{ "donvi_id": { "$eq": self.model.get("id") } }
+						{ "donvi_id": { "$eq": self.model.get("id") } },
+						{ "kiemduyet": { "$eq": 'daduyet' } }
+
 					]
 				},
 				order_by: [{ "field": "created_at", "direction": "asc" }]
@@ -770,7 +776,9 @@ define(function (require) {
 			var filters = {
 				filters: {
 					"$and": [
-						{ "donvi_id": { "$eq": self.model.get("id") } }
+						{ "donvi_id": { "$eq": self.model.get("id") } },
+						{ "kiemduyet": { "$eq": 'daduyet' } }
+
 					]
 				},
 				order_by: [{ "field": "created_at", "direction": "asc" }]
