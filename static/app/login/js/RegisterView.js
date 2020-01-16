@@ -219,6 +219,9 @@ define(function (require) {
                 error: function (xhr, status, error) { }
             });
             // self.registerEvent();
+            self.$el.find("#btn-back").unbind("click").bind("click", function () {
+                self.getApp().getRouter().navigate("login");
+            });
         },
 
         registerEvent: function () {

@@ -24,8 +24,10 @@ define(function (require) {
                 localStorage.setItem("language", "VN");
                 self.getApp().getRouter().navigate("register");
             })
+            self.$el.find("#btn-back").unbind("click").bind("click", function () {
+                self.getApp().getRouter().navigate("login");
+            });
             self.applyBindings();
-            var self = this;
             $.ajax({
                 url: self.getApp().serviceURL + "/api/v1/donvi?results_per_page=100000&max_results_per_page=1000000",
                 method: "GET",
