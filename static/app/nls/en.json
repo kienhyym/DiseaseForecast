@@ -100,7 +100,12 @@
     "TAO_MOI":"Create",
     "SUA":"Save",
     "QUAY_LAI":"Back",
-    "TEN_PM":"Dengue Notification Module"
+    "TEN_PM":"Dengue Notification Module",
 
 
+    "DA_DUYET":"Approved",
+    "CHO_DUYET":"Pending",
+    "KHONG_DUYET":"Disagree",
+    "YEU_CAU_HUY":"Request cancellation",
+    "DA_DUYET_HUY":"Agree to cancel"
 }

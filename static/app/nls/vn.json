@@ -104,6 +104,12 @@
     "DON_VI_CUA_TOI": "<i class='material-icons text-danger'></i>Đơn vị của tôi",
     "DOI_MAT_KHAU": "<i class='material-icons text-danger'></i>Thay đổi mật khẩu",
     "DANG_XUAT": "<i class='material-icons text-danger'></i>Đăng xuất",
-    "TEN_PM":"Dự Báo Sốt Xuất Huyết"
+    "TEN_PM":"Dự Báo Sốt Xuất Huyết",
 
+
+    "DA_DUYET":"Đã duyệt",
+    "CHO_DUYET":"Chờ duyệt",
+    "KHONG_DUYET":"Không duyệt",
+    "YEU_CAU_HUY":"Yêu cầu hủy",
+    "DA_DUYET_HUY":"Đã duyệt hủy"
 }
