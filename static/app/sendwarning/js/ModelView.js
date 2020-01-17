@@ -472,10 +472,6 @@ define(function (require) {
 				},
 				order_by: [{ "field": "created_at", "direction": "asc" }]
 			}
-
-
-
-
 			$.ajax({
 				url: self.getApp().serviceURL + "/api/v1/user?results_per_page=100000&max_results_per_page=1000000",
 				data: "q=" + JSON.stringify(filters),

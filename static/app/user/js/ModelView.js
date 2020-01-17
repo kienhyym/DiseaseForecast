@@ -308,6 +308,37 @@ define(function (require) {
 												}
 											});
 										}
+										if(truoc == "yeucauhuy" && sau == 'dongyhuy'){
+											$.ajax({
+												type: "POST",
+												url: "https://upstart.vn/services/api/email/send",
+												data: JSON.stringify({
+													from: {
+														"id": "canhbaosotxuathuyet@gmail.com",
+														"password": "kocopass",
+													},
+													"to": self.model.get('email'),
+													"message": 'Yêu cầu hủy nhận thông báo của bạn được duyệt, bạn sẽ không nhận được thông báo nữa',
+													"subject": 'Thông báo từ hệ thống cảnh báo dịch sốt xuất huyết',
+												}),
+												success: function (response) {
+													if (self.getApp().currentUser.config.lang == "VN") {
+														self.getApp().notify("Đã gưi thành công");
+													} else {
+														self.getApp().notify("sent successfully");
+													}
+				
+												},
+												error: function (response) {
+													if (self.getApp().currentUser.config.lang == "VN") {
+														self.getApp().notify({ message: "Tài khoản hoặc mật khẩu gmail không chính xác" }, { type: "danger", delay: 1000 });
+				
+													} else {
+														self.getApp().notify({ message: "incorrect email account or password" }, { type: "danger", delay: 1000 });
+													}
+												}
+											});
+										}
 									} else {
 										self.getApp().notify("Information saved successfully");
 										if(truoc == "chuaduyet" && sau == 'daduyet'){
@@ -338,6 +369,37 @@ define(function (require) {
 													// } else {
 													// 	self.getApp().notify({ message: "incorrect email account or password" }, { type: "danger", delay: 1000 });
 													// }
+												}
+											});
+										}
+										if(truoc == "yeucauhuy" && sau == 'dongyhuy'){
+											$.ajax({
+												type: "POST",
+												url: "https://upstart.vn/services/api/email/send",
+												data: JSON.stringify({
+													from: {
+														"id": "canhbaosotxuathuyet@gmail.com",
+														"password": "kocopass",
+													},
+													"to": self.model.get('email'),
+													"message": 'Your request to cancel your notice is approved, you will no longer receive it',
+													"subject": 'Notice from the system',
+												}),
+												success: function (response) {
+													if (self.getApp().currentUser.config.lang == "VN") {
+														self.getApp().notify("Đã gưi thành công");
+													} else {
+														self.getApp().notify("sent successfully");
+													}
+				
+												},
+												error: function (response) {
+													if (self.getApp().currentUser.config.lang == "VN") {
+														self.getApp().notify({ message: "Tài khoản hoặc mật khẩu gmail không chính xác" }, { type: "danger", delay: 1000 });
+				
+													} else {
+														self.getApp().notify({ message: "incorrect email account or password" }, { type: "danger", delay: 1000 });
+													}
 												}
 											});
 										}

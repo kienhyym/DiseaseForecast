@@ -101,6 +101,54 @@ async def changepassword(request):
             db.session.commit()
             return json({})
 
+@app.route('/api/v1/yeucauhuy', methods=['POST'])
+def yeucauhuy(request):
+    data = request.json
+    print("===================yeu cau huye ++++++++++++", data)
+    user = db.session.query(User).filter(or_(User.email==data["email"], User.phone_number==data["phone_number"])).first()
+    if user is not None:
+        print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",to_dict(user)["id"])
+        user_info = db.session.query(User).filter(User.id == to_dict(user)["id"]).first()
+        user_info.kiemduyet = 'yeucauhuy'
+        db.session.commit()
+        if to_dict(user)["config"] is not None:
+            if to_dict(user)["config"]["lang"] == 'VN':
+                email_info = {
+                "from": {
+                    "id": "canhbaosotxuathuyet@gmail.com",
+                    "password": "kocopass"
+                },
+                "to": user_info.email,
+                "message": "Yêu cầu đang chờ xét duyệt",
+                "subject": "Yêu cầu hủy đăng ký nhận thông báo"
+            } 
+            if to_dict(user_info)["config"]["lang"] == 'EN':
+                email_info = {
+                "from": {
+                    "id": "canhbaosotxuathuyet@gmail.com",
+                    "password": "kocopass"
+                },
+                "to": user_info.email,
+                "message": "Your request is pending review",
+                "subject": "Request to unsubscribe from notifications"
+                }     
+        else:
+            email_info = {
+            "from": {
+                "id": "canhbaosotxuathuyet@gmail.com",
+                "password": "kocopass"
+            },
+            "to": user_info.email,
+            "message": "Your request is pending review",
+            "subject": "Request to unsubscribe from notifications"
+            }
+        url = "https://upstart.vn/services/api/email/send"
+        re = requests.post(url=url, data=json_load.dumps(email_info))
+
+        return json({"error_code":"0","error_message":"successful"})
+    else :
+        return json({"error_message": "Email or phone number does not exist in the system"}, status = 520)
+
 
 @app.route('/api/v1/register', methods=["POST"])
 def register(request):

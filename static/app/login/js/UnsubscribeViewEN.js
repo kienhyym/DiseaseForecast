@@ -21,23 +21,21 @@ define(function (require) {
 
                 $.ajax({
                     type: "POST",
-                    url: self.getApp().serviceURL + "/api/v1/newpassword",
+                    url: self.getApp().serviceURL + "/api/v1/yeucauhuy",
                     data: JSON.stringify({
-                        email: self.$el.find("#txtvalue").val()
+                        email: self.$el.find("#txtvalue").val(),
+                        phone_number: self.$el.find("#txtvalue").val()
                     }),
                     headers: {
                         'content-type': 'application/json'
                     },
                     dataType: 'json',
                     success: function (data, res) {
-                        self.getApp().notify({ message: "Password successfully recovered" });
-
-                        self.getApp().getRouter().navigate("login");
-
-
+                            self.getApp().notify({ message: "Request successful" });
+                            self.getApp().getRouter().navigate("login");
                     },
                     error: function (xhr, status, error) {
-                        self.getApp().notify({ message: "Account not in the system" }, { type: "danger", delay: 1000 });
+                            self.getApp().notify({ message: "Email or phone number does not exist in the system" }, { type: "danger", delay: 1000 });
                     },
                 });
             });
