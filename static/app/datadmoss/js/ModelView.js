@@ -141,6 +141,7 @@ define(function (require) {
 			var self = this;
 
 			self.$el.find(".luutin").unbind('click').bind('click', function () {
+				sessionStorage.setItem('IDDMOSS',self.model.get('id'))
 				sessionStorage.setItem('title', self.$el.find('#tieude').val())
 				sessionStorage.setItem('noidung', self.$el.find('#noidung').val());
 				window.location = self.getApp().serviceURL + "/?#sendwarning/model";

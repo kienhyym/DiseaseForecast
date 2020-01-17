@@ -24,6 +24,9 @@ define(function(require) {
             $("#register-btn").unbind('click').bind('click', function(){
                 self.getApp().getRouter().navigate("register");
             });
+            $("#unsubscribe-btn").unbind('click').bind('click', function(){
+                self.getApp().getRouter().navigate("unsubscribe");
+            });
             $("#forgot-btn").unbind('click').bind('click', function(){
                 self.getApp().getRouter().navigate("forgot");
         	});

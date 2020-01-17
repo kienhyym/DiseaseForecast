@@ -106,6 +106,8 @@ define(function (require) {
 						{ "value": "daduyet", "text": "Đã duyệt" },
 						{ "value": "chuaduyet", "text": "Chưa duyệt" },
 						{ "value": "khongduyet", "text": "Không duyệt" },
+						{ "value": "yeucauhuy", "text": "Yêu cầu hủy" },
+						{ "value": "dongyhuy", "text": "Duyệt yêu cầu hủy" },
 					],
 				},
 				{

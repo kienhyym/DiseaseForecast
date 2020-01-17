@@ -18,6 +18,9 @@ define(function(require) {
                 self.processLogin();
                 return false;
             });
+            $("#unsubscribe-btn").unbind('click').bind('click', function(){
+                self.getApp().getRouter().navigate("unsubscribeEN");
+            });
             $("#register-btn").unbind('click').bind('click', function(){
                 self.getApp().getRouter().navigate("registerEN");
             });

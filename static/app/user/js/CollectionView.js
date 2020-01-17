@@ -30,8 +30,10 @@ define(function (require) {
             var self = this;
             var filters = {
                 filters: {
-                    "$and": [
-                        { "kiemduyet": { "$eq": "daduyet" } }
+                    "$or": [
+                        { "kiemduyet": { "$eq": "daduyet" } },
+                        { "kiemduyet": { "$eq": "yeucauhuy" } }
+
                     ]
                 },
                 order_by: [{ "field": "created_at", "direction": "asc" }]
@@ -69,8 +71,10 @@ define(function (require) {
             self.$el.find("#btn_daduyet").on('click', function () {
                 var filters = {
                     filters: {
-                        "$and": [
-                            { "kiemduyet": { "$eq": "daduyet" } }
+                        "$or": [
+                            { "kiemduyet": { "$eq": "daduyet" } },
+                            { "kiemduyet": { "$eq": "yeucauhuy" } }
+
                         ]
                     },
                     order_by: [{ "field": "created_at", "direction": "asc" }]
@@ -91,6 +95,46 @@ define(function (require) {
                     filters: {
                         "$and": [
                             { "kiemduyet": { "$eq": "khongduyet" } }
+                        ]
+                    },
+                    order_by: [{ "field": "created_at", "direction": "asc" }]
+                }
+                $.ajax({
+                    url: self.getApp().serviceURL + "/api/v1/user?results_per_page=100000&max_results_per_page=1000000",
+                    method: "GET",
+                    data: "q=" + JSON.stringify(filters),
+                    contentType: "application/json",
+                    success: function (data) {
+                        self.render_grid2(data.objects);
+                    },
+                })
+
+            })
+            self.$el.find("#btn_yeucauhuy").on('click', function () {
+                var filters = {
+                    filters: {
+                        "$and": [
+                            { "kiemduyet": { "$eq": "yeucauhuy" } }
+                        ]
+                    },
+                    order_by: [{ "field": "created_at", "direction": "asc" }]
+                }
+                $.ajax({
+                    url: self.getApp().serviceURL + "/api/v1/user?results_per_page=100000&max_results_per_page=1000000",
+                    method: "GET",
+                    data: "q=" + JSON.stringify(filters),
+                    contentType: "application/json",
+                    success: function (data) {
+                        self.render_grid2(data.objects);
+                    },
+                })
+
+            })
+            self.$el.find("#btn_duyethuy").on('click', function () {
+                var filters = {
+                    filters: {
+                        "$and": [
+                            { "kiemduyet": { "$eq": "dongyhuy" } }
                         ]
                     },
                     order_by: [{ "field": "created_at", "direction": "asc" }]

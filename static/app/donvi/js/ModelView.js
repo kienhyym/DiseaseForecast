@@ -495,11 +495,21 @@ define(function (require) {
 			var self = this;
 			var filters = {
 				filters: {
-					"$and": [
-						{ "donvi_id": { "$eq": self.model.get("id") } },
-						{ "kiemduyet": { "$eq": 'daduyet' } }
-
+					"$or":[{
+						"$and": [
+							{ "donvi_id": { "$eq": self.model.get("id") } },
+							{ "kiemduyet": { "$eq": 'daduyet' } }
+						]
+					}
+					,
+					{
+						"$and": [
+							{ "donvi_id": { "$eq": self.model.get("id") } },
+							{ "kiemduyet": { "$eq": 'yeucauhuy' } }
+						],
+					}
 					]
+					
 				},
 				order_by: [{ "field": "created_at", "direction": "asc" }]
 			}
@@ -545,11 +555,21 @@ define(function (require) {
 			var self = this;
 			var filters = {
 				filters: {
-					"$and": [
-						{ "donvi_id": { "$eq": self.model.get("id") } },
-						{ "kiemduyet": { "$eq": 'daduyet' } }
-
+					"$or":[{
+						"$and": [
+							{ "donvi_id": { "$eq": self.model.get("id") } },
+							{ "kiemduyet": { "$eq": 'daduyet' } }
+						]
+					}
+					,
+					{
+						"$and": [
+							{ "donvi_id": { "$eq": self.model.get("id") } },
+							{ "kiemduyet": { "$eq": 'yeucauhuy' } }
+						],
+					}
 					]
+					
 				},
 				order_by: [{ "field": "created_at", "direction": "asc" }]
 			}
@@ -622,11 +642,21 @@ define(function (require) {
 			var self = this;
 			var filters = {
 				filters: {
-					"$and": [
-						{ "donvi_id": { "$eq": self.model.get("id") } },
-						{ "kiemduyet": { "$eq": 'daduyet' } }
-
+					"$or":[{
+						"$and": [
+							{ "donvi_id": { "$eq": self.model.get("id") } },
+							{ "kiemduyet": { "$eq": 'daduyet' } }
+						]
+					}
+					,
+					{
+						"$and": [
+							{ "donvi_id": { "$eq": self.model.get("id") } },
+							{ "kiemduyet": { "$eq": 'yeucauhuy' } }
+						],
+					}
 					]
+					
 				},
 				order_by: [{ "field": "created_at", "direction": "asc" }]
 			}
@@ -774,11 +804,21 @@ define(function (require) {
 			var self = this;
 			var filters = {
 				filters: {
-					"$and": [
-						{ "donvi_id": { "$eq": self.model.get("id") } },
-						{ "kiemduyet": { "$eq": 'daduyet' } }
-
+					"$or":[{
+						"$and": [
+							{ "donvi_id": { "$eq": self.model.get("id") } },
+							{ "kiemduyet": { "$eq": 'daduyet' } }
+						]
+					}
+					,
+					{
+						"$and": [
+							{ "donvi_id": { "$eq": self.model.get("id") } },
+							{ "kiemduyet": { "$eq": 'yeucauhuy' } }
+						],
+					}
 					]
+					
 				},
 				order_by: [{ "field": "created_at", "direction": "asc" }]
 			}

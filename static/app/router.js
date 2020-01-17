@@ -9,6 +9,8 @@ define(function (require) {
     var ForgotPasswordENView = require('app/login/js/ForgotPasswordENView');
     var RegisterView = require('app/login/js/RegisterView');
     var RegisterENView = require('app/login/js/RegisterViewEN');
+    var UnsubscribeView = require('app/login/js/UnsubscribeView');
+    var UnsubscribeViewEN = require('app/login/js/UnsubscribeViewEN');
     var IndexView = require('app/login/js/IndexView');
     var navdata = require('app/nav/route');
     return Gonrin.Router.extend({
@@ -17,6 +19,8 @@ define(function (require) {
             "login": "login",
             "loginEN": "loginEN",
             "logout": "logout",
+            "unsubscribe": "unsubscribe",
+            "unsubscribeEN":"unsubscribeEN",
             "forgot": "forgotPassword",
             "forgotEN": "forgotPasswordEN",
             "changepassword": "changepassword",
@@ -70,6 +74,14 @@ define(function (require) {
         forgotPasswordEN: function () {
             var forgotPassENView = new ForgotPasswordENView({ el: $('.content-contain') });
             forgotPassENView.render();
+        },
+        unsubscribe: function () {
+            var unsubscribeView = new UnsubscribeView({ el: $('.content-contain') });
+            unsubscribeView.render();
+        },
+        unsubscribeEN: function () {
+            var unsubscribeViewEN = new UnsubscribeViewEN({ el: $('.content-contain') });
+            unsubscribeViewEN.render();
         },
         changepassword: function () {
             var self = this;

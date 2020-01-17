@@ -57,21 +57,17 @@ define(function (require) {
 			if (id == null) {
 				self.setCanhBao();
 				self.setDonVi();
-
+				self.noidungtinnhan();
 			}
 			self.model.set('cc', sessionStorage.getItem('title'))
 			self.model.set('message2', sessionStorage.getItem('noidung'))
-
 			// self.$el.find("#content")[0].style.height = sessionStorage.getItem('rows') + 'px';
 			sessionStorage.clear();
-
 			self.$el.find(".send-all-chuyentiep").hide()
 			if (self.getApp().currentUser.config.lang == "VN") {
 				self.$el.find('.upload_files').attr('lang','vi')
 			} else {
 				self.$el.find('.upload_files').attr('lang','en')
-
-
 			}
 			self.bindEventSelect();
 			self.applyBindings();
@@ -152,6 +148,7 @@ define(function (require) {
 
 						self.setCanhBao();
 						self.setDonVi();
+						self.noidungtinnhan();
 
 						self.$el.find(".btn-xoa").unbind("click").bind('click', function () {
 							self.model.destroy({
@@ -457,14 +454,28 @@ define(function (require) {
 			var self = this;
 			var filters = {
 				filters: {
-					"$and": [
-						{ "thongbaoemail": { "$eq": 'yes' } },
-						{ "kiemduyet": { "$eq": 'daduyet' } }
-
+					"$or":[{
+						"$and": [
+							{ "thongbaoemail": { "$eq": 'yes' } },
+							{ "kiemduyet": { "$eq": 'daduyet' } }
+						]
+					}
+					,
+					{
+						"$and": [
+							{ "thongbaoemail": { "$eq": 'yes' } },
+							{ "kiemduyet": { "$eq": 'yeucauhuy' } }
+						],
+					}
 					]
+					
 				},
 				order_by: [{ "field": "created_at", "direction": "asc" }]
 			}
+
+
+
+
 			$.ajax({
 				url: self.getApp().serviceURL + "/api/v1/user?results_per_page=100000&max_results_per_page=1000000",
 				data: "q=" + JSON.stringify(filters),
@@ -580,14 +591,26 @@ define(function (require) {
 			var self = this;
 			var filters = {
 				filters: {
-					"$and": [
-						{ "thongbaozalo": { "$eq": 'yes' } },
-						{ "kiemduyet": { "$eq": 'daduyet' } }
-
+					"$or":[{
+						"$and": [
+							{ "thongbaozalo": { "$eq": 'yes' } },
+							{ "kiemduyet": { "$eq": 'daduyet' } }
+						]
+					}
+					,
+					{
+						"$and": [
+							{ "thongbaozalo": { "$eq": 'yes' } },
+							{ "kiemduyet": { "$eq": 'yeucauhuy' } }
+						],
+					}
 					]
+					
 				},
 				order_by: [{ "field": "created_at", "direction": "asc" }]
 			}
+
+
 			$.ajax({
 				url: self.getApp().serviceURL + "/api/v1/user?results_per_page=100000&max_results_per_page=1000000",
 				method: "GET",
@@ -756,7 +779,10 @@ define(function (require) {
 
 			})
 		},
-
+		noidungtinnhan: function () {
+			var self = this;
+			console.log('xxxxx')
+		},
 
 	});
 });
