@@ -163,6 +163,36 @@ define(function (require) {
 			var translatedTemplate = gonrin.template(template)(LANG);
 			self.$el.html(translatedTemplate);
 			// console.log(self.getApp().translate("TIEU_DE"));
+
+			if (self.getApp().currentUser.config.lang == "VN") {
+				self.$el.find('#trangthai').combobox({
+					textField: "text",
+					valueField: "value",
+					dataSource: [
+						{ "value": "daduyet", "text": "Đã duyệt" },
+						{ "value": "chuaduyet", "text": "Chưa duyệt" },
+						{ "value": "khongduyet", "text": "Không duyệt" },
+						{ "value": "yeucauhuy", "text": "Yêu cầu hủy" },
+						{ "value": "dongyhuy", "text": "Duyệt yêu cầu hủy" },
+					],
+					
+				});
+			} else {
+				self.$el.find('#trangthai').combobox({
+					textField: "text",
+					valueField: "value",
+					dataSource: [
+						{ "value": "daduyet", "text": "Approved" },
+						{ "value": "chuaduyet", "text": "Pending" },
+						{ "value": "khongduyet", "text": "Disagree" },
+						{ "value": "yeucauhuy", "text": "Request cancellation" },
+						{ "value": "dongyhuy", "text": "Agree to cancel" },
+					],
+					
+				});			}
+
+			
+				
 			
 			self.$el.find(".btn-backid").unbind("click").bind("click", function () {
 				Backbone.history.history.back();

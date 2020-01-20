@@ -111,5 +111,7 @@
     "CHO_DUYET":"Chờ duyệt",
     "KHONG_DUYET":"Không duyệt",
     "YEU_CAU_HUY":"Yêu cầu hủy",
-    "DA_DUYET_HUY":"Đã duyệt hủy"
+    "DA_DUYET_HUY":"Đã duyệt hủy",
+    "TRANG_THAI":"Trạng thái",
+    "NHAN_THONG_BAO_QUA_KENH":"Nhận thông báo qua kênh"
 }

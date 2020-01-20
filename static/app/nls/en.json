@@ -107,5 +107,8 @@
     "CHO_DUYET":"Pending",
     "KHONG_DUYET":"Disagree",
     "YEU_CAU_HUY":"Request cancellation",
-    "DA_DUYET_HUY":"Agree to cancel"
+    "DA_DUYET_HUY":"Agree to cancel",
+    "TRANG_THAI":"Status",
+    "NHAN_THONG_BAO_QUA_KENH":"Receive notifications via channel"
+
 }
