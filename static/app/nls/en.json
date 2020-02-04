@@ -1,6 +1,6 @@
 {
     "DANH_SACH_THONG_BAO_TU_D_MOSS": "Notification from D-MOSS",
-    "TIEU_DE": "Tittle",
+    "TIEU_DE": "Title",
     "NGAY_GUI": "Sent date",
     "NOI_DUNG_THONG_BAO": "Notification content",
     "NGUOI_GUI": "User sent",
@@ -51,7 +51,7 @@
     "XA_PHUONG": "Commune",
     "DIA_CHI": "Address",
     "DANH_SACH_NGUOI_DUNG_TRONG_DON_VI": "List of user in unit",
-    "NHAN_LOAI_THONG_BAO": "Receive type of notification",
+    "NHAN_LOAI_THONG_BAO": "Type of notification receiving",
     "VAI_TRO": "Role",
     "CHUYEN_TIEP":"forwarding",
 
