@@ -25,6 +25,10 @@ define(function (require) {
                 localStorage.setItem("language", "EN");
                 self.getApp().getRouter().navigate("registerEN");
             })
+            self.$el.find("#btn_vie").unbind('click').bind('click',function () {
+                localStorage.setItem("language", "VN");
+                self.getApp().getRouter().navigate("register");
+            })
             self.applyBindings();
             var self = this;
             $.ajax({

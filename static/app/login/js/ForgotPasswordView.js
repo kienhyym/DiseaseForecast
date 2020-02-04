@@ -16,6 +16,11 @@ define(function (require) {
                 localStorage.setItem("language", "EN");
                 self.getApp().getRouter().navigate("forgotEN");
             })
+            self.$el.find("#btn_vie").unbind('click').bind('click',function () {
+                localStorage.setItem("language", "VN");
+
+                self.getApp().getRouter().navigate("forgot");
+            })
             self.$el.find("#btn_forgot").unbind("click").bind("click", function () {
                 console.log('xxxx')
                 $.ajax({

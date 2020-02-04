@@ -37,6 +37,11 @@ define(function(require) {
                 self.getApp().getRouter().navigate("loginEN");
 
             })
+            self.$el.find("#btn_vie").unbind('click').bind('click',function () {
+                localStorage.setItem("language", "VN");
+                self.getApp().getRouter().navigate("login");
+            })
+
             if(localStorage.getItem("language") == "EN"){
                 self.getApp().getRouter().navigate("loginEN");
             }

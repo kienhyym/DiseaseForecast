@@ -24,6 +24,10 @@ define(function (require) {
                 localStorage.setItem("language", "VN");
                 self.getApp().getRouter().navigate("register");
             })
+            self.$el.find("#btn_eng").unbind('click').bind('click', function () {
+                localStorage.setItem("language", "EN");
+                self.getApp().getRouter().navigate("registerEN");
+            })
             self.$el.find("#btn-back").unbind("click").bind("click", function () {
                 self.getApp().getRouter().navigate("login");
             });

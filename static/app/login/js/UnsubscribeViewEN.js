@@ -15,8 +15,14 @@ define(function (require) {
             self.$el.find("#btn_vie").unbind('click').bind('click', function () {
                 localStorage.setItem("language", "VN");
 
-                self.getApp().getRouter().navigate("forgot");
+                self.getApp().getRouter().navigate("unsubscribe");
             })
+            self.$el.find("#btn_eng").unbind('click').bind('click', function () {
+                localStorage.setItem("language", "EN");
+                self.getApp().getRouter().navigate("unsubscribeEN");
+            })
+
+
             self.$el.find("#btn_unsubscribe").unbind("click").bind("click", function () {
 
                 $.ajax({
