@@ -121,34 +121,30 @@ async def link_file_upload_excel(request):
                 arr.append(obj)
                 i += 1
                 
-            k = 0
-            while k < 6:
-                j = k
-                date_string =  str(arr[k]['Date'])[5:7]+'/'+str(arr[k]['Date'])[8:10]+'/'+str(arr[k]['Date'])[0:4]
-                date = datetime.datetime.strptime(date_string, "%m/%d/%Y")
-                ngaygui = int(datetime.datetime.timestamp(date))
-
-                dataDMoss = DataDMoss()
-                dataDMoss.tieude = str(arr[k]['Title']) +' '+str(arr[k]['Month'])
-                dataDMoss.ngaygui = ngaygui
-                dataDMoss.type = "excel"
-                arr3 = {}
-                arr3['title'] = str(arr[k]['Title'])+' '+str(arr[k]['Month'])
-                arr2 = []
-                while j < count:
-                    obj = {}
-                    obj['Province'] = str(arr[j]['Province'])
-                    obj['ThresholdValue'] = str(arr[j]['ThresholdValue'])
-                    obj['ExceedanceProbability'] = str(arr[j]['ExceedanceProbability'])
-                    obj['ThresholdDescription'] = str(arr[j]['ThresholdDescription'])
-                    arr2.append(obj)
-                    j += 6
-                arr3['content'] = arr2
-                dataDMoss.data = arr3
-
-                db.session.add(dataDMoss)
-                db.session.commit()
-                k += 1
+            j = 0
+            date_string =  str(arr[j]['Date'])[5:7]+'/'+str(arr[j]['Date'])[8:10]+'/'+str(arr[j]['Date'])[0:4]
+            date = datetime.datetime.strptime(date_string, "%m/%d/%Y")
+            ngaygui = int(datetime.datetime.timestamp(date))
+            arr2 = []
+            while j < count:
+                obj = {}
+                obj['Province'] = str(arr[j]['Province'])
+                obj['Month'] = str(arr[j]['Month'])
+                obj['ThresholdValue'] = str(arr[j]['ThresholdValue'])
+                obj['ExceedanceProbability'] = str(arr[j]['ExceedanceProbability'])
+                obj['ThresholdDescription'] = str(arr[j]['ThresholdDescription'])
+                arr2.append(obj)
+                if j % 6 == 0:
+                    dataDMoss = DataDMoss()
+                    dataDMoss.tieude = str(arr[j]['Title']) +' '+str(arr[j]['Province'])
+                    dataDMoss.ngaygui = ngaygui
+                    dataDMoss.type = "excel"
+                    dataDMoss.nguoigui = "Dmoss system"
+                    dataDMoss.data = arr2
+                    arr2 = []
+                    db.session.add(dataDMoss)
+                    db.session.commit()
+                j += 1
             return json({'data':"success"})
     return json({
         "error_code": "Upload Error",

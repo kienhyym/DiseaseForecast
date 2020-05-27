@@ -74,13 +74,13 @@ define(function (require) {
 		noidung: function () {
 			var self = this;
 			if (self.model.get('type') == "excel") {
-				self.model.get('data').content.forEach(function (item, index) {
+				self.model.get('data').forEach(function (item, index) {
+					console.log(item)
 					self.$el.find("#noidung").append("\n")
-					self.$el.find("#noidung").append("\n" + (index + 1) + ". Tỉnh thành: " + item.Province)
+					self.$el.find("#noidung").append("\n" + (index + 1) + ".Month: " + item.Month)
 					self.$el.find("#noidung").append("\n Threshold Description: " + item.ThresholdDescription)
 					self.$el.find("#noidung").append("\n Threshold Value [cases]: " + item.ThresholdValue)
 					self.$el.find("#noidung").append("\n Exceedance Probability [%]: " + item.ExceedanceProbability)
-
 				})
 			}
 			else {
