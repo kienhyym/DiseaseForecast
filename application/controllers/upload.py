@@ -8,10 +8,13 @@ from gatco.response import json, text, html
 import io
 from PIL import Image
 import time
+import datetime
 import random, string
 import aiofiles
+import pandas
+import xlrd
+from application.models.models import DataDMoss
 
-    
 # @app.route('/api/v1/upload/file', methods=['POST'])
 # async def upload_file(request):
 #     ret = None
@@ -84,3 +87,70 @@ async def upload_file(request):
         "error_message": "Could not upload file to store"
     }, status=520)
 
+
+
+@app.route('/api/v1/link_file_upload_excel', methods=['POST'])
+async def link_file_upload_excel(request):
+    url = app.config['FILE_SERVICE_URL']
+    fsroot = app.config['FS_ROOT']
+    if request.method == 'POST':
+        file = request.files.get('file', None)
+        if file :
+            rand = ''.join(random.choice(string.digits) for _ in range(15))
+            file_name = os.path.splitext(file.name)[0]
+            extname = os.path.splitext(file.name)[1]
+            newfilename = file_name + "-" + rand + extname
+            new_filename = newfilename.replace(" ", "_")
+            async with aiofiles.open(fsroot + new_filename, 'wb+') as f:
+                await f.write(file.body)
+            df = pandas.read_excel("static/uploads/"+new_filename)
+
+            count = df.Province.count()
+            i = 0
+            arr = []
+            while i < count:
+                obj = {}
+                obj['Province'] = df.Province[i]
+                obj['Month'] = df.Month[i]
+                obj['ThresholdDescription'] = df.ThresholdDescription[i]
+                obj['ThresholdValue'] = df.ThresholdValue[i]
+                obj['ExceedanceProbability'] = df.ExceedanceProbability[i]
+                obj['Title'] = df.Title[0]
+                obj['Date'] = df.Date[0]
+
+                arr.append(obj)
+                i += 1
+                
+            k = 0
+            while k < 6:
+                j = k
+                date_string =  str(arr[k]['Date'])[5:7]+'/'+str(arr[k]['Date'])[8:10]+'/'+str(arr[k]['Date'])[0:4]
+                date = datetime.datetime.strptime(date_string, "%m/%d/%Y")
+                ngaygui = int(datetime.datetime.timestamp(date))
+
+                dataDMoss = DataDMoss()
+                dataDMoss.tieude = str(arr[k]['Title']) +' '+str(arr[k]['Month'])
+                dataDMoss.ngaygui = ngaygui
+                dataDMoss.type = "excel"
+                arr3 = {}
+                arr3['title'] = str(arr[k]['Title'])+' '+str(arr[k]['Month'])
+                arr2 = []
+                while j < count:
+                    obj = {}
+                    obj['Province'] = str(arr[j]['Province'])
+                    obj['ThresholdValue'] = str(arr[j]['ThresholdValue'])
+                    obj['ExceedanceProbability'] = str(arr[j]['ExceedanceProbability'])
+                    obj['ThresholdDescription'] = str(arr[j]['ThresholdDescription'])
+                    arr2.append(obj)
+                    j += 6
+                arr3['content'] = arr2
+                dataDMoss.data = arr3
+
+                db.session.add(dataDMoss)
+                db.session.commit()
+                k += 1
+            return json({'data':"success"})
+    return json({
+        "error_code": "Upload Error",
+        "error_message": "Could not upload file to store"
+    }, status=520)

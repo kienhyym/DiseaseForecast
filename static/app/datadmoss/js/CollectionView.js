@@ -47,14 +47,49 @@ define(function (require) {
         },
         render: function () {
             var self = this;
+            console.log('yyyy')
+
+            
+
+
             self.uiControl.orderBy = [{"field": "ngaygui", "direction": "desc"}];
 
             var translatedTemplate = gonrin.template(template)(LANG);
             self.$el.html(translatedTemplate);
 
             this.applyBindings();
+            self.$el.find("#chonfile").on("change", function () {
+                console.log('xxxx')
+                var http = new XMLHttpRequest();
+                var fd = new FormData();
+                fd.append('file', this.files[0]);
+                http.open('POST', '/api/v1/link_file_upload_excel');
+                http.upload.addEventListener('progress', function (evt) {
+                    if (evt.lengthComputable) {
+                        var percent = evt.loaded / evt.total;
+                        percent = parseInt(percent * 100);
+                    }
+                }, false);
+                http.addEventListener('error', function () {
+                }, false);
+
+                http.onreadystatechange = function () {
+                    if (http.status === 200) {
+                        if (http.readyState === 4) {
+                            var data_file = JSON.parse(http.responseText), link, p, t;
+                            self.getApp().notify("Tải lên thành công");
+                            self.getApp().getRouter().refresh();
+                        }
+                    } else {
+                        self.getApp().notify({ message: "Không thể tải tệp tin lên máy chủ, Có thể nội dung file sai" }, { type: "danger", delay: 1000 });
+                        self.getApp().getRouter().refresh();
+                    }
+                };
+                http.send(fd);
+            });
             return this;
         },
+        
         
     });
 });

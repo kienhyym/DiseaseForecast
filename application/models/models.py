@@ -137,3 +137,5 @@ class DataDMoss(CommonModel):
     tieude = db.Column(String(255))
     nguoigui = db.Column(String(255))
     ngaygui = db.Column(BigInteger())
+    type = db.Column(String(255))
+
