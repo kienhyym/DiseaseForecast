@@ -9,7 +9,7 @@ def init_controllers(app):
     import application.controllers.notify
     import application.controllers.upload
     import application.controllers.forgot_password
-    import application.controllers.sendmail
+    # import application.controllers.sendmail
     import application.controllers.dmoss_upload_api
 
     @app.route('/')
