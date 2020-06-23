@@ -15,7 +15,7 @@ import pandas
 import xlrd
 
 
-from application.models.models import DataDMoss,Token
+from application.models.models import DataDMoss
 # @app.route('api/v1/connect_dengue_notification_module', methods=["POST"])
 # def connect_dengue_notification_module(request):
 #     data = request.headers
