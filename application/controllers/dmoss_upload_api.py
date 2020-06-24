@@ -48,6 +48,7 @@ async def dmoss_upload_dengue_notification_module(request):
     data = request.headers
     uid = redisdb.get("sessions:" + data['X-Auth-Token'])
     if uid is not None:
+        redisdb.delete("sessions:" + data['X-Auth-Token'])         
         url = app.config['FILE_SERVICE_URL']
         fsroot = app.config['FS_ROOT']
         if request.method == 'POST':
