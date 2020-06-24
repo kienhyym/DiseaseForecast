@@ -154,9 +154,7 @@ async def dmoss_upload(request):
                 db.session.add(dataDMoss)
                 db.session.commit()
             j += 1
-        return json({"error_code":0, 
-“error_message":"successful"} 
-)
+        return json({"error_code":0,"error_message":"successful"})
     return json({
         "error_code": "Upload Error",
         "error_message": "Could not upload file to store"
