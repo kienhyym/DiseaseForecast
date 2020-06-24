@@ -54,6 +54,7 @@ async def dmoss_upload_dengue_notification_module(request):
         if request.method == 'POST':
             file = request.files.get('file', None)
             if file :
+                print ('____________________yes file_____')
                 rand = ''.join(random.choice(string.digits) for _ in range(15))
                 file_name = os.path.splitext(file.name)[0]
                 extname = os.path.splitext(file.name)[1]
@@ -102,8 +103,9 @@ async def dmoss_upload_dengue_notification_module(request):
                         db.session.add(dataDMoss)
                         db.session.commit()
                     j += 1
-                return json({'data':"success"})
+                return json({"error_code":0,"error_message":"successful"})
             else:
+                print ('____________________no file_____')
                 title = pandas.read_excel("static/uploads/D-MOSS_Vietnam_Dengue_Forecast.xlsx",header=0)
                 df = pandas.read_excel("static/uploads/D-MOSS_Vietnam_Dengue_Forecast.xlsx",header=1)
                 count = df.Province.count()

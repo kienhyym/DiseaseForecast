@@ -12,6 +12,12 @@ define(function (require) {
         urlPrefix: "/api/v1/",
         collectionName: "datadmoss",
         uiControl: {
+            orderBy: [
+                {
+                    field: "created_at",
+                    direction: "desc"
+                }
+            ],
             fields: [
                 { field: "tieude", label: "{{TIEU_DE}}" , width: 550, readonly: true},
                 {
@@ -51,8 +57,7 @@ define(function (require) {
         },
         render: function () {
             var self = this;
-            console.log('yyyy')
-            self.uiControl.orderBy = [{"field": "ngaygui", "direction": "desc"}];
+            // self.uiControl.orderBy = [{"field": "ngaygui", "direction": "desc"}];
 
             var translatedTemplate = gonrin.template(template)(LANG);
             self.$el.html(translatedTemplate);
