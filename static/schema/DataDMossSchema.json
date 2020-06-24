@@ -41,5 +41,9 @@
     },
     "ngaygui": {
         "type": "number"
+    },
+    "type": {
+        "type": "string",
+        "length": 255
     }
 }

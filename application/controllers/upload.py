@@ -8,12 +8,19 @@ from gatco.response import json, text, html
 import io
 from PIL import Image
 import time
+import json as json_load
+import base64, re
+import requests
+
 import datetime
+from datetime import date
 import random, string
 import aiofiles
 import pandas
 import xlrd
-from application.models.models import DataDMoss
+
+from application.models.models import DataDMoss,Token
+
 
 # @app.route('/api/v1/upload/file', methods=['POST'])
 # async def upload_file(request):
@@ -123,8 +130,8 @@ async def link_file_upload_excel(request):
                 
             j = 0
             date_string =  str(arr[j]['Date'])[5:7]+'/'+str(arr[j]['Date'])[8:10]+'/'+str(arr[j]['Date'])[0:4]
-            date = datetime.datetime.strptime(date_string, "%m/%d/%Y")
-            ngaygui = int(datetime.datetime.timestamp(date))
+            datesend = datetime.datetime.strptime(date_string, "%m/%d/%Y")
+            ngaygui = int(datetime.datetime.timestamp(datesend))
             arr2 = []
             while j < count:
                 obj = {}
@@ -150,3 +157,11 @@ async def link_file_upload_excel(request):
         "error_code": "Upload Error",
         "error_message": "Could not upload file to store"
     }, status=520)
+
+
+
+
+
+
+
+

@@ -42,16 +42,16 @@ define(function (require) {
 				var translatedHtml = gonrin.template(tableHeader.html() ? tableHeader.html() : '')(LANG);
 				tableHeader.html(translatedHtml);
 				
-			},
+            },
+            pagination: {
+                // page: 1,
+                pageSize: 63
+            },
         
         },
         render: function () {
             var self = this;
             console.log('yyyy')
-
-            
-
-
             self.uiControl.orderBy = [{"field": "ngaygui", "direction": "desc"}];
 
             var translatedTemplate = gonrin.template(template)(LANG);

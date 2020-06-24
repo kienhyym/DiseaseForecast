@@ -518,7 +518,7 @@ define(function (require) {
 
 							$.ajax({
 								type: "POST",
-								url: "https://upstart.vn/services/api/email/send",
+								url: self.getApp().serviceURL +"/api/email/send",
 								data: JSON.stringify({
 									from: {
 										"id": "canhbaosotxuathuyet@gmail.com",

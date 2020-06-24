@@ -139,3 +139,11 @@ class DataDMoss(CommonModel):
     ngaygui = db.Column(BigInteger())
     type = db.Column(String(255))
 
+
+class Token(CommonModel):
+    __tablename__ = 'token'
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=default_uuid)
+    appkey = db.Column(String(255))
+    secret = db.Column(String(255))
+    token = db.Column(String(255))
+
